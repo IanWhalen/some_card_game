@@ -1,7 +1,7 @@
 Template.hand_canvas.rendered = ->
   hand_canvas = new fabric.Canvas("hand_canvas")
-  hand_canvas.hoverCursor = 'pointer';
-  
+  hand_canvas.hoverCursor = 'pointer'
+
   Meteor.call "get_hand", game(), myself(), (err, result) ->
     console.log err if err
     
