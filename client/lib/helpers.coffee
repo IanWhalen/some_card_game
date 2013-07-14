@@ -51,6 +51,34 @@
     
     cvs.add oImg
 
+@add_hover_helper = (canvas) ->
+  canvas.findTarget = ((originalFn) ->
+    ->
+      target = originalFn.apply(this, arguments)
+      if target
+        canvas.fire "object:over",
+          target: target
+
+        if @_hoveredTarget isnt target
+          canvas.fire "object:over",
+            target: target
+
+          if @_hoveredTarget
+            canvas.fire "object:out",
+              target: @_hoveredTarget
+
+          @_hoveredTarget = target
+      else if @_hoveredTarget
+        canvas.fire "object:out",
+          target: @_hoveredTarget
+
+        @_hoveredTarget = null
+      else
+        canvas.fire "object:out",
+          target: canvas
+
+      target
+  )(canvas.findTarget)
 
 #-----------------------------------------------------------------------------
 # Startup Functions

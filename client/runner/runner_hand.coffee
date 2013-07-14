@@ -15,26 +15,7 @@ Template.hand_canvas.rendered = ->
       add_card_to_canvas hand_canvas, src, left, top
       i++
 
-  hand_canvas.findTarget = ((originalFn) ->
-    ->
-      target = originalFn.apply(this, arguments)
-      if target
-        if @_hoveredTarget isnt target
-          hand_canvas.fire "object:over",
-            target: target
-
-          if @_hoveredTarget
-            hand_canvas.fire "object:out",
-              target: @_hoveredTarget
-
-          @_hoveredTarget = target
-      else if @_hoveredTarget
-        hand_canvas.fire "object:out",
-          target: @_hoveredTarget
-
-        @_hoveredTarget = null
-      target
-    )(hand_canvas.findTarget)
+  add_hover_helper hand_canvas
 
   # now we can observe "object:over" and "object:out" events
   hand_canvas.on "object:over", (e) ->

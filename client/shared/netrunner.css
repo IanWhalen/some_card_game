@@ -1,12 +1,11 @@
 #board {
     position: relative;
     margin: auto;
-    padding:2px;
 }
 
 #hand_canvas_div {
     position: absolute;
-    top: 505px;
+    top: 515px;
     left: 280px;
 }
 
@@ -23,10 +22,6 @@ canvas {
     margin: auto;
 }
 
-
-.canvas-container {
-
-}
 
 /******************************** LEGACY CSS ********************************/
 
