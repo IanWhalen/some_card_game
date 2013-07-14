@@ -1,0 +1,23 @@
+<template name="lobby">
+  {{#if show }}
+  <div>
+    <div id="lobby">
+      <h1>What's your name?</h1>
+      <input class="lobbytext" id="myname" type="text" />
+      <h2>Type a side (Corp or Runner):</h1>
+      <input class="lobbytext" id="myside" type="text" />
+      {{#if waiting}}
+      <h1>Other players are in the lobby:</h1>
+      {{#each waiting }}
+      <div class="player">{{name}} ({{side}})</div>
+      {{/each}}
+      {{/if}}
+      <br>
+      <form>
+        <input type="checkbox" id="ready" class="ready" {{{disabled}}}>
+        Start
+      </form>
+    </div>
+  </div>
+  {{/if}}
+</template>

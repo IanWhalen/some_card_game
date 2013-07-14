@@ -1,0 +1,176 @@
+#board {
+    position: relative;
+    margin: auto;
+    padding:2px;
+}
+
+#hand_canvas_div {
+    position: absolute;
+    top: 505px;
+    left: 280px;
+}
+
+#main_canvas {
+    border: 2px solid #999999;
+}
+
+#hand_canvas {
+    position: absolute;
+}
+
+canvas {
+    position: relative;
+    margin: auto;
+}
+
+
+.canvas-container {
+
+}
+
+/******************************** LEGACY CSS ********************************/
+
+body {
+    margin: 0px;
+    background-color: #f4f4f4;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+/* base styles */
+
+input.lobbytext {
+    height: 50px;
+    width: 300px;
+    font-size: 2em;
+    border: 2px solid black;
+    padding: 5px;
+}
+
+/*******/
+
+#main {
+    margin: 20px;
+}
+
+#left {
+    float: left;
+    width: 40%;
+}
+
+#right {
+    float: left;
+    width: 50%;
+}
+
+#clock {
+    width: 100%;
+    height: 100px;
+    text-align: center;
+    font-size: 3em;
+}
+
+#board {
+    margin: auto;
+    padding:2px;
+}
+
+#login {
+    margin: 100px auto;
+    text-align: center;
+}
+
+#login .error {
+    color: red;
+}
+
+#lobby {
+    margin: 100px auto;
+    text-align: center;
+}
+
+#postgame {
+    height: 100px;
+    text-align: center;
+}
+
+#scratchpad {
+    height: 100px;
+}
+
+#scratchpad input {
+    width: 70%;
+}
+
+#scratchpad h1 {
+    float: left;
+}
+
+#scores {
+    float: left;
+    width: 100%;
+    background-color: #eeeee8;
+    border: 1px solid black;
+    padding: 0.5em;
+}
+
+#scores .player {
+    float: left;
+    width: 100%;
+}
+
+#scores .header {
+    font-size: 1.25em;
+}
+
+#scores .unnamed {
+    color: #444;
+    font-style: italic;
+}
+
+#scores .winner {
+    background-color: yellow;
+}
+
+#scores .winner_text {
+    float: right;
+}
+
+#scores .word {
+    float: left;
+    font-size: 1.25em;
+    padding: 0.25em;
+    margin: 0.5em;
+    border: 1px solid #030;
+}
+
+#scores .word.good {
+    background-color: #0a0;
+}
+
+#scores .word.bad {
+    text-decoration: line-through;
+}
+
+#scores .word span.score {
+    width: 1em;
+}
+
+#scores .word.bad span.score {
+    background-image: 'circle-ball-dark-antialiased.gif';
+}
+
+/* board pieces */
+
+div#sidebar {
+    float: left;
+    margin: 0px 5px;
+}
+
+div#choices {
+    text-align: center;
+    width: 204px;
+}
+
+div.canvas-container {
+    float: left;
+}

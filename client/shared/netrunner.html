@@ -1,0 +1,36 @@
+<template name="board">
+  {{#if show}}
+  <div id="board">
+    {{> main_canvas}}
+    {{> hand_canvas}}
+    {{> sidebar}}
+  </div>
+  {{/if}}
+</template>
+
+
+<template name="main_canvas">
+  <div id="main_canvas_div">
+    <canvas id="main_canvas" width="1100" height="700"></canvas>
+  </div>
+</template>
+
+
+<template name="hand_canvas">
+  <div id="hand_canvas_div">
+    <canvas id="hand_canvas" width="400" height="195"></canvas>
+  </div>
+</template>
+
+
+<template name="sidebar">
+  <div id="sidebar">
+    <div style="width: 204px; height: 288px">
+      <img id="magnifier">
+    </div>
+    <div id="choices">
+      <p><strong>Default {{playerSide}} Choices</strong></p>
+      <button id="draw_card" name="drawCard">Draw a card</button>
+    </div>
+  </div>
+</template>
