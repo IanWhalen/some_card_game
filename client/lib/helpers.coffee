@@ -2,11 +2,9 @@
 # Client-side Global Values
 #-----------------------------------------------------------------------------
 
-@CARD_PARAMS_OBJ =
+@CARD_PARAMS =
   hasControls: false
   hasRotatingPoint: false
-  originX: "left"
-  originY: "top"
   lockMovementX: true
   lockMovementY: true
   width: 135
@@ -48,12 +46,18 @@
 
 
 @add_card_to_canvas = (cvs, src, x, y) ->
+  x = x + CARD_PARAMS['width'] / 2
+  y = y + CARD_PARAMS['height'] / 2
+  p = new fabric.Point(x, y)
+
   fabric.Image.fromURL src, (oImg) ->
-    oImg.set CARD_PARAMS_OBJ
-    oImg.set "left", x
-    oImg.set "top", y
-    oImg.setCoords()
-    
+    oImg.set CARD_PARAMS
+
+    if myself().side == "corp"
+      oImg.set "flipY", true
+      p = new fabric.Point(cvs.width - x, cvs.height - y)
+
+    oImg.setPositionByOrigin (p)
     cvs.add oImg
 
 @add_hover_helper = (canvas) ->
