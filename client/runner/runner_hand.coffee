@@ -1,6 +1,7 @@
 Template.hand_canvas.rendered = ->
   hand_canvas = new fabric.Canvas("hand_canvas")
   hand_canvas.hoverCursor = 'pointer'
+  add_hover_helper hand_canvas
 
   Meteor.call "get_hand", game(), myself(), (err, result) ->
     console.log err if err
@@ -14,8 +15,6 @@ Template.hand_canvas.rendered = ->
       
       add_card_to_canvas hand_canvas, src, left, top
       i++
-
-  add_hover_helper hand_canvas
 
   # now we can observe "object:over" and "object:out" events
   hand_canvas.on "object:over", (e) ->

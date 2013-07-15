@@ -5,8 +5,9 @@
 Template.main_canvas.rendered = ->
   main_canvas = new fabric.Canvas("main_canvas")
   main_canvas.hoverCursor = "pointer"
-  show_game_start_images main_canvas, game()
   add_hover_helper main_canvas
+
+  show_game_start_images main_canvas, game()
   
   # now we can observe "object:over" and "object:out" events
   main_canvas.on "object:over", (e) ->
