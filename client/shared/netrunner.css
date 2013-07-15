@@ -5,8 +5,8 @@
 
 #hand_canvas_div {
     position: absolute;
-    top: 515px;
-    left: 280px;
+    top: 510px;
+    left: 405px;
 }
 
 #main_canvas {
@@ -15,6 +15,11 @@
 
 #hand_canvas {
     position: absolute;
+}
+
+#magnifier-container {
+    height: 420px;
+    width: 220px;
 }
 
 canvas {
