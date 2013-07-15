@@ -56,25 +56,25 @@
     ->
       target = originalFn.apply(this, arguments)
       if target
-        canvas.fire "object:over",
+        canvas.trigger "object:over",
           target: target
 
         if @_hoveredTarget isnt target
-          canvas.fire "object:over",
+          canvas.trigger "object:over",
             target: target
 
           if @_hoveredTarget
-            canvas.fire "object:out",
+            canvas.trigger "object:out",
               target: @_hoveredTarget
 
           @_hoveredTarget = target
       else if @_hoveredTarget
-        canvas.fire "object:out",
+        canvas.trigger "object:out",
           target: @_hoveredTarget
 
         @_hoveredTarget = null
       else
-        canvas.fire "object:out",
+        canvas.trigger "object:out",
           target: canvas
 
       target
