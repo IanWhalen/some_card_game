@@ -9,7 +9,7 @@ Template.hand_canvas.rendered = ->
     i = 0
     while i < hand.length
       top = 0
-      left = i*135
+      left = i*100
       src = hand[i]["src"]
       
       add_card_to_canvas hand_canvas, src, left, top
