@@ -18,7 +18,12 @@
 #-----------------------------------------------------------------------------
 
 @show_game_start_images = (cvs, game) ->
-  add_card_to_canvas cvs, game["runner"]["id"]["src"], 140, 510
+  # First add cards for runner
+  add_card_to_canvas cvs, "runner-back.jpg", 135, 510
+  add_card_to_canvas cvs, game["runner"]["id"]["src"], 2*135, 510
+  
+  # Then add cards for corp
+  add_card_to_canvas cvs, "corp-back.jpg", 135*7, 0
 
 
 @myself = ->
