@@ -3,18 +3,8 @@
     margin: auto;
 }
 
-#hand_canvas_div {
-    position: absolute;
-    top: 510px;
-    left: 405px;
-}
-
 #main_canvas {
     border: 2px solid #999999;
-}
-
-#hand_canvas {
-    position: absolute;
 }
 
 #magnifier-container {

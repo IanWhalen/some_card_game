@@ -2,7 +2,6 @@
   {{#if show}}
   <div id="board">
     {{> main_canvas}}
-    {{> hand_canvas}}
     {{> sidebar}}
   </div>
   {{/if}}
@@ -12,13 +11,6 @@
 <template name="main_canvas">
   <div id="main_canvas_div">
     <canvas id="main_canvas" width="1100" height="700"></canvas>
-  </div>
-</template>
-
-
-<template name="hand_canvas">
-  <div id="hand_canvas_div">
-    <canvas id="hand_canvas" width="400" height="195"></canvas>
   </div>
 </template>
 
