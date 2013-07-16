@@ -9,7 +9,6 @@ Template.main_canvas.rendered = ->
 
   show_game_start_images main_canvas, game()
   
-  # now we can observe "object:over" and "object:out" events
   main_canvas.on "object:over", (e) ->
     $("img#magnifier").attr "src", e.target._element.attributes.src.value
 
@@ -17,13 +16,7 @@ Template.main_canvas.rendered = ->
     $("img#magnifier").attr "src", "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
 
   main_canvas.on "object:selected", (e) ->
-    selectedObjArr = []
-
-    for c in [main_canvas, hand_canvas]
-      if !c._activeGroup && c._activeObject
-        selectedObjArr.push c._activeObject
-    
-    if selectedObjArr.length == 1
+    if !main_canvas._activeGroup && main_canvas._activeObject
       Session.set "selectedCard", e.target.actions
 
   main_canvas.on "selection:cleared", (e) ->
