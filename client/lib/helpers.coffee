@@ -15,6 +15,19 @@
 # Client-side Global Functions
 #-----------------------------------------------------------------------------
 
+@getOppSide = (side) ->
+  if side == "corp"
+    "runner"
+  else if side == "runner"
+    "corp"
+  else
+    console.log "getOppSide got bad input: " + side
+
+@getOppCard = (side) ->
+  opp = getOppSide side
+  game()[opp]["cardBack"]
+
+
 @show_game_start_images = (cvs, game) ->
   # First add cards for runner
   add_card_to_canvas cvs, {src: "runner-back.jpg"}, 135, 510

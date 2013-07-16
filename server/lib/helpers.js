@@ -16,6 +16,15 @@ player_is_ready = function(side) {
   }
 };
 
+getOppSide = function(side) {
+  if (side === "corp") {
+    return "runner";
+  } else if (side === "runner") {
+    return "corp";
+  } else {
+    console.log("getOppSide got bad input: " + side)
+  }
+}
 
 //-----------------------------------------------------------------------------
 // Server-side card movement functions
