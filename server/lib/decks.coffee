@@ -36,8 +36,10 @@
   actions: "foo"
 ]
 
-@RUNNER_ID =
-  _id: "id_1"
-  name: "Kate \"Mac\" McCaffrey"
-  src: "runner_identity.png"
-  actions: "foo"
+@RUNNER =
+  identity:
+    name: "Kate \"Mac\" McCaffrey"
+    src: "runner_identity.png"
+    actions: "foo"
+  cardBack:
+    src: "runner-back.jpg"
