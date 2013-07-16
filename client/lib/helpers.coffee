@@ -17,11 +17,11 @@
 
 @show_game_start_images = (cvs, game) ->
   # First add cards for runner
-  add_card_to_canvas cvs, "runner-back.jpg", 135, 510
-  add_card_to_canvas cvs, game["runner"]["id"]["src"], 2*135, 510
+  add_card_to_canvas cvs, {src: "runner-back.jpg"}, 135, 510
+  add_card_to_canvas cvs, game["runner"]["id"], 2*135, 510
   
   # Then add cards for corp
-  add_card_to_canvas cvs, "corp-back.jpg", 135*7, 0
+  add_card_to_canvas cvs, {src: "corp-back.jpg"}, 135*7, 0
 
 
 @myself = ->
@@ -45,13 +45,15 @@
   me and me.game_id and Games.findOne(me.game_id)
 
 
-@add_card_to_canvas = (cvs, src, x, y) ->
+@add_card_to_canvas = (cvs, card, x, y) ->
   x = x + CARD_PARAMS['width'] / 2
   y = y + CARD_PARAMS['height'] / 2
   p = new fabric.Point(x, y)
 
-  fabric.Image.fromURL src, (oImg) ->
+  fabric.Image.fromURL card["src"], (oImg) ->
     oImg.set CARD_PARAMS
+    oImg.set "isCard", true
+    oImg.set "actions", card["actions"]
 
     if myself().side == "corp"
       oImg.set "flipY", true

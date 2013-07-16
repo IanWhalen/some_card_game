@@ -28,9 +28,17 @@
     <div id="magnifier-container">
       <img id="magnifier">
     </div>
-    <div id="choices">
-      <p><strong>Default {{playerSide}} Choices</strong></p>
-      <button id="draw_card" name="drawCard">Draw a card</button>
-    </div>
+    {{> actionChoices}}
+  </div>
+</template>
+
+<template name="actionChoices">
+  <div id="choices">
+    {{#if oneCardIsSelected}}
+    <p><strong>Got one.</strong></p>
+    {{else}}
+    <p><strong>Default {{playerSide}} Choices</strong></p>
+    <button id="draw_card" name="drawCard">Draw a card</button>
+    {{/if}}
   </div>
 </template>

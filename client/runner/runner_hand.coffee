@@ -11,9 +11,9 @@ Template.hand_canvas.rendered = ->
     while i < hand.length
       top = 0
       left = i*100
-      src = hand[i]["src"]
+      card = hand[i]
       
-      add_card_to_canvas hand_canvas, src, left, top
+      add_card_to_canvas hand_canvas, card, left, top
       i++
 
   # now we can observe "object:over" and "object:out" events
