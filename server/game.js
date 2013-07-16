@@ -38,8 +38,19 @@ Meteor.methods({
     }
   },
 
-  get_hand: function (game, player) {
-    return game[player.side]["hand"] || new Array(0);
+  get_hands: function (game, player) {
+    var handPair = [];
+    handPair.push( game[player.side]["hand"] || [] );
+
+    try {
+      oppHandLength = game[getOppSide(player.side)]["hand"].length;
+    } catch (e) {
+      oppHandLength = 0;
+    }
+
+    handPair.push( oppHandLength );
+
+    return handPair;
   },
 
   keepalive: function (player_id) {

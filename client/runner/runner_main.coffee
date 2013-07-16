@@ -22,6 +22,30 @@ Template.main_canvas.rendered = ->
   main_canvas.on "selection:cleared", (e) ->
     Session.set "selectedCard", undefined
 
+  Meteor.call "get_hands", game(), myself(), (err, result) ->
+    console.log err if err
+    
+    myHand = result[0]
+    i = 0
+    while i < myHand.length
+      y = 510
+      x = 135*3+i*100
+      myCard = myHand[i]
+
+      add_card_to_canvas main_canvas, myCard, x, y
+      i++
+
+    oppHandLength = result[1]
+    if oppHandLength > 0
+      oppCard = getOppCard myself().side
+      i = 0
+      while i < oppHandLength
+        y = 510
+        x = 135*3+i*100
+
+        add_card_to_canvas main_canvas, oppCard, x, y
+        i++      
+
 #-----------------------------------------------------------------------------
 # Canvas Events
 #-----------------------------------------------------------------------------
