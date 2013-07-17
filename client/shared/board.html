@@ -20,25 +20,34 @@
     <div id="magnifier-container">
       <img id="magnifier">
     </div>
-    <div class="sidebarStats" id="gameStats">
-      <p><strong>Turn: </strong> 1</p>
-    </div>
-    <div class="sidebarStats" id="corpStats">
-      <p><strong><u>Runner Stats</u></strong></p>
-      <p><strong>Score: </strong>0 <strong>Credits: </strong>5</p>
-    </div>
-    <div class="sidebarStats" id="runnerStats">
-      <p><strong><u>Corp Stats</u></strong></p>
-      <p><strong>Score: </strong>0 <strong>Credits: </strong>5</p>
-    </div>
+    {{> sidebarStats}}
     {{> actionChoices}}
+  </div>
+</template>
+
+<template name="sidebarStats">
+  <div class="sidebarStats" id="gameStats">
+    <p><strong>Turn: </strong> {{currentTurn}}</p>
+  </div>
+  <div class="sidebarStats" id="corpStats">
+    <p><strong><u>Runner Stats</u></strong></p>
+    <p><strong>Score: </strong>{{runnerScore}} <strong>Credits: </strong>{{runnerCredits}}</p>
+  </div>
+  <div class="sidebarStats" id="runnerStats">
+    <p><strong><u>Corp Stats</u></strong></p>
+    <p><strong>Score: </strong>0 <strong>Credits: </strong>5</p>
   </div>
 </template>
 
 <template name="actionChoices">
   <div id="choices">
-    {{#if oneCardIsSelected}}
-    <p><strong>Got one.</strong></p>
+    {{#if onlyOneCard}}
+    <p><strong>{{ cardName }}</strong></p>
+    {{#each actions}}
+    <div>
+      <button class="actionButtons" id="" name="">{{ text }}</button>
+    </div>
+    {{/each}}
     {{else}}
     <p><strong>Default {{playerSide}} Choices</strong></p>
     <button id="draw_card" name="drawCard">Draw a card</button>

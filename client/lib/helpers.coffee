@@ -66,7 +66,7 @@
   fabric.Image.fromURL card["src"], (oImg) ->
     oImg.set CARD_PARAMS
     oImg.set "isCard", true
-    oImg.set "actions", card["actions"]
+    oImg.set "metadata", card
 
     if myself().side == "corp"
       oImg.set "flipY", true
@@ -109,3 +109,4 @@
 #-----------------------------------------------------------------------------
 
 Meteor.startup ->
+  Session.set("selectedCard", undefined)

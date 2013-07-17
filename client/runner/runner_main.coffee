@@ -17,7 +17,7 @@ Template.main_canvas.rendered = ->
 
   main_canvas.on "object:selected", (e) ->
     if !main_canvas._activeGroup && main_canvas._activeObject
-      Session.set "selectedCard", e.target.actions
+      Session.set "selectedCard", e.target.metadata
 
   main_canvas.on "selection:cleared", (e) ->
     Session.set "selectedCard", undefined

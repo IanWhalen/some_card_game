@@ -22,9 +22,9 @@ getOppSide = function(side) {
   } else if (side === "runner") {
     return "corp";
   } else {
-    console.log("getOppSide got bad input: " + side)
+    console.log("getOppSide got bad input: " + side);
   }
-}
+};
 
 //-----------------------------------------------------------------------------
 // Server-side card movement functions
