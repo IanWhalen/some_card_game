@@ -17,6 +17,9 @@ canvas {
     margin: auto;
 }
 
+div.sidebarStats > p {
+    margin: 5px;
+}
 
 /******************************** LEGACY CSS ********************************/
 
