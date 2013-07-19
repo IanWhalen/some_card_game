@@ -40,17 +40,17 @@
 </template>
 
 <template name="actionChoices">
-  <div id="choices">
+  <div class="actionContainer">
     {{#if onlyOneCard}}
     <p><strong>{{ cardName }}</strong></p>
     {{#each actions}}
     <div>
-      <button class="actionButtons" id="" name="">{{ text }}</button>
+      <button class="action-button" data-action="{{ getFirstKey this }}">{{ getActionText this }}</button>
     </div>
     {{/each}}
     {{else}}
     <p><strong>Default {{playerSide}} Choices</strong></p>
-    <button id="draw_card" name="drawCard">Draw a card</button>
+    <button id="draw_card">Draw a card</button>
     {{/if}}
   </div>
 </template>
