@@ -54,3 +54,49 @@ move_top_card_from_deck_to_hand = function(game, player, card) {
   Games.update(game._id, {$pop:  updateDeck});
   Games.update(game._id, {$push: updateHand});
 };
+
+
+//-----------------------------------------------------------------------------
+// Card actions
+//-----------------------------------------------------------------------------
+
+add9Credits = function(gameObj, playerObj) {
+  modifyCredits(gameObj, playerObj, 9);
+};
+
+
+//-----------------------------------------------------------------------------
+// Local card action helpers
+//-----------------------------------------------------------------------------
+
+var modifyCredits = function(gameObj, playerObj, amount) {
+  var targetField = playerObj['side'] + ".stats.credits";
+
+  modifyIntegerField(gameObj._id, targetField, amount);
+};
+
+
+var modifyClicks = function(gameObj, playerObj, amount) {
+  var targetField = playerObj['side'] + ".stats.clicks";
+
+  modifyIntegerField(gameObj._id, targetField, amount);
+};
+
+
+var modifyIntegerField = function(game_id, targetField, amount) {
+  var modObj = {};
+
+  modObj[targetField] = amount;
+
+  Games.update(game_id, { $inc: modObj } );
+};
+
+
+//-----------------------------------------------------------------------------
+// Economy functions
+//-----------------------------------------------------------------------------
+
+payAllCosts = function(gameObj, playerObj, creditCost, clickCost) {
+  modifyCredits(gameObj, playerObj, -1 * creditCost);
+  modifyClicks(gameObj, playerObj, -1 * clickCost);
+}
