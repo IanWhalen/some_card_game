@@ -1,5 +1,5 @@
 @RUNNER_DECK = [
-  _id: "1"
+  _id: "sure-gamble-1"
   name: "Sure Gamble"
   src: "sure_gamble.png"
   cardType: "event"
@@ -10,7 +10,7 @@
     action: "addCredits(myself(), 9)"
   ]
 ,
-  _id: "2"
+  _id: "diesel-1"
   name: "Diesel"
   src: "diesel.png"
   cardType: "event"
@@ -21,7 +21,7 @@
     action: "drawCards(myself(), 3)"
   ]
 ,
-  _id: "3"
+  _id: "sure-gamble-2"
   name: "Sure Gamble"
   src: "sure_gamble.png"
   cardType: "event"
@@ -32,7 +32,7 @@
       action: "addCredits(myself(), 9)"
   ]
 ,
-  _id: "4"
+  _id: "diesel-2"
   name: "Diesel"
   src: "diesel.png"
   cardType: "event"
@@ -43,7 +43,7 @@
     action: "drawCards(myself(), 3)"
   ]
 ,
-  _id: "5"
+  _id: "sure-gamble-3"
   name: "Sure Gamble"
   src: "sure_gamble.png"
   cardType: "event"
@@ -54,7 +54,7 @@
       action: "addCredits(myself(), 9)"
   ]
 ,
-  _id: "6"
+  _id: "diesel-3"
   name: "Diesel"
   src: "diesel.png"
   cardType: "event"
