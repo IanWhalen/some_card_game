@@ -6,3 +6,6 @@ Template.sidebarStats.runnerScore = ->
 
 Template.sidebarStats.runnerCredits = ->
     game()['runner']['stats']['credits']
+
+Template.sidebarStats.runnerClicks = ->
+    game()['runner']['stats']['clicks']

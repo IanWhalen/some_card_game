@@ -29,13 +29,21 @@
   <div class="sidebarStats" id="gameStats">
     <p><strong>Turn: </strong> {{currentTurn}}</p>
   </div>
-  <div class="sidebarStats" id="corpStats">
-    <p><strong><u>Runner Stats</u></strong></p>
-    <p><strong>Score: </strong>{{runnerScore}} <strong>Credits: </strong>{{runnerCredits}}</p>
-  </div>
   <div class="sidebarStats" id="runnerStats">
+    <p><strong><u>Runner Stats</u></strong></p>
+    <p>
+      <strong>Score: </strong>{{runnerScore}}
+      <strong> Credits: </strong>{{runnerCredits}}
+      <strong> Clicks: </strong>{{runnerClicks}}
+    </p>
+  </div>
+  <div class="sidebarStats" id="corpStats">
     <p><strong><u>Corp Stats</u></strong></p>
-    <p><strong>Score: </strong>0 <strong>Credits: </strong>5</p>
+    <p>
+      <strong>Score: </strong>0
+      <strong> Credits: </strong>5
+      <strong> Clicks: </strong>0
+    </p>
   </div>
 </template>
 
