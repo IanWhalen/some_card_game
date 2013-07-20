@@ -99,4 +99,4 @@ var modifyIntegerField = function(game_id, targetField, amount) {
 payAllCosts = function(gameObj, playerObj, creditCost, clickCost) {
   modifyCredits(gameObj, playerObj, -1 * creditCost);
   modifyClicks(gameObj, playerObj, -1 * clickCost);
-}
+};

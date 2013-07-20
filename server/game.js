@@ -58,9 +58,6 @@ Meteor.methods({
     var side = gameLoc.split(".")[0]; // e.g. "runner"
     var loc = gameLoc.split(".")[1];  // e.g. "hand" or "deck"
 
-    var getActionObj = function () {
-      _.find(cardObj['actions'], function(obj) { return action in obj; });      
-    }
 
     // First: confirm card is in expected place in game state
     var confirmCardIsInLocation = function () {
@@ -73,7 +70,7 @@ Meteor.methods({
 
     //  Second: get the specific action object
     var getActionObj = function () {
-      return _.find(cardObj['actions'], function(obj) { return action in obj; });      
+      return _.find(cardObj['actions'], function(obj) { return action in obj; });
     };
     var actionObj = getActionObj();
 
@@ -94,8 +91,8 @@ Meteor.methods({
     // console.log( global[action](arg1, arg2) );
     if (confirmPlayerHasCredits() && confirmPlayerHasClicks()) {
       try {
-        var clickCost = actionObj[action]['click_cost']
-        var creditCost = actionObj[action]['credit_cost']
+        var clickCost = actionObj[action]['click_cost'];
+        var creditCost = actionObj[action]['credit_cost'];
         console.log(creditCost);
         global['payAllCosts'](gameObj, playerObj, creditCost, clickCost);
 
