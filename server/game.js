@@ -16,8 +16,9 @@ Meteor.methods({
                                  });
 
       RUNNER["deck"] = RUNNER_DECK;
+      CORP["deck"] = CORP_DECK;
       Games.update( game_id,
-                    { $set: { "runner" : RUNNER }});
+                    { $set: { "runner" : RUNNER, "corp" : CORP }});
 
       // move both players from the lobby to the game
       Players.update({'_id': { $in: [corp, runner] }},
