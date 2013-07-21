@@ -30,8 +30,8 @@ Template.main_canvas.rendered = ->
     myHand = result[0]
     i = 0
     while i < myHand.length
-      y = 510
-      x = 135*3+i*100
+      y = 510 # Add to bottom row
+      x = 135*3+i*100  # Start in 3rd column and overlap a bit
       myCard = myHand[i]
       myCard['gameLoc'] = mySide + ".hand"
 
@@ -43,8 +43,8 @@ Template.main_canvas.rendered = ->
       oppCard = getOppCard mySide
       i = 0
       while i < oppHandLength
-        y = 510
-        x = 135*3+i*100
+        y = 510 # Add to bottom row
+        x = 135*3+i*100 # Start in 3rd column and overlap a bit
         oppCard['gameLoc'] = oppSide + ".hand"
 
         add_card_to_canvas main_canvas, oppCard, x, y
