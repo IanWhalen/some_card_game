@@ -48,7 +48,27 @@ Template.main_canvas.rendered = ->
         oppCard['gameLoc'] = oppSide + ".hand"
 
         add_card_to_canvas main_canvas, oppCard, x, y
-        i++      
+        i++
+
+  Meteor.call "getTopOfDiscardPiles", myself(), (err, result) ->
+    # { corp: cardObj1, runner: cardObj2 }
+    console.log err if err
+    mySide = myself().side
+    oppSide = getOppSide mySide
+
+    if result[mySide]
+      x = 0
+      y = 510
+      myCard = result[mySide]
+      myCard['gameLoc'] = mySide + ".discard"
+      add_card_to_canvas main_canvas, myCard, x, y
+
+    if result[oppSide]
+      x = 0
+      y = 510
+      oppCard = result[oppSide]
+      oppCard['gameLoc'] = oppSide + ".discard"
+      add_card_to_canvas main_canvas, oppCard, x, y
 
 #-----------------------------------------------------------------------------
 # Canvas Events

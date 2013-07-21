@@ -57,6 +57,22 @@ Meteor.methods({
     return handPair;
   },
 
+  getTopOfDiscardPiles: function (playerObj) {
+    var discardPair = {};
+
+    if ( game(playerObj)['runner']['discard'] ) {
+      var runnerDiscardPile = game(playerObj)['runner']['discard'];
+      discardPair['runner'] = runnerDiscardPile[runnerDiscardPile.length-1];
+    }
+
+    if ( game(playerObj)['corp']['discard'] ) {
+      var corpDiscardPile = game(playerObj)['corp']['discard'];
+      discardPair['corp'] = corpDiscardPile[corpDiscardPile.length-1];
+    }
+
+    return discardPair;
+  },
+
   doCardAction: function (playerObj, gameLoc, cardId, action) {
     var gameObj = game(playerObj);
     var side = gameLoc.split(".")[0]; // e.g. "runner"

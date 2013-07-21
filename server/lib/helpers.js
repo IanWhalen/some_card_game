@@ -55,6 +55,18 @@ move_top_card_from_deck_to_hand = function(game, player, card) {
   Games.update(game._id, {$push: updateHand});
 };
 
+moveCardFromHandToDiscard = function(gameObj, playerObj, cardObj) {
+  // Finds and removes from the "hand" array and pushes to the "discard" array.
+  var updateHand = {};
+  var updateDiscard = {};
+
+  updateHand[playerObj.side + ".hand"] = cardObj;
+  updateDiscard[playerObj.side + ".discard"] = cardObj;
+
+  Games.update(gameObj._id, {$pull:  updateHand});
+  Games.update(gameObj._id, {$push: updateDiscard});
+  console.log(gameObj);
+};
 
 //-----------------------------------------------------------------------------
 // Card actions
