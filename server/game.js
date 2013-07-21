@@ -40,6 +40,9 @@ Meteor.methods({
   },
 
   get_hands: function (game, player) {
+    // This function returns a 2-element array.  The first element is an
+    // array of the cards in the player's own hand.  The second element
+    // is the size of the opponents hand.
     var handPair = [];
     handPair.push( game[player.side]["hand"] || [] );
 
