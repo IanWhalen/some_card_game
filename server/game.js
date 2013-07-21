@@ -62,9 +62,7 @@ Meteor.methods({
 
     // First: confirm card is in expected place in game state
     var confirmCardIsInLocation = function () {
-      var arr = gameObj[side][loc];
-      var cardObj = _.find(arr, function(obj) { return obj._id == cardId; });
-      return cardObj;
+      return _.find(gameObj[side][loc], function(obj) { return obj._id == cardId; });
     };
     var cardObj = confirmCardIsInLocation();
 
@@ -88,19 +86,13 @@ Meteor.methods({
     };
 
 
-
-    // console.log( global[action](arg1, arg2) );
     if (confirmPlayerHasCredits() && confirmPlayerHasClicks()) {
-      try {
-        var clickCost = actionObj[action]['click_cost'];
-        var creditCost = actionObj[action]['credit_cost'];
-        console.log(creditCost);
-        global['payAllCosts'](gameObj, playerObj, creditCost, clickCost);
+      var clickCost = actionObj[action]['click_cost'];
+      var creditCost = actionObj[action]['credit_cost'];
 
-        global[action](gameObj, playerObj);
-      } catch (e){
-        console.log(e);
-      }
+      global['payAllCosts'](gameObj, playerObj, creditCost, clickCost);
+      global[action](gameObj, playerObj);
+      global['moveCardFromHandToDiscard'](gameObj, playerObj, cardObj);
     }
   },
 
