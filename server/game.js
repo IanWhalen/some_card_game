@@ -4,28 +4,30 @@
 Meteor.methods({
   start_new_game: function () {
     // try to find a ready "corp" and ready "runner"
-    var corp = player_is_ready("corp");
-    var runner = player_is_ready("runner");
+    var corpId = player_is_ready("corp");
+    var runnerId = player_is_ready("runner");
 
     // if so, setup new game board
-    if (corp && runner) {
-      var game_id = Games.insert({ corp:           { player: corp },
-                                   runner:         { player: runner },
-                                   current_player: runner,
-                                   turn:           1
+    if (corpId && runnerId) {
+      var gameId = Games.insert({ corp:           { player: corpId },
+                                  runner:         { player: runnerId },
+                                  current_player: runnerId,
+                                  turn:           1
                                  });
 
       RUNNER["deck"] = RUNNER_DECK;
+      RUNNER['playerId'] = runnerId;
       CORP["deck"] = CORP_DECK;
-      Games.update( game_id,
+      CORP['playerId'] = corpId;
+      Games.update( gameId,
                     { $set: { "runner" : RUNNER, "corp" : CORP }});
 
       // move both players from the lobby to the game
-      Players.update({'_id': { $in: [corp, runner] }},
-                     {$set: {game_id: game_id}},
+      Players.update({'_id': { $in: [corpId, runnerId] }},
+                     {$set: {game_id: gameId}},
                      {multi: true});
 
-      return game_id;
+      return gameId;
     }
   },
 
