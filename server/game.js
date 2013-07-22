@@ -29,12 +29,13 @@ Meteor.methods({
     }
   },
 
-  draw_card: function (game, player) {
-    if (player._id === game.current_player) {
-      var card = get_top_card_from_deck(game, player);
+  drawCard: function (playerObj) {
+    var gameObj = game(playerObj);
+    if (playerObj._id === gameObj.current_player) {
+      var cardObj = get_top_card_from_deck(gameObj, playerObj);
 
-      if (card) {
-        move_top_card_from_deck_to_hand(game, player, card);
+      if (cardObj) {
+        move_top_card_from_deck_to_hand(gameObj, playerObj, cardObj);
       }
     }
   },

@@ -1,5 +1,5 @@
 Template.sidebar.events "click button#draw_card": ->
-  Meteor.call "draw_card", game(), myself()
+  Meteor.call "drawCard", myself()
 
 Template.sidebar.events "click button.action-button": (e) ->
   selectedCard = Session.get "selectedCard"
