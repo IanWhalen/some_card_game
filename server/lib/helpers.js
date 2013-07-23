@@ -55,25 +55,29 @@ move_top_card_from_deck_to_hand = function(game, player, card) {
   Games.update(game._id, {$push: updateHand});
 };
 
-moveCardFromHandToDiscard = function(gameObj, playerObj, cardObj) {
-  // Finds and removes from the "hand" array and pushes to the "discard" array.
-  var updateHand = {};
-  var updateDiscard = {};
 
-  updateHand[playerObj.side + ".hand"] = cardObj;
-  updateDiscard[playerObj.side + ".discard"] = cardObj;
+//-----------------------------------------------------------------------------
+// CARD ACTIONS
+//
+// These functions are all used as keys in the actions array contained within
+// each card object.  They are globally accessible and should simply provide
+// an english language interface to the underlying game state modifiers.
+//-----------------------------------------------------------------------------
 
-  Games.update(gameObj._id, {$pull:  updateHand});
-  Games.update(gameObj._id, {$push: updateDiscard});
-  console.log(gameObj);
+add1Credit = function(playerObj) {
+  modifyCredits(playerObj, 1);
 };
 
-//-----------------------------------------------------------------------------
-// Card actions
-//-----------------------------------------------------------------------------
+add9Credits = function(playerObj) {
+  modifyCredits(playerObj, 9);
+};
 
-add9Credits = function(gameObj, playerObj) {
-  modifyCredits(gameObj, playerObj, 9);
+draw1Card = function(playerObj) {
+  drawCards(playerObj, 1);
+};
+
+draw3Cards = function(playerObj) {
+  drawCards(playerObj, 3);
 };
 
 
@@ -81,35 +85,71 @@ add9Credits = function(gameObj, playerObj) {
 // Local card action helpers
 //-----------------------------------------------------------------------------
 
-var modifyCredits = function(gameObj, playerObj, amount) {
+var drawCards = function (playerObj, amount) {
+  for (var i = 0; i < amount; i++) {
+    var gameObj = game(playerObj);
     var cardObj = getTopCardFromDeck(gameObj, playerObj);
+
+    if (cardObj) {
+      move_top_card_from_deck_to_hand(gameObj, playerObj, cardObj);
+    } else {
+      console.log("Can not draw. Deck is empty.");
+    }
+  }
+};
+
+
+var modifyCredits = function(playerObj, amount) {
   var targetField = playerObj['side'] + ".stats.credits";
 
-  modifyIntegerField(gameObj._id, targetField, amount);
+  modifyIntegerField(playerObj, targetField, amount);
 };
 
 
-var modifyClicks = function(gameObj, playerObj, amount) {
+var modifyClicks = function(playerObj, amount) {
   var targetField = playerObj['side'] + ".stats.clicks";
 
-  modifyIntegerField(gameObj._id, targetField, amount);
+  modifyIntegerField(playerObj, targetField, amount);
 };
 
 
-var modifyIntegerField = function(game_id, targetField, amount) {
-  var modObj = {};
+//-----------------------------------------------------------------------------
+// ECONOMY HANDLERS
+//-----------------------------------------------------------------------------
 
+payAllCosts = function(playerObj, creditCost, clickCost) {
+  modifyCredits(playerObj, -1 * creditCost);
+  modifyClicks(playerObj, -1 * clickCost);
+};
+
+
+//-----------------------------------------------------------------------------
+// DATABASE FUNCTIONS
+//
+// These functions all touch the database and thus must call, modify, and
+// discard a game object solely within their own scope.
+//-----------------------------------------------------------------------------
+
+moveCardFromHandToDiscard = function(playerObj, cardObj) {
+  // Finds and removes from the "hand" array and pushes to the "discard" array.
+  var gameObj = game(playerObj);
+
+  var updateHand = {};
+  updateHand[playerObj.side + ".hand"] = cardObj;
+
+  var updateDiscard = {};
+  updateDiscard[playerObj.side + ".discard"] = cardObj;
+
+  Games.update(gameObj._id, {$pull:  updateHand});
+  Games.update(gameObj._id, {$push: updateDiscard});
+};
+
+
+var modifyIntegerField = function(playerObj, targetField, amount) {
+  var game_id = game(playerObj)['_id'];
+
+  var modObj = {};
   modObj[targetField] = amount;
 
   Games.update(game_id, { $inc: modObj } );
-};
-
-
-//-----------------------------------------------------------------------------
-// Economy functions
-//-----------------------------------------------------------------------------
-
-payAllCosts = function(gameObj, playerObj, creditCost, clickCost) {
-  modifyCredits(gameObj, playerObj, -1 * creditCost);
-  modifyClicks(gameObj, playerObj, -1 * clickCost);
 };
