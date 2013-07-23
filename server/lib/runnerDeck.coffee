@@ -26,11 +26,12 @@
   name: "Diesel"
   src: "diesel.png"
   cardType: "event"
-  actions: 
+  actions: [
     draw3Cards:
       click_cost: 1
       credit_cost: 0
       text: "Draw 3 cards."
+  ]
 ,
   _id: "sure-gamble-2"
   name: "Sure Gamble"
@@ -47,11 +48,12 @@
   name: "Diesel"
   src: "diesel.png"
   cardType: "event"
-  actions: 
+  actions: [
     draw3Cards:
       click_cost: 1
       credit_cost: 0
       text: "Draw 3 cards."
+  ]
 ,
   _id: "sure-gamble-3"
   name: "Sure Gamble"
@@ -68,9 +70,10 @@
   name: "Diesel"
   src: "diesel.png"
   cardType: "event"
-  actions: 
+  actions: [
     draw3Cards:
       click_cost: 1
       credit_cost: 0
       text: "Draw 3 cards."
+  ]
 ]
