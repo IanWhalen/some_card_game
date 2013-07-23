@@ -31,16 +31,24 @@ Meteor.methods({
     }
   },
 
-  drawCard: function (playerObj) {
-    var gameObj = game(playerObj);
-    if (playerObj._id === gameObj.current_player) {
-      var cardObj = get_top_card_from_deck(gameObj, playerObj);
 
-      if (cardObj) {
-        move_top_card_from_deck_to_hand(gameObj, playerObj, cardObj);
-      }
+  doDrawAction: function(playerObj) {
+    var gameObj = game(playerObj);
+
+    var confirmPlayerHasClicks = function (count) {
+      return gameObj[playerObj.side]['stats']['clicks'] >= count;
+    };
+
+    if (confirmPlayerHasClicks(1)) {
+      var clickCost = 1;
+      var creditCost = 0;
+
+      global['payAllCosts'](playerObj, creditCost, clickCost);
+      global['draw1Card'](playerObj);
+      // global['checkTurnEndConditions'](gameObj, playerObj);
     }
   },
+
 
   get_hands: function (game, player) {
     // This function returns a 2-element array.  The first element is an
