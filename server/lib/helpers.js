@@ -30,7 +30,7 @@ getOppSide = function(side) {
 // Server-side card movement functions
 //-----------------------------------------------------------------------------
 
-get_top_card_from_deck = function(_game, _player) {
+var getTopCardFromDeck = function(_game, _player) {
   // Returns the top card from a deck but does not remove it.
   //
   // This is a necessary helper function to get the actual card
@@ -82,6 +82,7 @@ add9Credits = function(gameObj, playerObj) {
 //-----------------------------------------------------------------------------
 
 var modifyCredits = function(gameObj, playerObj, amount) {
+    var cardObj = getTopCardFromDeck(gameObj, playerObj);
   var targetField = playerObj['side'] + ".stats.credits";
 
   modifyIntegerField(gameObj._id, targetField, amount);
