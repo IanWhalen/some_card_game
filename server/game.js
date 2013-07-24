@@ -2,6 +2,12 @@
 
 // Functions that can be invoked over the network by clients.
 Meteor.methods({
+  //-----------------------------------------------------------------------------
+  // NEW GAME INITIALIZATION
+  //
+  // 
+  //-----------------------------------------------------------------------------
+
   start_new_game: function () {
     // try to find a ready "corp" and ready "runner"
     var corpId = player_is_ready("corp");
@@ -32,6 +38,13 @@ Meteor.methods({
   },
 
 
+  //-----------------------------------------------------------------------------
+  // SHARED DEFAULT ACTIONS
+  //
+  // These are the shared functions which are executed when a player chooses to
+  // use one of their default actions (as opposed to a card's actions).
+  //-----------------------------------------------------------------------------
+
   doDrawAction: function(playerObj) {
     var gameObj = game(playerObj);
 
@@ -51,6 +64,12 @@ Meteor.methods({
 
 
   get_hands: function (game, player) {
+  //-----------------------------------------------------------------------------
+  // CARD DISPLAY FUNCTIONS
+  //
+  //
+  //-----------------------------------------------------------------------------
+
     // This function returns a 2-element array.  The first element is an
     // array of the cards in the player's own hand.  The second element
     // is the size of the opponents hand.
