@@ -7,7 +7,7 @@ Template.main_canvas.rendered = ->
   main_canvas.hoverCursor = "pointer"
   add_hover_helper main_canvas
 
-  show_game_start_images main_canvas, game()
+  show_game_start_images main_canvas, myself(), game()
   
   main_canvas.on "object:over", (e) ->
     $("img#magnifier").attr "src", e.target._element.attributes.src.value
@@ -22,53 +22,61 @@ Template.main_canvas.rendered = ->
   main_canvas.on "selection:cleared", (e) ->
     Session.set "selectedCard", undefined
 
-  Meteor.call "get_hands", game(), myself(), (err, result) ->
+  Meteor.call "getPlayersHands", game(), myself(), (err, result) ->
+    # Array of runner hand then corp hand
     console.log err if err
-    mySide = myself().side
-    oppSide = getOppSide mySide
 
-    myHand = result[0]
+    gameObj = game()
+    playerObj = myself()
+
+    runnerHand = result[0]
     i = 0
-    while i < myHand.length
+    while i < runnerHand.length
       y = 510 # Add to bottom row
       x = 135*3+i*100  # Start in 3rd column and overlap a bit
-      myCard = myHand[i]
-      myCard['gameLoc'] = mySide + ".hand"
+      runnerCard = runnerHand[i]
 
-      add_card_to_canvas main_canvas, myCard, x, y
+      if playerObj.side == 'corp'
+        runnerCard = gameObj['runner']['cardBack']
+        
+      runnerCard['gameLoc'] = 'runner.hand'
+      add_card_to_canvas main_canvas, playerObj, runnerCard, x, y
       i++
 
-    oppHandLength = result[1]
-    if oppHandLength > 0
-      oppCard = getOppCard mySide
-      i = 0
-      while i < oppHandLength
-        y = 510 # Add to bottom row
-        x = 135*3+i*100 # Start in 3rd column and overlap a bit
-        oppCard['gameLoc'] = oppSide + ".hand"
+    corpHand = result[1]
+    i = 0
+    while i < corpHand.length
+      y = 0
+      x = (1100-135*3) - i*100
+      corpCard = corpHand[i]
 
-        add_card_to_canvas main_canvas, oppCard, x, y
-        i++
+      if playerObj.side == 'runner'
+        runnerCard = gameObj['corp']['cardBack']
+
+      corpCard['gameLoc'] = 'corp.hand'
+      add_card_to_canvas main_canvas, playerObj, corpCard, x, y
+      i++
+
 
   Meteor.call "getTopOfDiscardPiles", myself(), (err, result) ->
-    # { corp: cardObj1, runner: cardObj2 }
     console.log err if err
-    mySide = myself().side
-    oppSide = getOppSide mySide
+    
+    playerObj = myself()
 
-    if result[mySide]
-      x = 0
-      y = 510
-      myCard = result[mySide]
-      myCard['gameLoc'] = mySide + ".discard"
-      add_card_to_canvas main_canvas, myCard, x, y
+    runnerDiscardTop = result['runner']
+    if runnerDiscardTop
+      runnerX = 0
+      runnerY = 510
+      runnerDiscardTop['gameLoc'] = 'runner.discard'
+      add_card_to_canvas main_canvas, playerObj, runnerDiscardTop, runnerX, runnerY
 
-    if result[oppSide]
-      x = 0
-      y = 510
-      oppCard = result[oppSide]
-      oppCard['gameLoc'] = oppSide + ".discard"
-      add_card_to_canvas main_canvas, oppCard, x, y
+    corpDiscardTop = result['corp']
+    if corpDiscardTop
+      corpX = 1100-135
+      corpY = 0
+      corpDiscardTop['gameLoc'] = 'corp.discard'
+      add_card_to_canvas main_canvas, playerObj, corpDiscardTop, corpX, corpY
+
 
 #-----------------------------------------------------------------------------
 # Canvas Events
