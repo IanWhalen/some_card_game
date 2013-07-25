@@ -47,57 +47,61 @@ Meteor.methods({
 
   doDrawAction: function(playerObj) {
     var gameObj = game(playerObj);
+    var clickCost = 1;
+    var creditCost = 0;
 
-    var confirmPlayerHasClicks = function (count) {
-      return gameObj[playerObj.side]['stats']['clicks'] >= count;
-    };
-
-    if (confirmPlayerHasClicks(1)) {
-      var clickCost = 1;
-      var creditCost = 0;
-
-      global['payAllCosts'](playerObj, creditCost, clickCost);
+    if (gameObj[playerObj.side]['stats']['clicks'] >= clickCost) {
+      global['payAllCosts'](playerObj, 0, 1);
       global['draw1Card'](playerObj);
-      // global['checkTurnEndConditions'](gameObj, playerObj);
+    }
+  },
+
+  doCreditGainAction: function(playerObj) {
+    var gameObj = game(playerObj);
+    var clickCost = 1;
+    var creditCost = 0;
+
+    if (gameObj[playerObj.side]['stats']['clicks'] >= clickCost) {
+      global['payAllCosts'](playerObj, 0, 1);
+      global['add1Credit'](playerObj);
     }
   },
 
 
-  get_hands: function (game, player) {
   //-----------------------------------------------------------------------------
   // CARD DISPLAY FUNCTIONS
   //
   //
   //-----------------------------------------------------------------------------
 
+  getPlayersHands: function (game, player) {
     // This function returns a 2-element array.  The first element is an
     // array of the cards in the player's own hand.  The second element
     // is the size of the opponents hand.
     var handPair = [];
-    handPair.push( game[player.side]["hand"] || [] );
 
-    try {
-      oppHandLength = game[getOppSide(player.side)]["hand"].length;
-    } catch (e) {
-      oppHandLength = 0;
-    }
-
-    handPair.push( oppHandLength );
+    handPair.push( game['runner']["hand"] || [] );
+    handPair.push( game['corp']["hand"] || [] );
 
     return handPair;
   },
 
   getTopOfDiscardPiles: function (playerObj) {
     var discardPair = {};
+    var gameObj = game( playerObj );
 
-    if ( game(playerObj)['runner']['discard'] ) {
-      var runnerDiscardPile = game(playerObj)['runner']['discard'];
+    if (gameObj['runner']['discard']) {
+      var runnerDiscardPile = gameObj['runner']['discard'];
       discardPair['runner'] = runnerDiscardPile[runnerDiscardPile.length-1];
+    } else {
+      discardPair['runner'] = false;
     }
 
-    if ( game(playerObj)['corp']['discard'] ) {
-      var corpDiscardPile = game(playerObj)['corp']['discard'];
-      discardPair['corp'] = corpDiscardPile[corpDiscardPile.length-1];
+    if (gameObj['corp']['discard']) {
+      var runnerDiscardPile = gameObj['corp']['discard'];
+      discardPair['corp'] = runnerDiscardPile[runnerDiscardPile.length-1];
+    } else {
+      discardPair['corp'] = false;
     }
 
     return discardPair;
@@ -139,9 +143,9 @@ Meteor.methods({
       var clickCost = actionObj[action]['click_cost'];
       var creditCost = actionObj[action]['credit_cost'];
 
-      global['payAllCosts'](gameObj, playerObj, creditCost, clickCost);
-      global[action](gameObj, playerObj);
-      global['moveCardFromHandToDiscard'](gameObj, playerObj, cardObj);
+      global['payAllCosts'](playerObj, creditCost, clickCost);
+      global[action](playerObj);
+      global['moveCardFromHandToDiscard'](playerObj, cardObj);
     }
   },
 
