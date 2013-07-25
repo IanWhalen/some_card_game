@@ -2,9 +2,11 @@
   identity:
     name: "Kate \"Mac\" McCaffrey"
     src: "runner_identity.png"
+    gameLoc: 'runner'
     actions: []
   cardBack:
     src: "runner-back.jpg"
+    gameLoc: 'runner'
   stats:
     score: 0
     credits: 5

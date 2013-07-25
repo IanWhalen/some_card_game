@@ -2,9 +2,11 @@
   identity:
     name: "Haas-Bioroid"
     src: "corpIdentity.png"
+    gameLoc: 'corp'
     actions: []
   cardBack:
     src: "corp-back.jpg"
+    gameLoc: 'corp'
   stats:
     score: 0
     credits: 5
