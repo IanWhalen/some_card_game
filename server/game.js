@@ -74,7 +74,7 @@ Meteor.methods({
 
     if (currentPlayerObj['_id'] === gameObj['current_player']) {
       // Get current player to appropriate state
-      gameObj.setPlayerClicksToZero();
+      gameObj.setPlayerClicksToZero(currentPlayerObj);
       // TODO: checkHandSizeAgainstHandLimit();
 
       // Get next player to appropriate state

@@ -9,7 +9,7 @@ class @Game
   #
   #-----------------------------------------------------------------------------  
 
-  setPlayerClicksToZero: () ->
+  setPlayerClicksToZero: (playerObj) ->
     targetField = playerObj['side'] + ".stats.clicks"
     clicks = 0
 
