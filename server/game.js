@@ -70,7 +70,7 @@ Meteor.methods({
 
 
   doEndTurnAction: function(currentPlayerObj) {
-    var gameObj = game(currentPlayerObj);
+    var gameObj = getGameObj(currentPlayerObj);
 
     if (currentPlayerObj['_id'] === gameObj['current_player']) {
       // Get current player to appropriate state

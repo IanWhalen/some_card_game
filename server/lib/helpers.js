@@ -3,6 +3,11 @@ game = function(player) {
 };
 
 
+getGameObj = function(player) {
+  return new Game(Games.findOne(player.game_id));
+};
+
+
 player_is_ready = function(side) {
   var p = Players.findOne({ game_id: null,
                             idle: false,
@@ -32,14 +37,14 @@ getOppPlayerObj = function(playerObj) {
   var oppSideString = getOppSide(playerObj['side']);
 
   return Players.findOne({game_id: gameObj._id, side: oppSideString});
-}
+};
 
 
 switchCurrentPlayer = function(gameObj, playerObj) {
   var oppSide = getOppSide(playerObj.side);
   var playerId = gameObj[oppSide]['playerId'];
 
-  setCurrentPlayerField(gameObj, playerId);
+  gameObj.setCurrentPlayerField(playerId);
 };
 
 
@@ -192,7 +197,7 @@ var setIntegerField = function(playerObj, targetField, amount) {
   modObj[targetField] = amount;
 
   Games.update(game_id, { $set: modObj } );
-}
+};
 
 
 var modifyIntegerField = function(playerObj, targetField, amount) {
@@ -202,9 +207,4 @@ var modifyIntegerField = function(playerObj, targetField, amount) {
   modObj[targetField] = amount;
 
   Games.update(game_id, { $inc: modObj } );
-};
-
-
-var setCurrentPlayerField = function(gameObj, playerId) {
-  Games.update(gameObj._id, {$set: { current_player : playerId}});
 };
