@@ -69,6 +69,28 @@ Meteor.methods({
   },
 
 
+  doEndTurnAction: function(currentPlayerObj) {
+    var gameObj = game(currentPlayerObj);
+
+    if (currentPlayerObj['_id'] === gameObj['current_player']) {
+      // Get current player to appropriate state
+      setPlayerClicksToZero(currentPlayerObj);
+      // TODO: checkHandSizeAgainstHandLimit();
+
+      // Get next player to appropriate state
+      if (currentPlayerObj['side'] === 'runner') {
+        resetCorpClicks(currentPlayerObj);
+        global['draw1Card'](getOppPlayerObj(currentPlayerObj));
+      } else if (currentPlayerObj['side'] === 'corp') {
+        resetRunnerClicks(currentPlayerObj);
+      }
+
+      // Make current player switch official
+      switchCurrentPlayer(gameObj, currentPlayerObj);
+    }
+  },
+
+
   //-----------------------------------------------------------------------------
   // CARD DISPLAY FUNCTIONS
   //
@@ -100,8 +122,8 @@ Meteor.methods({
     }
 
     if (gameObj['corp']['discard']) {
-      var runnerDiscardPile = gameObj['corp']['discard'];
-      discardPair['corp'] = runnerDiscardPile[runnerDiscardPile.length-1];
+      var corpDiscardPile = gameObj['corp']['discard'];
+      discardPair['corp'] = corpDiscardPile[corpDiscardPile.length-1];
     } else {
       discardPair['corp'] = false;
     }

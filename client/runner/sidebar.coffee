@@ -4,6 +4,9 @@ Template.sidebar.events "click button#drawCard": ->
 Template.sidebar.events "click button#gainCredit": ->
   Meteor.call "doCreditGainAction", myself()
 
+Template.sidebar.events "click button#endTurn": ->
+  Meteor.call "doEndTurnAction", myself()
+
 Template.sidebar.events "click button.action-button": (e) ->
   selectedCard = Session.get "selectedCard"
   

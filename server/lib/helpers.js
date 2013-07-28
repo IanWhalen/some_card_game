@@ -26,6 +26,23 @@ getOppSide = function(side) {
   }
 };
 
+
+getOppPlayerObj = function(playerObj) {
+  var gameObj = game(playerObj);
+  var oppSideString = getOppSide(playerObj['side']);
+
+  return Players.findOne({game_id: gameObj._id, side: oppSideString});
+}
+
+
+switchCurrentPlayer = function(gameObj, playerObj) {
+  var oppSide = getOppSide(playerObj.side);
+  var playerId = gameObj[oppSide]['playerId'];
+
+  setCurrentPlayerField(gameObj, playerId);
+};
+
+
 //-----------------------------------------------------------------------------
 // Server-side card movement functions
 //-----------------------------------------------------------------------------
@@ -123,6 +140,29 @@ payAllCosts = function(playerObj, creditCost, clickCost) {
 };
 
 
+resetCorpClicks = function(playerObj) {
+  var targetField = "corp.stats.clicks";
+  var clicks = 3;
+
+  setIntegerField(playerObj, targetField, clicks);
+};
+
+
+resetRunnerClicks = function(playerObj) {
+  var targetField = "runner.stats.clicks";
+  var clicks = 4;
+
+  setIntegerField(playerObj, targetField, clicks);
+};
+
+
+setPlayerClicksToZero = function(playerObj) {
+  var targetField = playerObj['side'] + ".stats.clicks";
+  clicks = 0;
+
+  setIntegerField(playerObj, targetField, clicks);
+}
+
 //-----------------------------------------------------------------------------
 // DATABASE FUNCTIONS
 //
@@ -145,6 +185,16 @@ moveCardFromHandToDiscard = function(playerObj, cardObj) {
 };
 
 
+var setIntegerField = function(playerObj, targetField, amount) {
+  var game_id = game(playerObj)['_id'];
+
+  var modObj = {};
+  modObj[targetField] = amount;
+
+  Games.update(game_id, { $set: modObj } );
+}
+
+
 var modifyIntegerField = function(playerObj, targetField, amount) {
   var game_id = game(playerObj)['_id'];
 
@@ -152,4 +202,9 @@ var modifyIntegerField = function(playerObj, targetField, amount) {
   modObj[targetField] = amount;
 
   Games.update(game_id, { $inc: modObj } );
+};
+
+
+var setCurrentPlayerField = function(gameObj, playerId) {
+  Games.update(gameObj._id, {$set: { current_player : playerId}});
 };
