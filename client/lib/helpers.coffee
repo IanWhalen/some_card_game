@@ -12,8 +12,8 @@
   hasRotatingPoint: false
   lockMovementX: true
   lockMovementY: true
-  width: 135
-  height: 190
+  width: 90
+  height: 127
 
 
 #-----------------------------------------------------------------------------
