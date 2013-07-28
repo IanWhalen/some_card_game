@@ -56,6 +56,7 @@ Meteor.methods({
     }
   },
 
+
   doCreditGainAction: function(playerObj) {
     var gameObj = game(playerObj);
     var clickCost = 1;
@@ -86,6 +87,7 @@ Meteor.methods({
     return handPair;
   },
 
+
   getTopOfDiscardPiles: function (playerObj) {
     var discardPair = {};
     var gameObj = game( playerObj );
@@ -106,6 +108,7 @@ Meteor.methods({
 
     return discardPair;
   },
+
 
   doCardAction: function (playerObj, gameLoc, cardId, action) {
     var gameObj = game(playerObj);
