@@ -10,7 +10,7 @@
   stats:
     score: 0
     credits: 5
-    clicks: 4
+    clicks: 0
 
 @CORP_DECK = [
   _id: "hedge-fund-1"
