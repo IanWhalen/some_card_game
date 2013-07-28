@@ -51,7 +51,7 @@ Template.main_canvas.rendered = ->
       corpCard = corpHand[i]
 
       if playerObj.side == 'runner'
-        runnerCard = gameObj['corp']['cardBack']
+        corpCard = gameObj['corp']['cardBack']
 
       corpCard['gameLoc'] = 'corp.hand'
       add_card_to_canvas main_canvas, playerObj, corpCard, x, y
