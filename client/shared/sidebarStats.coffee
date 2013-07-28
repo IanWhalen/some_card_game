@@ -3,22 +3,22 @@
 # and only return the public data to this controller.
 
 Template.sidebarStats.currentTurn = ->
-    game()['turn']
+  game()['turn']
 
 Template.sidebarStats.runnerScore = ->
-    game()['runner']['stats']['score']
+  game()['runner']['stats']['score']
 
 Template.sidebarStats.runnerCredits = ->
-    game()['runner']['stats']['credits']
+  game()['runner']['stats']['credits']
 
 Template.sidebarStats.runnerClicks = ->
-    game()['runner']['stats']['clicks']
+  game()['runner']['stats']['clicks']
 
 Template.sidebarStats.corpScore = ->
-    game()['corp']['stats']['score']
+  game()['corp']['stats']['score']
 
 Template.sidebarStats.corpCredits = ->
-    game()['corp']['stats']['credits']
+  game()['corp']['stats']['credits']
 
 Template.sidebarStats.corpClicks = ->
-    game()['corp']['stats']['clicks']
+  game()['corp']['stats']['clicks']
