@@ -74,15 +74,15 @@ Meteor.methods({
 
     if (currentPlayerObj['_id'] === gameObj['current_player']) {
       // Get current player to appropriate state
-      setPlayerClicksToZero(currentPlayerObj);
+      gameObj.setPlayerClicksToZero();
       // TODO: checkHandSizeAgainstHandLimit();
 
       // Get next player to appropriate state
       if (currentPlayerObj['side'] === 'runner') {
-        resetCorpClicks(currentPlayerObj);
+        gameObj.resetCorpClicks();
         global['draw1Card'](getOppPlayerObj(currentPlayerObj));
       } else if (currentPlayerObj['side'] === 'corp') {
-        resetRunnerClicks(currentPlayerObj);
+        gameObj.resetRunnerClicks();
       }
 
       // Make current player switch official

@@ -145,29 +145,6 @@ payAllCosts = function(playerObj, creditCost, clickCost) {
 };
 
 
-resetCorpClicks = function(playerObj) {
-  var targetField = "corp.stats.clicks";
-  var clicks = 3;
-
-  setIntegerField(playerObj, targetField, clicks);
-};
-
-
-resetRunnerClicks = function(playerObj) {
-  var targetField = "runner.stats.clicks";
-  var clicks = 4;
-
-  setIntegerField(playerObj, targetField, clicks);
-};
-
-
-setPlayerClicksToZero = function(playerObj) {
-  var targetField = playerObj['side'] + ".stats.clicks";
-  clicks = 0;
-
-  setIntegerField(playerObj, targetField, clicks);
-}
-
 //-----------------------------------------------------------------------------
 // DATABASE FUNCTIONS
 //
@@ -187,16 +164,6 @@ moveCardFromHandToDiscard = function(playerObj, cardObj) {
 
   Games.update(gameObj._id, {$pull:  updateHand});
   Games.update(gameObj._id, {$push: updateDiscard});
-};
-
-
-var setIntegerField = function(playerObj, targetField, amount) {
-  var game_id = game(playerObj)['_id'];
-
-  var modObj = {};
-  modObj[targetField] = amount;
-
-  Games.update(game_id, { $set: modObj } );
 };
 
 
