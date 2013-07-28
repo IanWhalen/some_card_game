@@ -25,6 +25,15 @@ class @Game
 
 
   #-----------------------------------------------------------------------------
+  # LOGGING FUNCTIONS
+  #
+  #-----------------------------------------------------------------------------
+
+  logForBothSides: (line) ->
+    @.addLogLineToSide('corp', line);
+    @.addLogLineToSide('runner', line);
+
+  #-----------------------------------------------------------------------------
   # DATABASE FUNCTIONS
   #
   #-----------------------------------------------------------------------------
@@ -34,7 +43,17 @@ class @Game
 
 
   setIntegerField: (targetField, amount) ->
-    modObj = {};
-    modObj[targetField] = amount;
+    modObj = {}
+    modObj[targetField] = amount
 
-    Games.update(@._id, { $set: modObj });
+    Games.update(@._id, { $set: modObj })
+
+
+  addLogLineToSide: (side, line) ->
+    modObj = {}
+    targetField = side + '.logs'
+    modObj[targetField] = line
+
+    console.log targetField
+    console.log line
+    Games.update(@._id, { $push: modObj});

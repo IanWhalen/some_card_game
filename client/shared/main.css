@@ -29,6 +29,17 @@ div.sidebarStats > p {
     color: gray;
 }
 
+#history {
+    overflow-y: scroll;
+    width: 1080px;
+    height: 100px;
+}
+
+#history > p {
+    font-size: 12px;
+    margin: 2px 0px;
+}
+
 /******************************** LEGACY CSS ********************************/
 
 body {

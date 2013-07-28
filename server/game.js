@@ -46,31 +46,38 @@ Meteor.methods({
   //-----------------------------------------------------------------------------
 
   doDrawAction: function(playerObj) {
-    var gameObj = game(playerObj);
+    var gameObj = getGameObj(playerObj);
     var clickCost = 1;
     var creditCost = 0;
 
     if (gameObj[playerObj.side]['stats']['clicks'] >= clickCost) {
       global['payAllCosts'](playerObj, 0, 1);
       global['draw1Card'](playerObj);
+
+      var line = 'The ' + playerObj['side'].capitalize() + " spends 1 click and draws 1 card.";
+      gameObj.logForBothSides(line);
     }
   },
 
 
   doCreditGainAction: function(playerObj) {
-    var gameObj = game(playerObj);
+    var gameObj = getGameObj(playerObj);
     var clickCost = 1;
     var creditCost = 0;
 
     if (gameObj[playerObj.side]['stats']['clicks'] >= clickCost) {
       global['payAllCosts'](playerObj, 0, 1);
       global['add1Credit'](playerObj);
+
+      var line = 'The ' + playerObj['side'].capitalize() + " spends 1 click and gains 1 credit.";
+      gameObj.logForBothSides(line);
     }
   },
 
 
   doEndTurnAction: function(currentPlayerObj) {
     var gameObj = getGameObj(currentPlayerObj);
+    var oppPlayerObj = getOppPlayerObj(currentPlayerObj);
 
     if (currentPlayerObj['_id'] === gameObj['current_player']) {
       // Get current player to appropriate state
@@ -80,13 +87,18 @@ Meteor.methods({
       // Get next player to appropriate state
       if (currentPlayerObj['side'] === 'runner') {
         gameObj.resetCorpClicks();
-        global['draw1Card'](getOppPlayerObj(currentPlayerObj));
+        global['draw1Card'](oppPlayerObj);
       } else if (currentPlayerObj['side'] === 'corp') {
         gameObj.resetRunnerClicks();
       }
 
       // Make current player switch official
       switchCurrentPlayer(gameObj, currentPlayerObj);
+
+      var line1 = currentPlayerObj['side'].capitalize() + " has ended their turn.";
+      var line2 = '===== It is now the ' + oppPlayerObj['side'].capitalize() + "\'s turn. =====";
+      gameObj.logForBothSides(line1);
+      gameObj.logForBothSides(line2);
     }
   },
 
@@ -193,3 +205,9 @@ Meteor.setInterval(function () {
   Players.update({last_keepalive: {$lt: idle_threshold}},
                  {$set: {idle: true, ready: false}});
 }, 30*1000);
+
+Meteor.startup(function () {
+  String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+  };
+});

@@ -3,6 +3,7 @@
   <div id="board">
     {{> main_canvas}}
     {{> sidebar}}
+    {{> history}}
   </div>
   {{/if}}
 </template>
@@ -11,6 +12,15 @@
 <template name="main_canvas">
   <div id="main_canvas_div">
     <canvas id="main_canvas" width="{{canvasWidth}}" height="{{canvasHeight}}"></canvas>
+  </div>
+</template>
+
+
+<template name="history">
+  <div id="history">
+    {{#each logLines}}
+    <p>{{this}}</p>
+    {{/each }}
   </div>
 </template>
 
