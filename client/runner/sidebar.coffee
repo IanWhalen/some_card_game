@@ -1,4 +1,4 @@
-Template.sidebar.events "click button#draw_card": ->
+Template.sidebar.events "click button#drawCard": ->
   Meteor.call "doDrawAction", myself()
 
 Template.sidebar.events "click button#gainCredit": ->
