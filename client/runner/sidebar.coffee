@@ -14,4 +14,7 @@ Template.sidebar.events "click button.action-button": (e) ->
   cardId = selectedCard._id        # e.g. "sure-gamble-1"
   action = e.target.dataset.action # e.g. "draw9Credits"
 
-  Meteor.call "doCardAction", myself(), gameLoc, cardId, action
+  Meteor.call "doCardAction", myself(), gameLoc, cardId, action, (err, result) ->
+    console.log err if err
+
+    Session.set "selectedCard", undefined

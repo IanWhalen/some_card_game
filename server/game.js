@@ -171,7 +171,10 @@ Meteor.methods({
       global['payAllCosts'](playerObj, creditCost, clickCost);
       global[action](playerObj);
       global['moveCardFromHandToDiscard'](playerObj, cardObj);
+
+      return true;
     }
+    return false;
   },
 
   keepalive: function (player_id) {
