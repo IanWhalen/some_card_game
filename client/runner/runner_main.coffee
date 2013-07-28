@@ -32,8 +32,8 @@ Template.main_canvas.rendered = ->
     runnerHand = result[0]
     i = 0
     while i < runnerHand.length
-      y = 510 # Add to bottom row
-      x = 135*3+i*100  # Start in 3rd column and overlap a bit
+      y = CANVAS['height'] - CARD_PARAMS['height'] # Add to bottom row
+      x = CARD_PARAMS['width'] * 3 + i * 100 # Start in 3rd column and overlap a bit
       runnerCard = runnerHand[i]
 
       if playerObj.side == 'corp'
@@ -77,6 +77,13 @@ Template.main_canvas.rendered = ->
       corpDiscardTop['gameLoc'] = 'corp.discard'
       add_card_to_canvas main_canvas, playerObj, corpDiscardTop, corpX, corpY
 
+
+Template.main_canvas.canvasHeight = () ->
+  CANVAS['height']
+
+
+Template.main_canvas.canvasWidth = () ->
+  CANVAS['width']
 
 #-----------------------------------------------------------------------------
 # Canvas Events

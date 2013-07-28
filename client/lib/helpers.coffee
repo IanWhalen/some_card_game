@@ -2,6 +2,11 @@
 # Client-side Global Values
 #-----------------------------------------------------------------------------
 
+@CANVAS = 
+  width: 1080
+  height: 600
+
+
 @CARD_PARAMS =
   hasControls: false
   hasRotatingPoint: false
@@ -30,11 +35,24 @@
 
 @show_game_start_images = (cvs, playerObj, game) ->
   # First add cards for runner
-  add_card_to_canvas cvs, playerObj, game["runner"]["cardBack"], 135, 510
-  add_card_to_canvas cvs, playerObj, game["runner"]["identity"], 135*2, 510
+  add_card_to_canvas cvs,
+                     playerObj,
+                     game["runner"]["cardBack"],
+                     CARD_PARAMS['width'],
+                     CANVAS['height'] - CARD_PARAMS['height']
+
+  add_card_to_canvas cvs,
+                     playerObj,
+                     game["runner"]["identity"],
+                     CARD_PARAMS['width'] * 2,
+                     CANVAS['height'] - CARD_PARAMS['height']
   
   # Then add cards for corp
-  add_card_to_canvas cvs, playerObj, game['corp']['cardBack'], 1100-135*2, 0
+  add_card_to_canvas cvs,
+                     playerObj,
+                     game['corp']['cardBack'],
+                     CANVAS['width'] - CARD_PARAMS['width'] * 2
+                     0
 
 
 @myself = ->
