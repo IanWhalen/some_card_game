@@ -26,10 +26,10 @@
 </template>
 
 <template name="sidebarStats">
-  <div class="sidebarStats" id="gameStats">
+  <div class="sidebarStats enabled" id="gameStats">
     <p><strong>Turn: </strong> {{currentTurn}}</p>
   </div>
-  <div class="sidebarStats" id="runnerStats">
+  <div class="sidebarStats {{runnerIsActivePlayer}}" id="runnerStats">
     <p><strong><u>Runner Stats</u></strong></p>
     <p>
       <strong>Score: </strong>{{runnerScore}}
@@ -37,7 +37,7 @@
       <strong> Clicks: </strong>{{runnerClicks}}
     </p>
   </div>
-  <div class="sidebarStats" id="corpStats">
+  <div class="sidebarStats {{corpIsActivePlayer}}" id="corpStats">
     <p><strong><u>Corp Stats</u></strong></p>
     <p>
       <strong>Score: </strong>{{corpScore}}

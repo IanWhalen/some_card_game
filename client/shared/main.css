@@ -21,6 +21,14 @@ div.sidebarStats > p {
     margin: 5px;
 }
 
+.sidebarStats.enabled {
+    color: black;
+}
+
+.sidebarStats.disabled {
+    color: gray;
+}
+
 /******************************** LEGACY CSS ********************************/
 
 body {

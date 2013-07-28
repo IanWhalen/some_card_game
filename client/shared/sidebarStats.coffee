@@ -14,6 +14,14 @@ Template.sidebarStats.runnerCredits = ->
 Template.sidebarStats.runnerClicks = ->
   game()['runner']['stats']['clicks']
 
+Template.sidebarStats.runnerIsActivePlayer = ->
+  gameObj = game()
+  
+  if gameObj['runner']['playerId'] == gameObj['current_player']
+    return 'enabled'
+  else
+    return 'disabled'
+
 Template.sidebarStats.corpScore = ->
   game()['corp']['stats']['score']
 
@@ -22,3 +30,11 @@ Template.sidebarStats.corpCredits = ->
 
 Template.sidebarStats.corpClicks = ->
   game()['corp']['stats']['clicks']
+
+Template.sidebarStats.corpIsActivePlayer = ->
+  gameObj = game()
+  
+  if gameObj['corp']['playerId'] == gameObj['current_player']
+    return 'enabled'
+  else
+    return 'disabled'
