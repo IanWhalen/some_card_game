@@ -109,6 +109,7 @@ Meteor.methods({
     gameObj.installResource(playerObj, gameLoc, cardId);
   },
 
+
   //-----------------------------------------------------------------------------
   // CARD DISPLAY FUNCTIONS
   //
@@ -118,6 +119,7 @@ Meteor.methods({
   getRunnerResources: function(playerObj) {
     return getGameObj(playerObj)['runner']['resources'] || [];
   },
+
 
   getPlayersHands: function (game, player) {
     // This function returns a 2-element array.  The first element is an

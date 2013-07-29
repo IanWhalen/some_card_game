@@ -28,12 +28,13 @@ class @Game
     
     if @playerHasResources playerObj, actionData
       @payAllCosts playerObj, actionData['credit_cost'], actionData['click_cost']
-      @[cardObj['addBenefit']]()
+      @[cardObj['addBenefit']]() if cardObj['addBenefit']?
       @moveCardToResources cardObj
 
-      line = "The Runner spends " + actionData["click_cost"] + " clicks and " +
-        actionData['credit_cost'] + " credits to install " + cardObj.name + "."
+      line = "The Runner spends " + actionData["click_cost"] + " click and €" +
+        actionData['credit_cost'] + " to install " + cardObj.name + "."
       @logForBothSides line
+
 
   add1Link: () ->
     @incLink 1

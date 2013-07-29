@@ -104,6 +104,7 @@
       credit_cost: 0
       text: "Draw 3 cards."
   ]
+,
   _id: "access-to-globalsec-1"
   name: "Access To Globalsec"
   src: "access-to-globalsec.png"
@@ -114,5 +115,21 @@
       click_cost: 1
       credit_cost: 1
       text: "Install Access To Globalsec"
+  ]
+,
+  _id: "armitage-codebusting-1"
+  name: "Armitage Codebusting"
+  src: "armitage-codebusting.png"
+  cardType: "Resource"
+  counters: 12
+  actions: [
+    installResource:
+      click_cost: 1
+      credit_cost: 1
+      text: "Install Armitage Codebusting"
+    useArmitageCodebusting:
+      click_cost: 1
+      credit_cost: 0
+      text: "Use 1 click to gain 2 credits"
   ]
 ]

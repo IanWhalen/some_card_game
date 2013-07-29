@@ -124,9 +124,28 @@
       target
   )(canvas.findTarget)
 
+
 #-----------------------------------------------------------------------------
 # Startup Functions
 #-----------------------------------------------------------------------------
 
 Meteor.startup ->
   Session.set("selectedCard", undefined)
+
+  fabric.Canvas.prototype.addCountersToCard = (playerObj, resource, cardX, cardY) ->
+    x = cardX + CARD_PARAMS['width'] / 2
+    y = cardY + CARD_PARAMS['height'] + 6
+    
+    if playerObj.side == "corp"
+      p = new fabric.Point CANVAS['width'] - x, CANVAS['height'] - y
+    else
+      p = new fabric.Point x, y
+
+    textAttributes =
+      fontSize: 14
+      selectable: false
+
+    text = new fabric.Text resource.counters + '●', textAttributes
+
+    text.setPositionByOrigin p
+    textObj = @.add text

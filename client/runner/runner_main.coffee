@@ -85,12 +85,15 @@ Template.main_canvas.rendered = ->
 
     i = 0
     while i < result.length
-      y = CANVAS['height'] - CARD_PARAMS['height'] * 2 # Add to 2nd to bottom row
+      y = CANVAS['height'] - CARD_PARAMS['height'] * 2 - 15 # Add to 2nd to bottom row with room for counters
       x = CARD_PARAMS['width'] * 2 + i * CARD_PARAMS['width'] # Start in 2nd column
       resource = result[i]
 
       resource['gameLoc'] = 'runner.resources'
       add_card_to_canvas main_canvas, playerObj, resource, x, y
+
+      if resource.counters
+        main_canvas.addCountersToCard playerObj, resource, x, y
       i++
 
 Template.main_canvas.canvasHeight = () ->
