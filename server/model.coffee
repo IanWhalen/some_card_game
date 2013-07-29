@@ -5,15 +5,84 @@ class @Game
 
 
   #-----------------------------------------------------------------------------
+  # CARD FUNCTIONS
+  #
+  #-----------------------------------------------------------------------------
+
+  getCardFromCorrectLocation: (gameLoc, cardId) ->
+    side = gameLoc.split(".")[0]; # e.g. "runner"
+    loc = gameLoc.split(".")[1];  # e.g. "hand" or "deck"
+
+    _.find @[side][loc], (obj) ->
+      obj._id is cardId
+
+
+  #-----------------------------------------------------------------------------
+  # RUNNER FUNCTIONS
+  #
+  #-----------------------------------------------------------------------------
+
+  installResource: (playerObj, gameLoc, cardId) ->
+    cardObj = new Card(@.getCardFromCorrectLocation gameLoc, cardId)
+    actionData = cardObj.getActionDataFromCard 'installResource' if cardObj?
+    
+    if @playerHasResources playerObj, actionData
+      @payAllCosts playerObj, actionData['credit_cost'], actionData['click_cost']
+      @[cardObj['addBenefit']]()
+      @moveCardToResources cardObj
+
+      line = "The Runner spends " + actionData["click_cost"] + " clicks and " +
+        actionData['credit_cost'] + " credits to install " + cardObj.name + "."
+      @logForBothSides line
+
+  add1Link: () ->
+    @incLink 1
+
+
+  incLink: (amount) ->
+    console.log "got to inkLink"
+    @incIntegerField 'runner.stats.link', amount
+
+
+  #-----------------------------------------------------------------------------
   # ECONOMY FUNCTIONS
   #
-  #-----------------------------------------------------------------------------  
+  #-----------------------------------------------------------------------------
+
+  moveCardToResources: (cardObj) ->
+    console.log cardObj
+    updateHand = {};
+    updateHand["runner.hand"] = cardObj;
+
+    updateResources = {};
+    updateResources["runner.resources"] = cardObj;
+
+    Games.update(@._id, { $pull:  updateHand});
+    Games.update(@._id, { $push: updateResources});
+
+
+  #-----------------------------------------------------------------------------
+  # ECONOMY FUNCTIONS
+  #
+  #-----------------------------------------------------------------------------
+
+  payAllCosts: (playerObj, creditCost, clickCost) ->
+    @incCredits(playerObj, -1 * creditCost);
+    @incClicks(playerObj, -1 * clickCost);
+
+
+  incCredits: (playerObj, amount) ->
+    targetField = playerObj.side + ".stats.credits"
+    @incIntegerField targetField, amount
+
+
+  incClicks: (playerObj, amount) ->
+    targetField = playerObj.side + ".stats.clicks"
+    @incIntegerField targetField, amount
+
 
   setPlayerClicksToZero: (playerObj) ->
-    targetField = playerObj['side'] + ".stats.clicks"
-    clicks = 0
-
-    @setIntegerField targetField, clicks
+    @setIntegerField playerObj.side + ".stats.clicks", 0
 
 
   resetCorpClicks: () ->
@@ -22,6 +91,22 @@ class @Game
 
   resetRunnerClicks: () ->
     @setIntegerField "runner.stats.clicks", 4
+
+
+  playerHasResources: (playerObj, actionData) ->
+    if @playerHasCredits playerObj.side, actionData
+      if @playerHasClicks playerObj.side, actionData
+        return true
+
+
+  playerHasCredits: (side, actionData) ->
+    if @[side]['stats']['credits'] >= actionData['credit_cost']
+      return true
+
+
+  playerHasClicks: (side, actionData) ->
+    if @[side]['stats']['clicks'] >= actionData['click_cost']
+      return true
 
 
   #-----------------------------------------------------------------------------
@@ -33,20 +118,31 @@ class @Game
     @.addLogLineToSide('corp', line);
     @.addLogLineToSide('runner', line);
 
+
   #-----------------------------------------------------------------------------
   # DATABASE FUNCTIONS
   #
   #-----------------------------------------------------------------------------
 
   setCurrentPlayerField: (playerId) ->
-    Games.update(@._id, { $set: { current_player : playerId }});
+    Games.update @._id,
+      $set: { current_player : playerId }
+
+
+  incIntegerField: (targetField, amount) ->
+    modObj = {};
+    modObj[targetField] = amount;
+
+    Games.update @._id,
+      $inc: modObj
 
 
   setIntegerField: (targetField, amount) ->
     modObj = {}
     modObj[targetField] = amount
 
-    Games.update(@._id, { $set: modObj })
+    Games.update @._id,
+      $set: modObj
 
 
   addLogLineToSide: (side, line) ->
@@ -54,6 +150,5 @@ class @Game
     targetField = side + '.logs'
     modObj[targetField] = line
 
-    console.log targetField
-    console.log line
-    Games.update(@._id, { $push: modObj});
+    Games.update @._id,
+      $push: modObj
