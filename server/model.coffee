@@ -13,8 +13,11 @@ class @Game
     side = gameLoc.split(".")[0]; # e.g. "runner"
     loc = gameLoc.split(".")[1];  # e.g. "hand" or "deck"
 
-    _.find @[side][loc], (obj) ->
-      obj._id is cardId
+    cardObj = _.find @[side][loc], (obj) ->
+      obj._id is cardId    
+    cardObj['gameLoc'] = gameLoc
+
+    cardObj
 
 
   #-----------------------------------------------------------------------------
@@ -50,11 +53,14 @@ class @Game
   #-----------------------------------------------------------------------------
 
   moveCardToResources: (cardObj) ->
-    updateHand = {};
-    updateHand["runner.hand"] = cardObj;
+    updateHand = {}
+    idObj = {}
+    idObj['_id'] = cardObj['_id']
+    updateHand["runner.hand"] = idObj
 
     updateResources = {};
-    updateResources["runner.resources"] = cardObj;
+    cardObj['gameLoc'] = 'runner.resources'
+    updateResources["runner.resources"] = cardObj
 
     Games.update(@._id, { $pull:  updateHand});
     Games.update(@._id, { $push: updateResources});

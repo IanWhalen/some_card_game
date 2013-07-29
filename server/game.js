@@ -171,7 +171,11 @@ Meteor.methods({
 
     //  Second: get the specific action object
     var getActionObj = function () {
-      return _.find(cardObj['actions'], function(obj) { return action in obj; });
+      if (loc === 'hand') {
+        return _.find(cardObj['handActions'], function(obj) { return action in obj; });
+      } else if (loc === 'resources') {
+        return _.find(cardObj['boardActions'], function(obj) { return action in obj; });
+      }
     };
     var actionObj = getActionObj();
 

@@ -9,9 +9,18 @@ Template.actionChoices.onlyOneCard = () ->
 
 Template.actionChoices.actions = () ->
   if Template.actionChoices.onlyOneCard
-    actions = Session.get("selectedCard")['actions']
+    cardObj = Session.get("selectedCard")
+    
+    if cardObj['gameLoc'] == 'runner.hand'
+      actions = cardObj['handActions']
+    
+    if cardObj['gameLoc'] == 'runner.resources'
+      actions = cardObj['boardActions']
+  
   else
-    []
+    actions = []
+  
+  actions
 
 Template.actionChoices.cardName = () ->
   if Template.actionChoices.onlyOneCard
