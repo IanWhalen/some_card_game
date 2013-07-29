@@ -41,7 +41,6 @@ class @Game
 
 
   incLink: (amount) ->
-    console.log "got to inkLink"
     @incIntegerField 'runner.stats.link', amount
 
 
@@ -51,7 +50,6 @@ class @Game
   #-----------------------------------------------------------------------------
 
   moveCardToResources: (cardObj) ->
-    console.log cardObj
     updateHand = {};
     updateHand["runner.hand"] = cardObj;
 
