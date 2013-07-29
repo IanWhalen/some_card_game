@@ -77,6 +77,21 @@ Template.main_canvas.rendered = ->
       corpDiscardTop['gameLoc'] = 'corp.discard'
       add_card_to_canvas main_canvas, playerObj, corpDiscardTop, corpX, corpY
 
+  Meteor.call "getRunnerResources", myself(), (err, result) ->
+    console.log err if err
+
+    gameObj = game()
+    playerObj = myself()
+
+    i = 0
+    while i < result.length
+      y = CANVAS['height'] - CARD_PARAMS['height'] * 2 # Add to 2nd to bottom row
+      x = CARD_PARAMS['width'] * 2 + i * CARD_PARAMS['width'] # Start in 2nd column
+      resource = result[i]
+
+      resource['gameLoc'] = 'runner.resources'
+      add_card_to_canvas main_canvas, playerObj, resource, x, y
+      i++
 
 Template.main_canvas.canvasHeight = () ->
   CANVAS['height']
