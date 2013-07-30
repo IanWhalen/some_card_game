@@ -21,7 +21,7 @@ class @Game
 
 
   #-----------------------------------------------------------------------------
-  # RUNNER FUNCTIONS
+  # RUNNER CARD ACTIONS
   #
   #-----------------------------------------------------------------------------
 
@@ -33,9 +33,9 @@ class @Game
       @payAllCosts playerObj, actionData['credit_cost'], actionData['click_cost']
       @[cardObj['addBenefit']]() if cardObj['addBenefit']?
       @moveCardToResources cardObj
-
-      line = "The Runner spends " + actionData["click_cost"] + " click and €" +
-        actionData['credit_cost'] + " to install " + cardObj.name + "."
+      
+      line = "The Runner spends #{actionData["click_cost"]} click and " +
+        "€#{actionData['credit_cost']} to install #{cardObj.name}."
       @logForBothSides line
 
 

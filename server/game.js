@@ -62,6 +62,7 @@ Meteor.methods({
 
   doCreditGainAction: function(playerObj) {
     var gameObj = getGameObj(playerObj);
+
     var clickCost = 1;
     var creditCost = 0;
 

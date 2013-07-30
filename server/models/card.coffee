@@ -3,14 +3,14 @@ class @Card
     for key, value of obj
       @[key] = value
 
+
   getActionDataFromCard: (action) ->
     if @.getSideLoc() == 'hand'
       arr = 'handActions'
     if @.getSideLoc() == 'resources'
       arr = 'boardActions'
 
-    actionObj = _.find @[arr], (obj) ->
-      action of obj
+    actionObj = _.find @[arr], (obj) -> action of obj
     actionObj[action]
 
 
@@ -20,5 +20,5 @@ class @Card
 
   getSideLoc: () ->
     @['gameLoc'].split(".")[1]
-    # a = @['gameLoc'].split(".")[1]
-    
+
+
