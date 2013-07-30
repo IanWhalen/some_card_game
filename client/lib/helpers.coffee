@@ -132,7 +132,7 @@
 Meteor.startup ->
   Session.set("selectedCard", undefined)
 
-  fabric.Canvas.prototype.addCountersToCard = (playerObj, resource, cardX, cardY) ->
+  fabric.Canvas.prototype.addCountersToCard = (playerObj, card, cardX, cardY) ->
     x = cardX + CARD_PARAMS['width'] / 2
     y = cardY + CARD_PARAMS['height'] + 6
     
@@ -145,7 +145,7 @@ Meteor.startup ->
       fontSize: 14
       selectable: false
 
-    text = new fabric.Text resource.counters + '●', textAttributes
+    text = new fabric.Text card.counters + '●', textAttributes
 
     text.setPositionByOrigin p
     textObj = @.add text
