@@ -122,6 +122,7 @@
   src: "armitage-codebusting.png"
   cardType: "Resource"
   counters: 12
+  trashIfNoCounters: true
   handActions: [
     installResource:
       click_cost: 1
