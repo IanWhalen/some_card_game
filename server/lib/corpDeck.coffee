@@ -16,8 +16,8 @@
   _id: "hedge-fund-1"
   name: "Hedge Fund"
   src: "hedge_fund.png"
-  cardType: "operation"
-  actions: [
+  cardType: "Operation"
+  handActions: [
     add9Credits:
       click_cost: 1
       credit_cost: 5
@@ -27,8 +27,8 @@
   _id: "hedge-fund-2"
   name: "Hedge Fund"
   src: "hedge_fund.png"
-  cardType: "operation"
-  actions: [
+  cardType: "Operation"
+  handActions: [
     add9Credits:
       click_cost: 1
       credit_cost: 5
@@ -38,8 +38,8 @@
   _id: "hedge-fund-3"
   name: "Hedge Fund"
   src: "hedge_fund.png"
-  cardType: "operation"
-  actions: [
+  cardType: "Operation"
+  handActions: [
     add9Credits:
       click_cost: 1
       credit_cost: 5

@@ -31,8 +31,9 @@ class @Game
       if cardObj.counters <= 0 and cardObj.trashIfNoCounters?
         @moveCardToDiscard cardObj
 
-      if cardObj.cardType == 'event'
+      if cardObj.cardType in ['Event', 'Operation']
         @moveCardToDiscard cardObj
+
 
   #-----------------------------------------------------------------------------
   # RUNNER CARD ACTIONS

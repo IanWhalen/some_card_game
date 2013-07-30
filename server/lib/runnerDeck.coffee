@@ -42,7 +42,7 @@
   _id: "sure-gamble-1"
   name: "Sure Gamble"
   src: "sure_gamble.png"
-  cardType: "event"
+  cardType: "Event"
   handActions: [
     add9Credits:
       click_cost: 1
@@ -53,7 +53,7 @@
   _id: "diesel-1"
   name: "Diesel"
   src: "diesel.png"
-  cardType: "event"
+  cardType: "Event"
   handActions: [
     draw3Cards:
       click_cost: 1
@@ -64,7 +64,7 @@
   _id: "sure-gamble-2"
   name: "Sure Gamble"
   src: "sure_gamble.png"
-  cardType: "event"
+  cardType: "Event"
   handActions: [
     add9Credits:
       click_cost: 1
@@ -75,7 +75,7 @@
   _id: "diesel-2"
   name: "Diesel"
   src: "diesel.png"
-  cardType: "event"
+  cardType: "Event"
   handActions: [
     draw3Cards:
       click_cost: 1
@@ -86,7 +86,7 @@
   _id: "sure-gamble-3"
   name: "Sure Gamble"
   src: "sure_gamble.png"
-  cardType: "event"
+  cardType: "Event"
   handActions: [
     add9Credits:
       click_cost: 1
@@ -97,7 +97,7 @@
   _id: "diesel-3"
   name: "Diesel"
   src: "diesel.png"
-  cardType: "event"
+  cardType: "Event"
   handActions: [
     draw3Cards:
       click_cost: 1
