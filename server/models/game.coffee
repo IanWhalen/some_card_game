@@ -221,6 +221,12 @@ class @Game
   #
   #-----------------------------------------------------------------------------
 
+  cleanBoard: () ->
+    # for each in resources
+    #   if no counters and trashIfNoCounters
+    #     then trash
+
+
   getNthCardFromDeck: (playerObj, n) ->
     # TODO: handle empty deck
     @[playerObj.side]['deck'].slice(-1*n)[0];
