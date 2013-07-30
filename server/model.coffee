@@ -20,6 +20,20 @@ class @Game
     cardObj
 
 
+  doCardAction: (playerObj, gameLoc, cardId, action) ->
+    cardObj = new Card(@.getCardFromCorrectLocation gameLoc, cardId)
+    actionData = cardObj.getActionDataFromCard action if cardObj?
+
+    if @playerHasResources playerObj, actionData
+      @payAllCosts playerObj, actionData['credit_cost'], actionData['click_cost']
+      @[action](playerObj, cardObj)
+
+      if cardObj.counters <= 0 and cardObj.trashIfNoCounters?
+        @moveCardToDiscard cardObj
+
+      if cardObj.cardType == 'event'
+        @moveCardToDiscard cardObj
+
   #-----------------------------------------------------------------------------
   # RUNNER CARD ACTIONS
   #
@@ -41,6 +55,21 @@ class @Game
 
   add1Link: () ->
     @incLink 1
+
+
+  useArmitageCodebusting: (playerObj, cardObj) ->
+    line = switch
+      when cardObj.counters >= 2
+        @incCredits playerObj, 2
+        cardObj.incCounters(@._id, -2)
+        line = 'The Runner spends 1 click to use Armitage Codebusting and gain 2 credits.'
+
+      when cardObj.counters == 1
+        @incCredits playerObj, 1
+        cardObj.incCounters(@._id, -1)
+        line = 'The Runner spends 1 click to use Armitage Codebusting and gain 1 credit.'
+
+    @logForBothSides line
 
 
   incLink: (amount) ->
@@ -85,6 +114,25 @@ class @Game
 
     Games.update(@._id, { $pull:  updateHand});
     Games.update(@._id, { $push: updateResources});
+
+
+  moveCardToDiscard: (cardObj) ->
+    target = cardObj.getSide() + '.discard'
+
+    startLoc = {}
+    idObj = {}
+    idObj['_id'] = cardObj['_id']
+    startLoc[cardObj['gameLoc']] = idObj
+
+    updateDiscard = {};
+    cardObj['gameLoc'] = target
+    updateDiscard[target] = cardObj      
+
+    Games.update(@._id, { $pull:  startLoc});
+    Games.update(@._id, { $push: updateDiscard});
+
+    line = cardObj.name + ' was moved to the discard pile.'
+    @logForBothSides line
 
 
   moveTopCardFromDeckToHand: (playerObj, cardObj) ->
