@@ -87,6 +87,7 @@ Meteor.methods({
 
       // Get next player to appropriate state
       if (currentPlayerObj['side'] === 'runner') {
+        gameObj.incTurnCounter();
         gameObj.resetCorpClicks();
         gameObj.draw1Card(oppPlayerObj);
       } else if (currentPlayerObj['side'] === 'corp') {

@@ -233,6 +233,9 @@ class @Game
     @[playerObj.side]['deck'].slice(-1*n)[0];
 
 
+  incTurnCounter: () ->
+    @incIntegerField 'turn', 1
+
   #-----------------------------------------------------------------------------
   # DATABASE FUNCTIONS
   #
