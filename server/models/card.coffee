@@ -22,3 +22,19 @@ class @Card
     @['gameLoc'].split(".")[1]
 
 
+  incCounters: (gameId, amount) ->
+    findObj = {}
+    findObj['_id'] = gameId
+    findObj[@gameLoc + '._id'] = @._id
+
+    updateObj = {}
+    updateEmbeddedObj = {}
+    updateEmbeddedObj[@gameLoc + '.$.counters'] = amount
+    updateObj['$inc'] = updateEmbeddedObj
+
+    @incEmbeddedIntegerField gameId, findObj, updateObj, amount
+    @counters += amount
+
+
+  incEmbeddedIntegerField: (findObj, updateObj) ->
+    Games.update(findObj, updateObj)
