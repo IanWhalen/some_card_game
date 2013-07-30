@@ -48,7 +48,28 @@ class @Game
 
 
   #-----------------------------------------------------------------------------
-  # ECONOMY FUNCTIONS
+  # SHARED CARD ACTIONs
+  #
+  #-----------------------------------------------------------------------------
+
+  add1Credit: (playerObj) ->
+    @incCredits playerObj, 1
+
+
+  add9Credits: (playerObj) ->
+    @incCredits playerObj, 9
+
+
+  draw1Card: (playerObj) ->
+    @drawCards playerObj, 1
+
+
+  draw3Cards: (playerObj) ->
+    @drawCards playerObj, 3
+
+
+  #-----------------------------------------------------------------------------
+  # CARD MOVEMENT FUNCTIONS
   #
   #-----------------------------------------------------------------------------
 
@@ -95,8 +116,8 @@ class @Game
   #-----------------------------------------------------------------------------
 
   payAllCosts: (playerObj, creditCost, clickCost) ->
-    @incCredits(playerObj, -1 * creditCost);
-    @incClicks(playerObj, -1 * clickCost);
+    @incCredits playerObj, -1 * creditCost
+    @incClicks playerObj, -1 * clickCost
 
 
   incCredits: (playerObj, amount) ->
