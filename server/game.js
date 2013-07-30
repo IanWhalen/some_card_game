@@ -105,7 +105,7 @@ Meteor.methods({
   },
 
 
-  doInstallResourceAction: function (playerObj, gameLoc, cardId, action) {
+  doInstallResourceAction: function (playerObj, gameLoc, cardId) {
     var gameObj = getGameObj(playerObj);
 
     gameObj.installResource(playerObj, gameLoc, cardId);

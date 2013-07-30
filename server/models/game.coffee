@@ -54,8 +54,6 @@ class @Game
       @logForBothSides line
 
 
-  add1Link: () ->
-    @incLink 1
 
 
   useArmitageCodebusting: (playerObj, cardObj) ->
@@ -73,12 +71,21 @@ class @Game
     @logForBothSides line
 
 
+  #-----------------------------------------------------------------------------
+  # RUNNER BENEFITS
+  #
+  #-----------------------------------------------------------------------------
+
+  add1Link: () ->
+    @incLink 1
+
+
   incLink: (amount) ->
     @incIntegerField 'runner.stats.link', amount
 
 
   #-----------------------------------------------------------------------------
-  # SHARED CARD ACTIONs
+  # SHARED CARD ACTIONS
   #
   #-----------------------------------------------------------------------------
 
