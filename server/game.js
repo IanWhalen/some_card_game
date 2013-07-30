@@ -112,6 +112,12 @@ Meteor.methods({
   },
 
 
+  doInstallHardwareAction: function (playerObj, gameLoc, cardId) {
+    var gameObj = getGameObj(playerObj);
+
+    gameObj.installHardware(playerObj, gameLoc, cardId);
+  },
+
   //-----------------------------------------------------------------------------
   // CARD DISPLAY FUNCTIONS
   //
@@ -120,6 +126,11 @@ Meteor.methods({
 
   getRunnerResources: function(playerObj) {
     return getGameObj(playerObj)['runner']['resources'] || [];
+  },
+
+
+  getRunnerHardware: function(playerObj) {
+    return getGameObj(playerObj)['runner']['hardware'] || [];
   },
 
 

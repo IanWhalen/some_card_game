@@ -96,6 +96,25 @@ Template.main_canvas.rendered = ->
         main_canvas.addCountersToCard playerObj, resource, x, y
       i++
 
+  Meteor.call "getRunnerHardware", myself(), (err, result) ->
+    console.log err if err
+
+    playerObj = myself()
+
+    i = 0
+    while i < result.length
+      y = CANVAS['height'] - CARD_PARAMS['height'] * 3 - 30 # Add to 2nd to bottom row with room for counters
+      x = CARD_PARAMS['width'] * 2 + i * CARD_PARAMS['width'] # Start in 2nd column
+      hardware = result[i]
+
+      hardware['gameLoc'] = 'runner.hardware'
+      add_card_to_canvas main_canvas, playerObj, hardware, x, y
+
+      if hardware.counters
+        main_canvas.addCountersToCard playerObj, hardware, x, y
+      i++
+
+
 Template.main_canvas.canvasHeight = () ->
   CANVAS['height']
 

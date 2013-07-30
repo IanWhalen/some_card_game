@@ -22,6 +22,11 @@ Template.sidebar.events "click button.action-button": (e) ->
       console.log err if err
 
       Session.set "selectedCard", undefined
+  if action == 'installHardware'
+    Meteor.call 'doInstallHardwareAction', myself(), gameLoc, cardId, action, (err, result) ->
+      console.log err if err
+
+      Session.set "selectedCard", undefined
   else
     Meteor.call "doCardAction", myself(), gameLoc, cardId, action, (err, result) ->
       console.log err if err

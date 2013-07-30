@@ -54,6 +54,18 @@ class @Game
       @logForBothSides line
 
 
+  installHardware: (playerObj, gameLoc, cardId) ->
+    cardObj = new Card(@.getCardFromCorrectLocation gameLoc, cardId)
+    actionData = cardObj.getActionDataFromCard 'installHardware' if cardObj?
+    
+    if @playerHasResources playerObj, actionData
+      @payAllCosts playerObj, actionData['credit_cost'], actionData['click_cost']
+      @[cardObj['addBenefit']]() if cardObj['addBenefit']?
+      @moveCardToHardware cardObj
+      
+      line = "The Runner spends #{actionData["click_cost"]} click and " +
+        "€#{actionData['credit_cost']} to install #{cardObj.name}."
+      @logForBothSides line
 
 
   useArmitageCodebusting: (playerObj, cardObj) ->
@@ -80,8 +92,16 @@ class @Game
     @incLink 1
 
 
+  add1Memory: () ->
+    @incMemory 1
+
+
   incLink: (amount) ->
     @incIntegerField 'runner.stats.link', amount
+
+
+  incMemory: (amount) ->
+    @incIntegerField 'runner.stats.memory', amount
 
 
   #-----------------------------------------------------------------------------
@@ -122,6 +142,20 @@ class @Game
 
     Games.update(@._id, { $pull:  updateHand});
     Games.update(@._id, { $push: updateResources});
+
+
+  moveCardToHardware: (cardObj) ->
+    updateHand = {}
+    idObj = {}
+    idObj['_id'] = cardObj['_id']
+    updateHand["runner.hand"] = idObj
+
+    updateHardware = {};
+    cardObj['gameLoc'] = 'runner.hardware'
+    updateHardware["runner.hardware"] = cardObj
+
+    Games.update(@._id, { $pull:  updateHand});
+    Games.update(@._id, { $push: updateHardware});
 
 
   moveCardToDiscard: (cardObj) ->
