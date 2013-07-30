@@ -135,6 +135,42 @@
       credit_cost: 0
       text: "Use 1 click to gain 2 credits"
   ]
+,
+  _id: "akamatsu-mem-chip-1"
+  name: "Akamatsu Mem Chip"
+  src: "akamatsu-mem-chip.png"
+  cardType: "Hardware"
+  addBenefit: "add1Memory"
+  handActions: [
+    installHardware:
+      click_cost: 1
+      credit_cost: 1
+      text: "Install Akamatsu Mem Chip"
+  ]
+,
+  _id: "akamatsu-mem-chip-2"
+  name: "Akamatsu Mem Chip"
+  src: "akamatsu-mem-chip.png"
+  cardType: "Hardware"
+  addBenefit: "add1Memory"
+  handActions: [
+    installHardware:
+      click_cost: 1
+      credit_cost: 1
+      text: "Install Akamatsu Mem Chip"
+  ]
+,
+  _id: "akamatsu-mem-chip-3"
+  name: "Akamatsu Mem Chip"
+  src: "akamatsu-mem-chip.png"
+  cardType: "Hardware"
+  addBenefit: "add1Memory"
+  handActions: [
+    installHardware:
+      click_cost: 1
+      credit_cost: 1
+      text: "Install Akamatsu Mem Chip"
+  ]
 ## Event
 # Infiltration (Core) x3
 # Modded (Core) x2
