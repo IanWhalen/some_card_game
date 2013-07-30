@@ -158,47 +158,6 @@ Meteor.methods({
 
 
   doCardAction: function (playerObj, gameLoc, cardId, action) {
-    var side = gameLoc.split(".")[0]; // e.g. "runner"
-    var loc = gameLoc.split(".")[1];  // e.g. "hand" or "deck"
-
-
-    // First: confirm card is in expected place in game state
-    var confirmCardIsInLocation = function () {
-      return _.find(gameObj[side][loc], function(obj) { return obj._id == cardId; });
-    };
-    var cardObj = confirmCardIsInLocation();
-
-
-    //  Second: get the specific action object
-    var getActionObj = function () {
-      if (loc === 'hand') {
-        return _.find(cardObj['handActions'], function(obj) { return action in obj; });
-      } else if (loc === 'resources') {
-        return _.find(cardObj['boardActions'], function(obj) { return action in obj; });
-      }
-    };
-    var actionObj = getActionObj();
-
-
-    // Third: confirm player has enough credits
-    var confirmPlayerHasCredits = function () {
-      return gameObj[side]['stats']['credits'] >= actionObj[action]['credit_cost'];
-    };
-
-
-    // Fourth: confirm player has enough clicks
-    var confirmPlayerHasClicks = function () {
-      return gameObj[side]['stats']['clicks'] >= actionObj[action]['click_cost'];
-    };
-
-
-    if (confirmPlayerHasCredits() && confirmPlayerHasClicks()) {
-      var clickCost = actionObj[action]['click_cost'];
-      var creditCost = actionObj[action]['credit_cost'];
-
-      global['payAllCosts'](playerObj, creditCost, clickCost);
-      global[action](playerObj);
-      global['moveCardFromHandToDiscard'](playerObj, cardObj);
     var gameObj = getGameObj(playerObj);
 
     try {
