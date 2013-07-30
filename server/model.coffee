@@ -66,6 +66,29 @@ class @Game
     Games.update(@._id, { $push: updateResources});
 
 
+  moveTopCardFromDeckToHand: (playerObj, cardObj) ->
+    updateDeck = {}
+    updateHand = {}
+
+    updateDeck[playerObj.side + ".deck"] = 1
+    updateHand[playerObj.side + ".hand"] = cardObj
+
+    Games.update(@._id, {$pop:  updateDeck});
+    Games.update(@._id, {$push: updateHand});
+
+
+  drawCards: (playerObj, amount) ->
+    i = 0
+
+    while i < amount
+      cardObj = @getNthCardFromDeck playerObj, i+1
+      if cardObj
+        @moveTopCardFromDeckToHand playerObj, cardObj
+      else
+        console.log "Can not draw. Deck is empty."
+      i++
+
+
   #-----------------------------------------------------------------------------
   # ECONOMY FUNCTIONS
   #
@@ -122,6 +145,16 @@ class @Game
   logForBothSides: (line) ->
     @.addLogLineToSide('corp', line);
     @.addLogLineToSide('runner', line);
+
+
+  #-----------------------------------------------------------------------------
+  #  MISC FUNCTIONS
+  #
+  #-----------------------------------------------------------------------------
+
+  getNthCardFromDeck: (playerObj, n) ->
+    # TODO: handle empty deck
+    @[playerObj.side]['deck'].slice(-1*n)[0];
 
 
   #-----------------------------------------------------------------------------
