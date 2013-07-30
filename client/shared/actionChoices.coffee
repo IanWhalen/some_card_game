@@ -11,7 +11,7 @@ Template.actionChoices.actions = () ->
   if Template.actionChoices.onlyOneCard
     cardObj = Session.get("selectedCard")
     
-    if cardObj['gameLoc'] == 'runner.hand'
+    if cardObj['gameLoc'] in ['runner.hand', 'corp.hand']
       actions = cardObj['handActions']
     
     if cardObj['gameLoc'] == 'runner.resources'
