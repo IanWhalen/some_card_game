@@ -9,8 +9,6 @@ Template.history.logLines = ->
   
   logs
 
-  # if text != undefined
-  #   $('#history').append('<p>' + text + '</p>')
 
 Template.history.rendered = ->
   $("#history").scrollTop($("#history")[0].scrollHeight);

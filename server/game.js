@@ -137,7 +137,7 @@ Meteor.methods({
 
   getTopOfDiscardPiles: function (playerObj) {
     var discardPair = {};
-    var gameObj = game( playerObj );
+    var gameObj = getGameObj( playerObj );
 
     if (gameObj['runner']['discard']) {
       var runnerDiscardPile = gameObj['runner']['discard'];
@@ -176,6 +176,7 @@ Meteor.methods({
   }
 });
 
+
 Meteor.setInterval(function () {
   var now = (new Date()).getTime();
   var idle_threshold = now - 7*1000; // 7 sec
@@ -184,6 +185,7 @@ Meteor.setInterval(function () {
   Players.update({last_keepalive: {$lt: idle_threshold}},
                  {$set: {idle: true, ready: false}});
 }, 30*1000);
+
 
 Meteor.startup(function () {
   String.prototype.capitalize = function() {
