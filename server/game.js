@@ -51,8 +51,8 @@ Meteor.methods({
     var creditCost = 0;
 
     if (gameObj[playerObj.side]['stats']['clicks'] >= clickCost) {
-      global['payAllCosts'](playerObj, 0, 1);
-      global['draw1Card'](playerObj);
+      gameObj.payAllCosts(playerObj, 0, 1)
+      gameObj.draw1Card(playerObj)
 
       var line = 'The ' + playerObj['side'].capitalize() + " spends 1 click and draws 1 card.";
       gameObj.logForBothSides(line);
@@ -67,8 +67,8 @@ Meteor.methods({
     var creditCost = 0;
 
     if (gameObj[playerObj.side]['stats']['clicks'] >= clickCost) {
-      global['payAllCosts'](playerObj, 0, 1);
-      global['add1Credit'](playerObj);
+      gameObj.payAllCosts(playerObj, 0, 1)
+      gameObj.add1Credit(playerObj)
 
       var line = 'The ' + playerObj['side'].capitalize() + " spends 1 click and gains 1 credit.";
       gameObj.logForBothSides(line);
@@ -88,7 +88,7 @@ Meteor.methods({
       // Get next player to appropriate state
       if (currentPlayerObj['side'] === 'runner') {
         gameObj.resetCorpClicks();
-        global['draw1Card'](oppPlayerObj);
+        gameObj.draw1Card(oppPlayerObj);
       } else if (currentPlayerObj['side'] === 'corp') {
         gameObj.resetRunnerClicks();
       }
@@ -158,7 +158,6 @@ Meteor.methods({
 
 
   doCardAction: function (playerObj, gameLoc, cardId, action) {
-    var gameObj = game(playerObj);
     var side = gameLoc.split(".")[0]; // e.g. "runner"
     var loc = gameLoc.split(".")[1];  // e.g. "hand" or "deck"
 
@@ -200,10 +199,14 @@ Meteor.methods({
       global['payAllCosts'](playerObj, creditCost, clickCost);
       global[action](playerObj);
       global['moveCardFromHandToDiscard'](playerObj, cardObj);
+    var gameObj = getGameObj(playerObj);
 
-      return true;
+    try {
+      gameObj.doCardAction(playerObj, gameLoc, cardId, action);
+      return true
+    } catch (e) {
+      return false;
     }
-    return false;
   },
 
   keepalive: function (player_id) {
