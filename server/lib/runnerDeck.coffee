@@ -160,16 +160,17 @@
       text: "Install Akamatsu Mem Chip"
   ]
 ,
-  _id: "akamatsu-mem-chip-3"
-  name: "Akamatsu Mem Chip"
-  src: "akamatsu-mem-chip.png"
-  cardType: "Hardware"
-  addBenefit: "add1Memory"
+  _id: "modded-1"
+  name: "Modded"
+  src: "modded.png"
+  cardType: "Event"
+  description: "Install a program or a piece of hardware, lowering the installation cost by 3."
   handActions: [
-    installHardware:
+    installOtherCard:
       click_cost: 1
-      credit_cost: 1
-      text: "Install Akamatsu Mem Chip"
+      credit_cost: 0
+      text: "Use Modded"
+
   ]
 ## Event
 # Infiltration (Core) x3
@@ -177,7 +178,6 @@
 # The Maker's Eye (Core) x3
 # Tinkering (Core) x3
 ## Hardware
-# Akamatsu Mem Chip (Core) x2
 # Rabbit Hole (Core) x2
 # The Personal Touch (Core) x2
 # The Toolbox (Core) x1
