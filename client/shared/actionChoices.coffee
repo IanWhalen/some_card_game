@@ -27,3 +27,9 @@ Template.actionChoices.cardName = () ->
     actions = Session.get("selectedCard")['name']
   else
     ""
+
+Template.actionChoices.cardDescription = () ->
+  if Template.actionChoices.onlyOneCard
+    actions = Session.get("selectedCard")['description']
+  else
+    ""

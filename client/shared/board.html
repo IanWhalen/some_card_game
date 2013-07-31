@@ -61,6 +61,7 @@
   <div class="actionContainer">
     {{#if onlyOneCard}}
     <p><strong>{{ cardName }}</strong></p>
+    <p>{{ cardDescription }}</p>
     {{#each actions}}
     <div>
       <button class="action-button" data-action="{{ getFirstKey this }}">{{ getActionText this }}</button>
