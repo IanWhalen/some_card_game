@@ -58,14 +58,22 @@ class @Game
     cardObj = new Card(@.getCardFromCorrectLocation gameLoc, cardId)
     actionData = cardObj.getActionDataFromCard 'installHardware' if cardObj?
     
+    creditCost = actionData['credit_cost']
+    clickCost = actionData['click_cost']
+
+    if @['runner']['identity']['reduceFirstProgramOrHardwareInstallCostBy1']
+      @logForBothSides 'Cost of Runner\'s hardware installation was reduced by 1 credit.'
+
+      creditCost -= 1 unless creditCost == 0
+      @setBooleanField 'runner.identity.reduceFirstProgramOrHardwareInstallCostBy1', false
+
     if @playerHasResources playerObj, actionData
-      @payAllCosts playerObj, actionData['credit_cost'], actionData['click_cost']
+      @payAllCosts playerObj, creditCost, clickCost
       @[cardObj['addBenefit']]() if cardObj['addBenefit']?
       @moveCardToHardware cardObj
       
-      line = "The Runner spends #{actionData["click_cost"]} click and " +
+      @logForBothSides "The Runner spends #{actionData["click_cost"]} click and " +
         "€#{actionData['credit_cost']} to install #{cardObj.name}."
-      @logForBothSides line
 
 
   useArmitageCodebusting: (playerObj, cardObj) ->
@@ -277,15 +285,23 @@ class @Game
   incTurnCounter: () ->
     @incIntegerField 'turn', 1
 
+
+  setCurrentPlayerField: (playerId) ->
+    @setField 'current_player', playerId
+
+
+  setBooleanField: (targetField, bool) ->
+    @setField targetField, bool
+
+
+  setIntegerField: (targetField, amount) ->
+    @setField targetField, amount
+
+
   #-----------------------------------------------------------------------------
   # DATABASE FUNCTIONS
   #
   #-----------------------------------------------------------------------------
-
-  setCurrentPlayerField: (playerId) ->
-    Games.update @._id,
-      $set: { current_player : playerId }
-
 
   incIntegerField: (targetField, amount) ->
     modObj = {};
@@ -295,14 +311,6 @@ class @Game
       $inc: modObj
 
 
-  setIntegerField: (targetField, amount) ->
-    modObj = {}
-    modObj[targetField] = amount
-
-    Games.update @._id,
-      $set: modObj
-
-
   addLogLineToSide: (side, line) ->
     modObj = {}
     targetField = side + '.logs'
@@ -310,3 +318,11 @@ class @Game
 
     Games.update @._id,
       $push: modObj
+
+
+  setField: (targetField, value) ->
+    modObj = {}
+    modObj[targetField] = value
+
+    Games.update @._id,
+      $set: modObj

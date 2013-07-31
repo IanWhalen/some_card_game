@@ -3,7 +3,7 @@
     name: "Kate \"Mac\" McCaffrey"
     src: "runner_identity.png"
     gameLoc: 'runner'
-    # actions: []
+    reduceFirstProgramOrHardwareInstallCostBy1: true
   cardBack:
     src: "runner-back.jpg"
     gameLoc: 'runner'
