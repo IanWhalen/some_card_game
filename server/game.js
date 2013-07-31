@@ -91,7 +91,8 @@ Meteor.methods({
         gameObj.resetCorpClicks();
         gameObj.draw1Card(oppPlayerObj);
       } else if (currentPlayerObj['side'] === 'corp') {
-        gameObj.resetRunnerClicks();
+
+        gameObj.resetRunnerData();
       }
 
       // Make current player switch official

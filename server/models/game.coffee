@@ -277,6 +277,13 @@ class @Game
     #     then trash
 
 
+  resetRunnerData: () ->
+    @resetRunnerClicks()
+    
+    if @['runner']['identity']['reduceFirstProgramOrHardwareInstallCostBy1']?
+      @setBooleanField 'runner.identity.reduceFirstProgramOrHardwareInstallCostBy1', true
+
+
   getNthCardFromDeck: (playerObj, n) ->
     # TODO: handle empty deck
     @[playerObj.side]['deck'].slice(-1*n)[0];
