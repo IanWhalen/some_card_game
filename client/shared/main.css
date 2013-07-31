@@ -12,13 +12,22 @@
     width: 220px;
 }
 
+.actionContainer {
+    width: 220px;
+}
+
+div.actionContainer > button {
+    clear: both;
+    float: left;
+}
+
 canvas {
     position: relative;
     margin: auto;
 }
 
 div.sidebarStats > p {
-    margin: 5px;
+    margin: 5px 0px;
 }
 
 .sidebarStats.enabled {
@@ -33,11 +42,18 @@ div.sidebarStats > p {
     overflow-y: scroll;
     width: 1080px;
     height: 100px;
+    position: absolute;
+    top: 620px;
 }
 
 #history > p {
     font-size: 12px;
     margin: 2px 0px;
+}
+
+div#sidebar {
+    width: 230px;
+    margin: 0px 5px;
 }
 
 /******************************** LEGACY CSS ********************************/
