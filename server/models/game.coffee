@@ -61,19 +61,29 @@ class @Game
     creditCost = actionData['credit_cost']
     clickCost = actionData['click_cost']
 
-    if @['runner']['identity']['reduceFirstProgramOrHardwareInstallCostBy1']
-      @logForBothSides 'Cost of Runner\'s hardware installation was reduced by 1 credit.'
+    if not @playerHasClicks playerObj.side, clickCost
+      @logForRunner 'You can not install #{cardObj.name} because you do not have enough clicks left.'
+      return false
 
+    if @['runner']['identity']['reduceFirstProgramOrHardwareInstallCostBy1']
       creditCost -= 1 unless creditCost == 0
+      if not @playerHasCredits playerObj.side, creditCost
+        @logForRunner 'You can not install this card because you do not have enough credits left.'
+        return false
+
+      @logForBothSides 'Cost of Runner\'s hardware installation was reduced by 1 credit.'
       @setBooleanField 'runner.identity.reduceFirstProgramOrHardwareInstallCostBy1', false
 
-    if @playerHasResources playerObj, actionData
-      @payAllCosts playerObj, creditCost, clickCost
-      @[cardObj['addBenefit']]() if cardObj['addBenefit']?
-      @moveCardToHardware cardObj
-      
-      @logForBothSides "The Runner spends #{actionData["click_cost"]} click and " +
-        "€#{actionData['credit_cost']} to install #{cardObj.name}."
+    if not @playerHasCredits playerObj.side, creditCost
+        @logForRunner 'You can not install this card because you do not have enough credits left.'
+        return false
+
+    @payAllCosts playerObj, creditCost, clickCost
+    @[cardObj['addBenefit']]() if cardObj['addBenefit']?
+    @moveCardToHardware cardObj
+    
+    @logForBothSides "The Runner spends #{actionData["click_cost"]} click and " +
+      "€#{actionData['credit_cost']} to install #{cardObj.name}."
 
 
   useArmitageCodebusting: (playerObj, cardObj) ->
@@ -241,19 +251,20 @@ class @Game
 
 
   playerHasResources: (playerObj, actionData) ->
-    if @playerHasCredits playerObj.side, actionData
-      if @playerHasClicks playerObj.side, actionData
+    creditCost = actionData['credit_cost']
+    clickCost = actionData['click_cost']
+
+    if @playerHasCredits playerObj.side, creditCost
+      if @playerHasClicks playerObj.side, clickCost
         return true
 
 
-  playerHasCredits: (side, actionData) ->
-    if @[side]['stats']['credits'] >= actionData['credit_cost']
-      return true
+  playerHasCredits: (side, creditCost) ->
+    return @[side]['stats']['credits'] >= creditCost
 
 
-  playerHasClicks: (side, actionData) ->
-    if @[side]['stats']['clicks'] >= actionData['click_cost']
-      return true
+  playerHasClicks: (side, clickCost) ->
+    return @[side]['stats']['clicks'] >= clickCost
 
 
   #-----------------------------------------------------------------------------
@@ -262,8 +273,16 @@ class @Game
   #-----------------------------------------------------------------------------
 
   logForBothSides: (line) ->
-    @.addLogLineToSide('corp', line);
-    @.addLogLineToSide('runner', line);
+    @logForRunner line
+    @logForCorp line
+
+
+  logForRunner: (line) ->
+    @addLogLineToSide 'runner', line
+
+
+  logForCorp: (line) ->
+    @addLogLineToSide 'corp', line
 
 
   #-----------------------------------------------------------------------------
