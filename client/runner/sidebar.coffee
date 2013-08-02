@@ -18,12 +18,12 @@ Template.sidebar.events "click button.action-button": (e) ->
   action = e.target.dataset.action # e.g. "draw9Credits"
 
   if action == 'installResource'
-    Meteor.call 'doInstallResourceAction', myself(), gameLoc, cardId, action, (err, result) ->
+    Meteor.call 'doInstallResourceAction', myself(), gameLoc, cardId, (err, result) ->
       console.log err if err
 
       Session.set "selectedCard", undefined
   if action == 'installHardware'
-    Meteor.call 'doInstallHardwareAction', myself(), gameLoc, cardId, action, (err, result) ->
+    Meteor.call 'doInstallHardwareAction', myself(), gameLoc, cardId, (err, result) ->
       console.log err if err
 
       Session.set "selectedCard", undefined
