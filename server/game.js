@@ -135,6 +135,11 @@ Meteor.methods({
   },
 
 
+  getRunnerHand: function(playerObj) {
+    return getGameObj(playerObj)['runner']['hand'] || [];
+  },
+
+
   getPlayersHands: function (game, player) {
     // This function returns a 2-element array.  The first element is an
     // array of the cards in the player's own hand.  The second element
