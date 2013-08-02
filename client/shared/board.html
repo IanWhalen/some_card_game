@@ -4,6 +4,7 @@
     {{> main_canvas}}
     {{> sidebar}}
     {{> history}}
+    {{> moddedDialog}}
   </div>
   {{/if}}
 </template>
@@ -73,5 +74,19 @@
     <button id="gainCredit">Gain 1 credit</button>
     <button id="endTurn">End Your Turn</button>
     {{/if}}
+  </div>
+</template>
+
+<template name='moddedDialog'>
+  <div id="moddedDialog" title="{{title}}" class='hidden no-close'>
+    <p>{{description}}</p>
+    <div>
+      {{#each cardChoices}}
+      <div class='card-choice'>
+        <img class='card-choice-img' src='{{ src }}'>
+        <button class='action-button' data-id='{{ _id }}' data-cardType='{{ cardType }}'>Install {{ name }}</button>
+      </div>
+      {{/each}}
+    </div>
   </div>
 </template>
