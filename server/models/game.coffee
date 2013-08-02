@@ -226,6 +226,39 @@ class @Game
   #
   #-----------------------------------------------------------------------------
 
+  applyCostMods: (actionData, costMod) ->
+    logs = []
+    clickCost = actionData['click_cost']
+    creditCost = actionData['credit_cost']
+
+    if costMod = 'Modded'
+      clicks = @applyClickMod clickCost, -1
+      credits = @applyCreditMod creditCost, -3
+      logs.push 'Modded made this cheaper by up to 3 credits.'
+    
+    if @['runner']['identity']['reduceFirstProgramOrHardwareInstallCostBy1']
+      creditCost = @applyCreditMod creditCost, 1
+      @setBooleanField 'runner.identity.reduceFirstProgramOrHardwareInstallCostBy1', false
+      logs.push "Runner's identity made this cheaper by up to 1 credit."
+
+    return [clicks, credits, logs]
+
+  applyClickMod: (clickCost, clickMod) ->
+    clickCost += clickMod
+    if clickCost < 0
+      return 0
+    else
+      return clickCost
+
+
+  applyCreditMod: (creditCost, creditMod) ->
+    creditCost += creditMod
+    if creditCost < 0
+      return 0
+    else
+      return creditCost
+
+
   payAllCosts: (playerObj, creditCost, clickCost) ->
     @incCredits playerObj, -1 * creditCost
     @incClicks playerObj, -1 * clickCost
