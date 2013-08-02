@@ -118,11 +118,11 @@ class @Game
 
 
   incLink: (amount) ->
-    @incIntegerField 'runner.stats.link', amount
+    @_incIntegerField 'runner.stats.link', amount
 
 
   incMemory: (amount) ->
-    @incIntegerField 'runner.stats.memory', amount
+    @_incIntegerField 'runner.stats.memory', amount
 
 
   #-----------------------------------------------------------------------------
@@ -233,12 +233,12 @@ class @Game
 
   incCredits: (playerObj, amount) ->
     targetField = playerObj.side + ".stats.credits"
-    @incIntegerField targetField, amount
+    @_incIntegerField targetField, amount
 
 
   incClicks: (playerObj, amount) ->
     targetField = playerObj.side + ".stats.clicks"
-    @incIntegerField targetField, amount
+    @_incIntegerField targetField, amount
 
 
   setPlayerClicksToZero: (playerObj) ->
@@ -312,19 +312,19 @@ class @Game
 
 
   incTurnCounter: () ->
-    @incIntegerField 'turn', 1
+    @_incIntegerField 'turn', 1
 
 
   setCurrentPlayerField: (playerId) ->
-    @setField 'current_player', playerId
+    @_setField 'current_player', playerId
 
 
   setBooleanField: (targetField, bool) ->
-    @setField targetField, bool
+    @_setField targetField, bool
 
 
   setIntegerField: (targetField, amount) ->
-    @setField targetField, amount
+    @_setField targetField, amount
 
 
   #-----------------------------------------------------------------------------
@@ -332,7 +332,7 @@ class @Game
   #
   #-----------------------------------------------------------------------------
 
-  incIntegerField: (targetField, amount) ->
+  _incIntegerField: (targetField, amount) ->
     modObj = {};
     modObj[targetField] = amount;
 
@@ -349,7 +349,7 @@ class @Game
       $push: modObj
 
 
-  setField: (targetField, value) ->
+  _setField: (targetField, value) ->
     modObj = {}
     modObj[targetField] = value
 
