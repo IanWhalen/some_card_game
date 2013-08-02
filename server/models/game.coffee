@@ -102,6 +102,14 @@ class @Game
 
     @logForBothSides line
 
+  useModded: (playerObj, cardObj) ->
+    @setBooleanField 'runner.identity.isModded', true
+
+    @logForBothSides 'The Runner spends 1 click to use Modded.'
+    @logForBothSides 'The Runner is choosing hardware or a program to install now.'
+
+    return 'runnerIsModded'
+
 
   #-----------------------------------------------------------------------------
   # RUNNER BENEFITS
