@@ -166,7 +166,7 @@
   cardType: "Event"
   description: "Install a program or a piece of hardware, lowering the installation cost by 3."
   handActions: [
-    installOtherCard:
+    useModded:
       click_cost: 1
       credit_cost: 0
       text: "Use Modded"
