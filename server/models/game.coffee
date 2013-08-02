@@ -194,9 +194,6 @@ class @Game
     Games.update(@._id, { $pull:  startLoc});
     Games.update(@._id, { $push: updateDiscard});
 
-    line = cardObj.name + ' was moved to the discard pile.'
-    @logForBothSides line
-
 
   moveTopCardFromDeckToHand: (playerObj, cardObj) ->
     updateDeck = {}
