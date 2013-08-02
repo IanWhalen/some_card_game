@@ -21,12 +21,15 @@ class @Game
 
 
   doCardAction: (playerObj, gameLoc, cardId, action) ->
+    player = new Player(_.omit(@[playerObj.side], 'logs'))
     cardObj = new Card(@.getCardFromCorrectLocation gameLoc, cardId)
     actionData = cardObj.getActionDataFromCard action if cardObj?
+    creditCost = actionData['credit_cost']
+    clickCost = actionData['click_cost']
 
-    if @playerHasResources playerObj, actionData
+    if player.hasEnoughClicks(clickCost) and player.hasEnoughCredits(creditCost)
       @payAllCosts playerObj, actionData['credit_cost'], actionData['click_cost']
-      @[action](playerObj, cardObj)
+      result = @[action](playerObj, cardObj)
 
       if cardObj.counters <= 0 and cardObj.trashIfNoCounters?
         @moveCardToDiscard cardObj
