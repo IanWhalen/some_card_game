@@ -65,7 +65,7 @@ class @Game
     clickCost = actionData['click_cost']
 
     if not @playerHasClicks playerObj.side, clickCost
-      @logForRunner 'You can not install #{cardObj.name} because you do not have enough clicks left.'
+      @logForRunner "You can not install #{cardObj.name} because you do not have enough clicks left."
       return false
 
     if @['runner']['identity']['reduceFirstProgramOrHardwareInstallCostBy1']
@@ -95,8 +95,7 @@ class @Game
         @incCredits playerObj, 2
         cardObj.incCounters(@._id, -2)
         line = 'The Runner spends 1 click to use Armitage Codebusting and gain 2 credits.'
-
-      when cardObj.counters == 1
+      when cardObj.counters is 1
         @incCredits playerObj, 1
         cardObj.incCounters(@._id, -1)
         line = 'The Runner spends 1 click to use Armitage Codebusting and gain 1 credit.'
