@@ -179,8 +179,7 @@ Meteor.methods({
     var gameObj = getGameObj(playerObj);
 
     try {
-      gameObj.doCardAction(playerObj, gameLoc, cardId, action);
-      return true
+      return gameObj.doCardAction(playerObj, gameLoc, cardId, action);
     } catch (e) {
       return false;
     }

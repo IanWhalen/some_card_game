@@ -23,6 +23,7 @@ class @Game
   doCardAction: (playerObj, gameLoc, cardId, action) ->
     player = new Player(_.omit(@[playerObj.side], 'logs'))
     cardObj = new Card(@.getCardFromCorrectLocation gameLoc, cardId)
+    
     actionData = cardObj.getActionDataFromCard action if cardObj?
     creditCost = actionData['credit_cost']
     clickCost = actionData['click_cost']
@@ -36,6 +37,8 @@ class @Game
 
       if cardObj.cardType in ['Event', 'Operation']
         @moveCardToDiscard cardObj
+
+    return result
 
 
   #-----------------------------------------------------------------------------
@@ -91,6 +94,9 @@ class @Game
         line = 'The Runner spends 1 click to use Armitage Codebusting and gain 1 credit.'
 
     @logForBothSides line
+
+    return 'usedArmitageCodebusting'
+
 
   useModded: (playerObj, cardObj) ->
     @setBooleanField 'runner.identity.isModded', true

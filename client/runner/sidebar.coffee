@@ -28,5 +28,13 @@ Template.sidebar.events "click button.action-button": (e) ->
   else
     Meteor.call "doCardAction", myself(), gameLoc, cardId, action, (err, result) ->
       console.log err if err
+      
+      if result is 'runnerIsModded'
+        Meteor.call "getRunnerHand", myself(), (err, result) ->
+          console.log err if err
+          
+          Session.set "programsAndHardwareInHand", result
+          Session.set 'runnerIsModded', true
+          Session.set 'showDialog', true
 
   Session.set "selectedCard", undefined
