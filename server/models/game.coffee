@@ -57,36 +57,26 @@ class @Game
       @logForBothSides line
 
 
-  installHardware: (playerObj, gameLoc, cardId) ->
+  installHardware: (playerObj, gameLoc, cardId, costMod) ->
     cardObj = new Card(@.getCardFromCorrectLocation gameLoc, cardId)
     actionData = cardObj.getActionDataFromCard 'installHardware' if cardObj?
-    
-    creditCost = actionData['credit_cost']
-    clickCost = actionData['click_cost']
+
+    [clickCost, creditCost, logs] = @applyCostMods actionData, costMod
 
     if not @playerHasClicks playerObj.side, clickCost
       @logForRunner "You can not install #{cardObj.name} because you do not have enough clicks left."
       return false
 
-    if @['runner']['identity']['reduceFirstProgramOrHardwareInstallCostBy1']
-      creditCost -= 1 unless creditCost == 0
-      if not @playerHasCredits playerObj.side, creditCost
-        @logForRunner 'You can not install this card because you do not have enough credits left.'
-        return false
-
-      @logForBothSides 'Cost of Runner\'s hardware installation was reduced by 1 credit.'
-      @setBooleanField 'runner.identity.reduceFirstProgramOrHardwareInstallCostBy1', false
-
     if not @playerHasCredits playerObj.side, creditCost
-        @logForRunner 'You can not install this card because you do not have enough credits left.'
-        return false
+      @logForRunner "You can not install this card because you do not have enough credits left."
+      return false
 
     @payAllCosts playerObj, creditCost, clickCost
     @[cardObj['addBenefit']]() if cardObj['addBenefit']?
     @moveCardToHardware cardObj
     
-    @logForBothSides "The Runner spends #{actionData["click_cost"]} click and " +
-      "€#{actionData['credit_cost']} to install #{cardObj.name}."
+    @logForBothSides(line) for line in logs
+    @logForBothSides "The Runner spends #{clickCost} click and €#{creditCost} to install #{cardObj.name}."
 
 
   useArmitageCodebusting: (playerObj, cardObj) ->

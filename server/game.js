@@ -113,10 +113,10 @@ Meteor.methods({
   },
 
 
-  doInstallHardwareAction: function (playerObj, gameLoc, cardId) {
+  doInstallHardwareAction: function (playerObj, gameLoc, cardId, costMod) {
     var gameObj = getGameObj(playerObj);
 
-    gameObj.installHardware(playerObj, gameLoc, cardId);
+    gameObj.installHardware(playerObj, gameLoc, cardId, costMod);
   },
 
   //-----------------------------------------------------------------------------
