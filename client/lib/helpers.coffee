@@ -130,7 +130,10 @@
 #-----------------------------------------------------------------------------
 
 Meteor.startup ->
-  Session.set("selectedCard", undefined)
+  Session.set 'selectedCard', undefined
+  Session.set 'showDialog', false
+  Session.set 'runnerIsModded', false
+  Session.set 'programsAndHardwareInHand', false
 
   fabric.Canvas.prototype.addCountersToCard = (playerObj, card, cardX, cardY) ->
     x = cardX + CARD_PARAMS['width'] / 2
