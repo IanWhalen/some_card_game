@@ -69,12 +69,14 @@ class @Runner extends @Player
     @add9Credits
     @logForBothSides 'The Runner spends 1 click and 5 credits to use Sure Gamble and gain 9 credits.'
 
+    return 'usedSureGamble'
+
 
   useDiesel: (cardObj) ->
     @draw3Cards
     @logForBothSides 'The Runner spends 1 click to use Diesel and draw 3 cards.'
 
-
+    return 'usedDiesel'
   #-----------------------------------------------------------------------------
   # CARD MOVEMENT FUNCTIONS
   #
