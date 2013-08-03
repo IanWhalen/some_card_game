@@ -11,6 +11,15 @@
     score: 0
     credits: 5
     clicks: 0
+  # remoteServers: [
+  #   'Remote Server 1':
+  #     ICE: []
+  #     text: 'Install to Remote Server 1.'
+  # ,
+  #   'Remote Server 2':
+  #     ICE: []
+  #     text: 'Install to Remote Server 2.'
+  # ]
 
 @CORP_DECK = [
   _id: "hedge-fund-1"
@@ -66,6 +75,17 @@
       click_cost: 1
       credit_cost: 4
       text: "Gain 2 clicks."
+  ]
+,
+  _id: "pad-campaign-1"
+  name: "PAD Campaign"
+  src: "pad-campaign.png"
+  cardType: "Asset"
+  handActions: [
+    installAsset:
+      click_cost: 1
+      credit_cost: 2
+      text: "Install PAD Campaign."
   ]
 ]
 
