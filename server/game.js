@@ -17,21 +17,27 @@ Meteor.methods({
     if (corpId && runnerId) {
       var gameId = Games.insert({ corp:           { player: corpId },
                                   runner:         { player: runnerId },
-                                  current_player: runnerId,
-                                  turn:           1
+                                  current_player: corpId,
+                                  turn:           0
                                  });
-
       RUNNER["deck"] = RUNNER_DECK;
       RUNNER['playerId'] = runnerId;
       CORP["deck"] = CORP_DECK;
       CORP['playerId'] = corpId;
-      Games.update( gameId,
-                    { $set: { "runner" : RUNNER, "corp" : CORP }});
+      Games.update( gameId, { $set: { "runner" : RUNNER, "corp" : CORP }});
+
 
       // move both players from the lobby to the game
       Players.update({'_id': { $in: [corpId, runnerId] }},
                      {$set: {game_id: gameId}},
                      {multi: true});
+
+
+      // Run startup operations on Corp
+      var game = new Game(Games.findOne(gameId));
+      var corp = new Corp(game['corp'], gameId);
+      corp.startTurn();
+      game.incTurnCounter();
 
       return gameId;
     }
@@ -87,14 +93,12 @@ Meteor.methods({
 
       // Get next player to appropriate state
       if (currentPlayerObj['side'] === 'runner') {
-        gameObj.incTurnCounter();
-        gameObj.resetCorpClicks();
-        gameObj.draw1Card(oppPlayerObj);
+        var corp = new Corp(gameObj['corp'], gameObj['_id']);
+        corp.startTurn();
       } else if (currentPlayerObj['side'] === 'corp') {
-
         gameObj.resetRunnerData();
       }
-
+      gameObj.incTurnCounter();
       // Make current player switch official
       switchCurrentPlayer(gameObj, currentPlayerObj);
 
