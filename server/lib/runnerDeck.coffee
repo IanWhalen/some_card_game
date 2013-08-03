@@ -12,7 +12,7 @@
     link: 0
     score: 0
     credits: 5
-    clicks: 4
+    clicks: 0
 
 @RUNNER_DECK = [
   _id: "access-to-globalsec-2"
