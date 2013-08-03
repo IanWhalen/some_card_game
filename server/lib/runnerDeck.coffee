@@ -172,6 +172,19 @@
       text: "Use Modded"
 
   ]
+,
+  _id: "modded-2"
+  name: "Modded"
+  src: "modded.png"
+  cardType: "Event"
+  description: "Install a program or a piece of hardware, lowering the installation cost by 3."
+  handActions: [
+    useModded:
+      click_cost: 1
+      credit_cost: 0
+      text: "Use Modded"
+
+  ]
 ## Event
 # Infiltration (Core) x3
 # Modded (Core) x2
