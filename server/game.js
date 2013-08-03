@@ -139,6 +139,10 @@ Meteor.methods({
   //
   //-----------------------------------------------------------------------------
 
+  getRemoteServers: function(playerObj) {
+    return getGameObj(playerObj)['corp']['remoteServers'] || [];
+  },
+
   getRunnerResources: function(playerObj) {
     return getGameObj(playerObj)['runner']['resources'] || [];
   },
