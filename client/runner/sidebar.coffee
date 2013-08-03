@@ -17,11 +17,11 @@ Template.sidebar.events "click button.action-button": (e) ->
   cardId = selectedCard._id        # e.g. "sure-gamble-1"
   action = e.target.dataset.action # e.g. "draw9Credits"
 
-  if action == 'installResource'
+  if action is 'installResource'
     Meteor.call 'doInstallResourceAction', myself(), gameLoc, cardId, (err, result) ->
       console.log err if err
 
-  if action == 'installHardware'
+  if action is 'installHardware'
     Meteor.call 'doInstallHardwareAction', myself(), gameLoc, cardId, (err, result) ->
       console.log err if err
 
