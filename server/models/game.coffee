@@ -190,12 +190,12 @@ class @Game
     idObj['_id'] = cardObj['_id']
     startLoc[cardObj['gameLoc']] = idObj
 
-    updateDiscard = {};
+    updateDiscard = {}
     cardObj['gameLoc'] = target
     updateDiscard[target] = cardObj      
 
-    Games.update(@._id, { $pull:  startLoc});
-    Games.update(@._id, { $push: updateDiscard});
+    Games.update( @._id, { $pull: startLoc } )
+    Games.update( @._id, { $push: updateDiscard } )
 
 
   moveTopCardFromDeckToHand: (playerObj, cardObj) ->
@@ -205,8 +205,8 @@ class @Game
     updateDeck[playerObj.side + ".deck"] = 1
     updateHand[playerObj.side + ".hand"] = cardObj
 
-    Games.update(@._id, {$pop:  updateDeck});
-    Games.update(@._id, {$push: updateHand});
+    Games.update( @._id, { $pop:  updateDeck } )
+    Games.update( @._id, { $push: updateHand } )
 
 
   drawCards: (playerObj, amount) ->

@@ -51,8 +51,8 @@ Meteor.methods({
     var creditCost = 0;
 
     if (gameObj[playerObj.side]['stats']['clicks'] >= clickCost) {
-      gameObj.payAllCosts(playerObj, 0, 1)
-      gameObj.draw1Card(playerObj)
+      gameObj.payAllCosts(playerObj, 0, 1);
+      gameObj.draw1Card(playerObj);
 
       var line = 'The ' + playerObj['side'].capitalize() + " spends 1 click and draws 1 card.";
       gameObj.logForBothSides(line);
@@ -67,8 +67,8 @@ Meteor.methods({
     var creditCost = 0;
 
     if (gameObj[playerObj.side]['stats']['clicks'] >= clickCost) {
-      gameObj.payAllCosts(playerObj, 0, 1)
-      gameObj.add1Credit(playerObj)
+      gameObj.payAllCosts(playerObj, 0, 1);
+      gameObj.add1Credit(playerObj);
 
       var line = 'The ' + playerObj['side'].capitalize() + " spends 1 click and gains 1 credit.";
       gameObj.logForBothSides(line);
