@@ -35,9 +35,7 @@ Meteor.methods({
 
       // Run startup operations on Corp
       var game = new Game(Games.findOne(gameId));
-      var corp = new Corp(game['corp'], gameId);
-      corp.startTurn();
-      game.incTurnCounter();
+      game.newGameSetup();
 
       return gameId;
     }
@@ -52,32 +50,43 @@ Meteor.methods({
   //-----------------------------------------------------------------------------
 
   doDrawAction: function(playerObj) {
-    var gameObj = getGameObj(playerObj);
+    var game = getGameObj(playerObj);
+    if (playerObj['side'] === 'corp') {
+      var player = new Corp(game['corp'], game['_id']);
+    } else if (playerObj['side'] === 'runner') {
+      var player = new Runner(game['runner'], game['_id']);
+    }
+
     var clickCost = 1;
     var creditCost = 0;
 
-    if (gameObj[playerObj.side]['stats']['clicks'] >= clickCost) {
-      gameObj.payAllCosts(playerObj, 0, 1);
-      gameObj.draw1Card(playerObj);
+    if (player.hasEnoughClicks(clickCost)) {
+      player.payAllCosts(1, 0);
+      player.draw1Card();
 
       var line = 'The ' + playerObj['side'].capitalize() + " spends 1 click and draws 1 card.";
-      gameObj.logForBothSides(line);
+      game.logForBothSides(line);
     }
   },
 
 
   doCreditGainAction: function(playerObj) {
-    var gameObj = getGameObj(playerObj);
+    var game = getGameObj(playerObj);
+    if (playerObj['side'] === 'corp') {
+      var player = new Corp(game['corp'], game['_id']);
+    } else if (playerObj['side'] === 'runner') {
+      var player = new Runner(game['runner'], game['_id']);
+    }
 
     var clickCost = 1;
     var creditCost = 0;
 
-    if (gameObj[playerObj.side]['stats']['clicks'] >= clickCost) {
-      gameObj.payAllCosts(playerObj, 0, 1);
-      gameObj.add1Credit(playerObj);
+    if (player.hasEnoughClicks(clickCost)) {
+      player.payAllCosts(1, 0);
+      player.add1Credit();
 
       var line = 'The ' + playerObj['side'].capitalize() + " spends 1 click and gains 1 credit.";
-      gameObj.logForBothSides(line);
+      game.logForBothSides(line);
     }
   },
 
@@ -95,10 +104,11 @@ Meteor.methods({
       if (currentPlayerObj['side'] === 'runner') {
         var corp = new Corp(gameObj['corp'], gameObj['_id']);
         corp.startTurn();
+        gameObj.incTurnCounter();
       } else if (currentPlayerObj['side'] === 'corp') {
         gameObj.resetRunnerData();
       }
-      gameObj.incTurnCounter();
+
       // Make current player switch official
       switchCurrentPlayer(gameObj, currentPlayerObj);
 

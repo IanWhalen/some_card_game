@@ -4,6 +4,14 @@ class @Game
       @[key] = value
 
 
+  newGameSetup: () ->
+    corp = new Corp(@['corp'], @._id)
+    corp.startTurn()
+    @incTurnCounter()
+    @logForBothSides 'Starting a new game.'
+    @logForBothSides '===== It is now the Corp\'s turn. ====='
+
+
   #-----------------------------------------------------------------------------
   # CARD FUNCTIONS
   #
@@ -21,7 +29,10 @@ class @Game
 
 
   doCardAction: (playerObj, gameLoc, cardId, action) ->
-    player = new Player(_.omit(@[playerObj.side], 'logs'))
+    if playerObj.side is 'corp'
+      player = new Corp(@[playerObj.side], @._id)
+    if playerObj.side is 'runner'
+      player = new Runner(@[playerObj.side], @._id)
     cardObj = new Card(@.getCardFromCorrectLocation gameLoc, cardId)
     
     actionData = cardObj.getActionDataFromCard action if cardObj?
@@ -29,8 +40,8 @@ class @Game
     clickCost = actionData['click_cost']
 
     if player.hasEnoughClicks(clickCost) and player.hasEnoughCredits(creditCost)
-      @payAllCosts playerObj, actionData['credit_cost'], actionData['click_cost']
-      result = @[action](playerObj, cardObj)
+      player.payAllCosts actionData['click_cost'], actionData['credit_cost']
+      result = player[action](cardObj)
 
       if cardObj.counters <= 0 and cardObj.trashIfNoCounters?
         @moveCardToDiscard cardObj
@@ -46,65 +57,50 @@ class @Game
   #
   #-----------------------------------------------------------------------------
 
-  installResource: (playerObj, gameLoc, cardId) ->
+  installResource: (playerObj, gameLoc, cardId, costMod) ->
+    runner = new Runner(@['runner'], @['_id'])
     cardObj = new Card(@.getCardFromCorrectLocation gameLoc, cardId)
     actionData = cardObj.getActionDataFromCard 'installResource' if cardObj?
+
+    [clickCost, creditCost, logs] = @applyCostMods actionData, costMod
+    if not runner.hasEnoughClicks clickCost
+      @logForRunner "You can not install #{cardObj.name} because you do not have enough clicks left."
+      return false
+
+    if not runner.hasEnoughCredits creditCost
+      @logForRunner "You can not install #{cardObj.name} because you do not have enough credits left."
+      return false
     
-    if @playerHasResources playerObj, actionData
-      @payAllCosts playerObj, actionData['credit_cost'], actionData['click_cost']
-      @[cardObj['addBenefit']]() if cardObj['addBenefit']?
-      @moveCardToResources cardObj
-      
-      line = "The Runner spends #{actionData["click_cost"]} click and " +
-        "€#{actionData['credit_cost']} to install #{cardObj.name}."
-      @logForBothSides line
+    runner.payAllCosts clickCost, creditCost
+    @[cardObj['addBenefit']]() if cardObj['addBenefit']?
+    @moveCardToResources cardObj
+    
+    line = "The Runner spends #{actionData["click_cost"]} click and " +
+      "€#{actionData['credit_cost']} to install #{cardObj.name}."
+    @logForBothSides line
 
 
   installHardware: (playerObj, gameLoc, cardId, costMod) ->
+    runner = new Runner(@['runner'], @['_id'])
     cardObj = new Card(@.getCardFromCorrectLocation gameLoc, cardId)
     actionData = cardObj.getActionDataFromCard 'installHardware' if cardObj?
 
     [clickCost, creditCost, logs] = @applyCostMods actionData, costMod
 
-    if not @playerHasClicks playerObj.side, clickCost
+    if not runner.hasEnoughClicks clickCost
       @logForRunner "You can not install #{cardObj.name} because you do not have enough clicks left."
       return false
 
-    if not @playerHasCredits playerObj.side, creditCost
-      @logForRunner "You can not install this card because you do not have enough credits left."
+    if not runner.hasEnoughCredits creditCost
+      @logForRunner "You can not install #{cardObj.name} because you do not have enough credits left."
       return false
 
-    @payAllCosts playerObj, creditCost, clickCost
+    runner.payAllCosts clickCost, creditCost
     @[cardObj['addBenefit']]() if cardObj['addBenefit']?
     @moveCardToHardware cardObj
     
     @logForBothSides(line) for line in logs
     @logForBothSides "The Runner spends #{clickCost} click and €#{creditCost} to install #{cardObj.name}."
-
-
-  useArmitageCodebusting: (playerObj, cardObj) ->
-    line = switch
-      when cardObj.counters >= 2
-        @incCredits playerObj, 2
-        cardObj.incCounters(@._id, -2)
-        line = 'The Runner spends 1 click to use Armitage Codebusting and gain 2 credits.'
-      when cardObj.counters is 1
-        @incCredits playerObj, 1
-        cardObj.incCounters(@._id, -1)
-        line = 'The Runner spends 1 click to use Armitage Codebusting and gain 1 credit.'
-
-    @logForBothSides line
-
-    return 'usedArmitageCodebusting'
-
-
-  useModded: (playerObj, cardObj) ->
-    @setBooleanField 'runner.identity.isModded', true
-
-    @logForBothSides 'The Runner spends 1 click to use Modded.'
-    @logForBothSides 'The Runner is choosing hardware or a program to install now.'
-
-    return 'runnerIsModded'
 
 
   #-----------------------------------------------------------------------------
@@ -231,47 +227,31 @@ class @Game
     clickCost = actionData['click_cost']
     creditCost = actionData['credit_cost']
 
-    if costMod = 'Modded'
-      clicks = @applyClickMod clickCost, -1
-      credits = @applyCreditMod creditCost, -3
-      logs.push 'Modded made this cheaper by up to 3 credits.'
+    if costMod is 'Modded'
+      clickCost = @applyClickMod clickCost, -1
+      creditCost = @applyCreditMod creditCost, -3
+      logs.push 'Modded made this install cheaper by up to 3 credits.'
     
     if @['runner']['identity']['reduceFirstProgramOrHardwareInstallCostBy1']
-      creditCost = @applyCreditMod creditCost, 1
+      creditCost = @applyCreditMod creditCost, -1
       @setBooleanField 'runner.identity.reduceFirstProgramOrHardwareInstallCostBy1', false
-      logs.push "Runner's identity made this cheaper by up to 1 credit."
+      logs.push "Runner's identity made this install cheaper by up to 1 credit."
 
-    return [clicks, credits, logs]
+    return [clickCost, creditCost, logs]
 
   applyClickMod: (clickCost, clickMod) ->
     clickCost += clickMod
-    if clickCost < 0
-      return 0
-    else
-      return clickCost
+    if clickCost < 0 then return 0 else return clickCost
 
 
   applyCreditMod: (creditCost, creditMod) ->
     creditCost += creditMod
-    if creditCost < 0
-      return 0
-    else
-      return creditCost
+    if creditCost < 0 then return 0 else return creditCost
 
 
   payAllCosts: (playerObj, creditCost, clickCost) ->
     @incCredits playerObj, -1 * creditCost
     @incClicks playerObj, -1 * clickCost
-
-
-  incCredits: (playerObj, amount) ->
-    targetField = playerObj.side + ".stats.credits"
-    @_incIntegerField targetField, amount
-
-
-  incClicks: (playerObj, amount) ->
-    targetField = playerObj.side + ".stats.clicks"
-    @_incIntegerField targetField, amount
 
 
   setPlayerClicksToZero: (playerObj) ->

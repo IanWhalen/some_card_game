@@ -18,7 +18,7 @@
   src: "hedge_fund.png"
   cardType: "Operation"
   handActions: [
-    add9Credits:
+    useHedgeFund:
       click_cost: 1
       credit_cost: 5
       text: "Gain 9 credits."
@@ -29,7 +29,7 @@
   src: "hedge_fund.png"
   cardType: "Operation"
   handActions: [
-    add9Credits:
+    useHedgeFund:
       click_cost: 1
       credit_cost: 5
       text: "Gain 9 credits."
@@ -40,9 +40,56 @@
   src: "hedge_fund.png"
   cardType: "Operation"
   handActions: [
-    add9Credits:
+    useHedgeFund:
       click_cost: 1
       credit_cost: 5
       text: "Gain 9 credits."
   ]
+,
+  _id: "biotic-labor-1"
+  name: "Biotic Labor"
+  src: "biotic-labor.png"
+  cardType: "Operation"
+  handActions: [
+    useBioticLabor:
+      click_cost: 1
+      credit_cost: 4
+      text: "Gain 2 clicks."
+  ]
+,
+  _id: "biotic-labor-2"
+  name: "Biotic Labor"
+  src: "biotic-labor.png"
+  cardType: "Operation"
+  handActions: [
+    useBioticLabor:
+      click_cost: 1
+      credit_cost: 4
+      text: "Gain 2 clicks."
+  ]
 ]
+
+## Agenda (9)
+# Accelerated Beta Test (Core) x3
+# Priority Requisition (Core) x3
+# Private Security Force (Core) x3
+## Asset (10)
+# Adonis Campaign (Core) x3
+# Aggressive Secretary (Core) x2
+# Melange Mining Corp (Core) x2
+# PAD Campaign (Core) x3
+## ICE (17)
+# Enigma (Core) x3
+# Heimdall 1.0 (Core) x2
+# Hunter (Core) x2
+# Ichi 1.0 (Core) x3
+# Rototurret (Core) x2
+# Viktor 1.0 (Core) x2
+# Wall of Static (Core) x3
+## Operation (10)
+# Archived Memories (Core) x2
+# Biotic Labor (Core) x3
+# Shipment from Mirrormorph (Core) x2
+## Upgrade (3)
+# Corporate Troubleshooter (Core) x1
+# Experiential Data (Core) x2

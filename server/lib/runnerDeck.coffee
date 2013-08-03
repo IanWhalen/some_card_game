@@ -44,7 +44,7 @@
   src: "sure_gamble.png"
   cardType: "Event"
   handActions: [
-    add9Credits:
+    useSureGamble:
       click_cost: 1
       credit_cost: 5
       text: "Gain 9 credits."
@@ -55,7 +55,7 @@
   src: "diesel.png"
   cardType: "Event"
   handActions: [
-    draw3Cards:
+    useDiesel:
       click_cost: 1
       credit_cost: 0
       text: "Draw 3 cards."
@@ -66,7 +66,7 @@
   src: "sure_gamble.png"
   cardType: "Event"
   handActions: [
-    add9Credits:
+    useSureGamble:
       click_cost: 1
       credit_cost: 5
       text: "Gain 9 credits."
@@ -77,7 +77,7 @@
   src: "diesel.png"
   cardType: "Event"
   handActions: [
-    draw3Cards:
+    useDiesel:
       click_cost: 1
       credit_cost: 0
       text: "Draw 3 cards."
@@ -88,7 +88,7 @@
   src: "sure_gamble.png"
   cardType: "Event"
   handActions: [
-    add9Credits:
+    useSureGamble:
       click_cost: 1
       credit_cost: 5
       text: "Gain 9 credits."
@@ -99,7 +99,7 @@
   src: "diesel.png"
   cardType: "Event"
   handActions: [
-    draw3Cards:
+    useDiesel:
       click_cost: 1
       credit_cost: 0
       text: "Draw 3 cards."

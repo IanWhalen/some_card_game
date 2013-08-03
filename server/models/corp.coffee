@@ -16,12 +16,18 @@ class @Corp extends @Player
 
 
   #-----------------------------------------------------------------------------
-  # ACTION FUNCTIONS
+  # CARD ACTIONS (CORE SET)
   #
   #-----------------------------------------------------------------------------
 
-  draw1Card: () ->
-    @drawCards 1
+  useHedgeFund: () ->
+    @add9Credits()
+    @logForBothSides 'The Corp spends 1 click and 5 credits to use Hedge Fund and gain 9 credits.'
+
+
+  useBioticLabor: () ->
+    @add2Clicks()
+    @logForBothSides 'The Corp spends 1 click and 4 credits to use Biotic Labor and gain 2 clicks.'
 
 
   #-----------------------------------------------------------------------------
@@ -29,25 +35,19 @@ class @Corp extends @Player
   #
   #-----------------------------------------------------------------------------
 
-  resetClicks: () ->
-    @setIntegerField "corp.stats.clicks", 3
+  resetClicks: () -> @setIntegerField "corp.stats.clicks", 3
+
+  incClicks: (amount) -> 
+    console.log amount
+    @_incIntegerField 'corp.stats.clicks', amount
+
+  incCredits: (amount) -> @_incIntegerField 'corp.stats.credits', amount
 
 
   #-----------------------------------------------------------------------------
   # HELPER FUNCTIONS
   #
   #-----------------------------------------------------------------------------
-
-  drawCards: (amount) ->
-    i = 0
-
-    while i < amount
-      cardObj = @getNthCardFromDeck i+1
-      if cardObj
-        @moveTopCardFromDeckToHand cardObj
-      else
-        console.log "Can not draw. Deck is empty."
-      i++
 
 
   #-----------------------------------------------------------------------------
@@ -62,7 +62,5 @@ class @Corp extends @Player
     updateDeck["corp.deck"] = 1
     updateHand["corp.hand"] = cardObj
 
-    console.log updateDeck
-    console.log updateHand
     Games.update( @gameId, { $pop:  updateDeck } )
     Games.update( @gameId, { $push: updateHand } )

@@ -32,8 +32,12 @@ Template.sidebar.events "click button.action-button": (e) ->
       if result is 'runnerIsModded'
         Meteor.call "getRunnerHand", myself(), (err, result) ->
           console.log err if err
-          
-          Session.set "programsAndHardwareInHand", result
+
+          cards = _.filter(result, (card) ->
+            card['cardType'] in ['Program', 'Hardware']
+          )
+
+          Session.set "programsAndHardwareInHand", cards
           Session.set 'runnerIsModded', true
           Session.set 'showDialog', true
 
