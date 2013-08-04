@@ -51,11 +51,9 @@ Meteor.methods({
 
   doDrawAction: function(playerObj) {
     var game = getGameObj(playerObj);
-    if (playerObj['side'] === 'corp') {
-      var player = new Corp(game['corp'], game['_id']);
-    } else if (playerObj['side'] === 'runner') {
-      var player = new Runner(game['runner'], game['_id']);
-    }
+    var player = (playerObj['side'] === 'corp') ?
+      new Corp( game['corp'], game['_id'] ) :
+      new Runner( game['runner'], game['_id'] );
 
     var clickCost = 1;
     var creditCost = 0;
@@ -72,11 +70,9 @@ Meteor.methods({
 
   doCreditGainAction: function(playerObj) {
     var game = getGameObj(playerObj);
-    if (playerObj['side'] === 'corp') {
-      var player = new Corp(game['corp'], game['_id']);
-    } else if (playerObj['side'] === 'runner') {
-      var player = new Runner(game['runner'], game['_id']);
-    }
+    var player = (playerObj['side'] === 'corp') ?
+      new Corp( game['corp'], game['_id'] ) :
+      new Runner( game['runner'], game['_id'] );
 
     var clickCost = 1;
     var creditCost = 0;
