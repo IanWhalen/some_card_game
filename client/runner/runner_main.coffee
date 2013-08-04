@@ -29,6 +29,7 @@ Template.main_canvas.rendered = ->
     main_canvas.displayPlayerHands result
 
 
+  # Refresh display every time either player's discard pile is changed
   Meteor.call "getTopOfDiscardPiles", myself(), (err, result) ->
     console.log err if err
     
@@ -48,11 +49,14 @@ Template.main_canvas.rendered = ->
       corpDiscardTop['gameLoc'] = 'corp.discard'
       add_card_to_canvas main_canvas, playerObj, corpDiscardTop, corpX, corpY
 
+
+  # Refresh display every time the Runner's in-play resources change
   Meteor.call "getRunnerResources", myself(), (err, result) ->
     console.log err if err
     main_canvas.displayRunnerResources result
 
 
+  # Refresh display every time the Runner's in-play hardware change
   Meteor.call "getRunnerHardware", myself(), (err, result) ->
     console.log err if err
 
