@@ -155,7 +155,6 @@ Meteor.startup ->
 
 
   fabric.Canvas.prototype.displayPlayerHands = (result) ->
-    gameObj = game()
     playerObj = myself()
 
     runnerHand = result[0]
@@ -166,10 +165,10 @@ Meteor.startup ->
       runnerCard = runnerHand[i]
 
       if playerObj.side == 'corp'
-        runnerCard = gameObj['runner']['cardBack']
+        runnerCard = {src: 'runner-back.jpg'}
         
       runnerCard['gameLoc'] = 'runner.hand'
-      add_card_to_canvas @, playerObj, runnerCard, x, y
+      @addCardToCanvas playerObj, runnerCard, x, y
       i++
 
     corpHand = result[1]
@@ -180,8 +179,27 @@ Meteor.startup ->
       corpCard = corpHand[i]
 
       if playerObj.side == 'runner'
-        corpCard = gameObj['corp']['cardBack']
+        corpCard = {src: 'corp-back.jpg'}
 
       corpCard['gameLoc'] = 'corp.hand'
-      add_card_to_canvas @, playerObj, corpCard, x, y
+      @addCardToCanvas playerObj, corpCard, x, y
       i++
+
+  fabric.Canvas.prototype.addCardToCanvas = (playerObj, card, x, y) ->
+    x = x + CARD_PARAMS['width'] / 2
+    y = y + CARD_PARAMS['height'] / 2
+    p = new fabric.Point(x, y)
+
+    fabric.Image.fromURL card["src"], (oImg) =>
+      oImg.set CARD_PARAMS
+      oImg.set "isCard", true
+      oImg.set "metadata", card
+
+      if playerObj.side != card['gameLoc'].split(".")[0]
+        oImg.set "flipY", true
+
+      if playerObj.side is "corp"
+        p = new fabric.Point(@width - x, @height - y)
+
+      oImg.setPositionByOrigin (p)
+      @add oImg
