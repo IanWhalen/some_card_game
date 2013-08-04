@@ -189,7 +189,6 @@ Meteor.startup ->
       x = CARD_PARAMS['width'] * 3 + i * CARD_PARAMS['width'] * 0.7 # Start in 3rd column and overlap a bit
       card = hand[i]
         
-      # card['gameLoc'] = 'runner.hand'
       @addCardToCanvas playerObj, card, x, y
       i++
 
@@ -212,36 +211,6 @@ Meteor.startup ->
       i++
 
 
-  fabric.Canvas.prototype.displayRunnerHand = (playerObj, hand) ->
-    i = 0
-    while i < hand.length
-      y = CANVAS['height'] - CARD_PARAMS['height'] # Add to bottom row
-      x = CARD_PARAMS['width'] * 3 + i * CARD_PARAMS['width'] * 0.7 # Start in 3rd column and overlap a bit
-      card = hand[i]
-
-      if playerObj.side == 'corp'
-        card = {src: 'runner-back.jpg'}
-        
-      card['gameLoc'] = 'runner.hand'
-      @addCardToCanvas playerObj, card, x, y
-      i++
-
-
-  fabric.Canvas.prototype.displayCorpHand = (playerObj, hand) ->
-    i = 0
-    while i < hand.length
-      y = 0
-      x = (CANVAS['width'] - CARD_PARAMS['width'] * 3) - i * CARD_PARAMS['width'] * 0.7
-      card = hand[i]
-
-      if playerObj.side == 'runner'
-        card = {src: 'corp-back.jpg'}
-
-      card['gameLoc'] = 'corp.hand'
-      @addCardToCanvas playerObj, card, x, y
-      i++
-
-
   fabric.Canvas.prototype.displayRunnerResources = (result) ->
     playerObj = myself()
 
@@ -251,9 +220,28 @@ Meteor.startup ->
       x = CARD_PARAMS['width'] * 2 + i * CARD_PARAMS['width'] # Start in 2nd column
       resource = result[i]
 
-      resource['gameLoc'] = 'runner.resources'
-      @addCardToCanvas playerObj, resource, x, y
+      xyFlip = true if playerObj.side is 'corp'
+      @addCardToCanvas playerObj, resource, x, y, xyFlip
 
       if resource.counters
         @addCountersToCard playerObj, resource, x, y
+      i++
+
+
+  fabric.Canvas.prototype.displayRunnerHardware = (result) ->
+    playerObj = myself()
+
+    i = 0
+    while i < result.length
+      y = CANVAS['height'] - CARD_PARAMS['height'] * 3 - 30 # Add to 2nd to bottom row with room for counters
+      x = CARD_PARAMS['width'] * 2 + i * CARD_PARAMS['width'] # Start in 2nd column
+      hardware = result[i]
+
+      xyFlip = true if playerObj.side is 'corp'
+
+      hardware['gameLoc'] = 'runner.hardware'
+      @addCardToCanvas playerObj, hardware, x, y, xyFlip
+
+      if hardware.counters
+        @addCountersToCard playerObj, hardware, x, y
       i++

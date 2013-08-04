@@ -101,9 +101,6 @@ class @Corp extends @Player
   #-----------------------------------------------------------------------------
 
   addAssetToRemoteServer: (cardObj, serverId) ->
-    console.log serverId
-    console.log cardObj
-
     Games.update
       _id: @gameId
       "corp.remoteServers.action": serverId

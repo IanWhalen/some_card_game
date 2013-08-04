@@ -98,6 +98,7 @@ class @Player
     Games.update @gameId,
       $push: modObj
 
+
   removeCardFromHand: (updateObj) ->
     Games.update @gameId,
       $pull: updateObj

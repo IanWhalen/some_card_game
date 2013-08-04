@@ -59,21 +59,9 @@ Template.main_canvas.rendered = ->
   # Refresh display every time the Runner's in-play hardware change
   Meteor.call "getRunnerHardware", myself(), (err, result) ->
     console.log err if err
+    main_canvas.displayRunnerHardware result
 
-    playerObj = myself()
 
-    i = 0
-    while i < result.length
-      y = CANVAS['height'] - CARD_PARAMS['height'] * 3 - 30 # Add to 2nd to bottom row with room for counters
-      x = CARD_PARAMS['width'] * 2 + i * CARD_PARAMS['width'] # Start in 2nd column
-      hardware = result[i]
-
-      hardware['gameLoc'] = 'runner.hardware'
-      add_card_to_canvas main_canvas, playerObj, hardware, x, y
-
-      if hardware.counters
-        main_canvas.addCountersToCard playerObj, hardware, x, y
-      i++
 
 
 Template.main_canvas.canvasHeight = () ->
