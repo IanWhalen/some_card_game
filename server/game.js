@@ -215,6 +215,12 @@ Meteor.methods({
     }
   },
 
+  //-----------------------------------------------------------------------------
+  // NETWORK FUNCTIONS
+  //
+  //
+  //-----------------------------------------------------------------------------
+
   keepalive: function (player_id) {
     check(player_id, String);
     Players.update({_id: player_id},
