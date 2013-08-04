@@ -24,7 +24,7 @@ Template.main_canvas.rendered = ->
 
 
   # Refresh display every time either player's hand is changed
-  Meteor.call "getPlayersHands", game(), myself(), (err, result) ->
+  Meteor.call "getPlayersHands", myself(), (err, result) ->
     console.log err if err
     main_canvas.displayPlayerHands result
 

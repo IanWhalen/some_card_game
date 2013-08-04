@@ -156,10 +156,11 @@ Meteor.startup ->
 
 
   fabric.Canvas.prototype.displayPlayerHands = (result) ->
+    # result = { ownHand: [Card, Card], opponentHandSize: 3 }
     playerObj = myself()
 
-    @displayRunnerHand playerObj, result[0]
-    @displayCorpHand playerObj, result[1]
+    @displayOwnHand playerObj, result['ownHand']
+    @displayOpponentHand playerObj, result['opponentHandSize']
 
 
   fabric.Canvas.prototype.addCardToCanvas = (playerObj, card, x, y, xyFlip) ->
@@ -179,6 +180,36 @@ Meteor.startup ->
 
       oImg.setPositionByOrigin (p)
       @add oImg
+
+
+  fabric.Canvas.prototype.displayOwnHand = (playerObj, hand) ->
+    i = 0
+    while i < hand.length
+      y = @height - CARD_PARAMS['height'] # Add to bottom row
+      x = CARD_PARAMS['width'] * 3 + i * CARD_PARAMS['width'] * 0.7 # Start in 3rd column and overlap a bit
+      card = hand[i]
+        
+      # card['gameLoc'] = 'runner.hand'
+      @addCardToCanvas playerObj, card, x, y
+      i++
+
+
+  fabric.Canvas.prototype.displayOpponentHand = (playerObj, handSize) ->
+    card = {}
+    if playerObj.side is 'runner'
+      card['gameLoc'] = 'corp.hand'
+      card['src'] = 'corp-back.jpg'
+    else if playerObj.side is 'corp'
+      card['gameLoc'] = 'runner.hand'
+      card['src'] = 'runner-back.jpg'
+
+    i = 0
+    while i < handSize
+      y = 0
+      x = (CANVAS['width'] - CARD_PARAMS['width'] * 4) - i * CARD_PARAMS['width'] * 0.7
+
+      @addCardToCanvas playerObj, card, x, y
+      i++
 
 
   fabric.Canvas.prototype.displayRunnerHand = (playerObj, hand) ->

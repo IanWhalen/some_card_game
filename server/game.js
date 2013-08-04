@@ -170,16 +170,21 @@ Meteor.methods({
   },
 
 
-  getPlayersHands: function (game, player) {
-    // This function returns a 2-element array.  The first element is an
-    // array of the cards in the player's own hand.  The second element
-    // is the size of the opponents hand.
-    var handPair = [];
+  getPlayersHands: function (playerObj) {
+    var game = getGameObj(playerObj);
+    var playerHands = {};
+    var corp = new Corp( game['corp'], game['_id'] );
+    var runner = new Runner( game['runner'], game['_id'] );
 
-    handPair.push( game['runner']["hand"] || [] );
-    handPair.push( game['corp']["hand"] || [] );
-
-    return handPair;
+    if (playerObj.side === 'corp') {
+      playerHands['ownHand'] = corp['hand'];
+      playerHands['opponentHandSize'] = runner['hand'].length;
+    } else if (playerObj.side === 'runner') {
+      playerHands['ownHand'] = runner['hand'];
+      playerHands['opponentHandSize'] = corp['hand'].length;
+    }
+    
+    return playerHands;
   },
 
 
