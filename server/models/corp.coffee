@@ -55,7 +55,8 @@ class @Corp extends @Player
 
   installAsset: (cardId, server) ->
     cardObj = _.find @['hand'], (obj) -> obj._id is cardId
-    
+    cardObj['rezzed'] = false
+
     @moveCardToServer cardObj, server
 
 
