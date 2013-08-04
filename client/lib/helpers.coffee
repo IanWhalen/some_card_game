@@ -152,3 +152,36 @@ Meteor.startup ->
 
     text.setPositionByOrigin p
     textObj = @.add text
+
+
+  fabric.Canvas.prototype.displayPlayerHands = (result) ->
+    gameObj = game()
+    playerObj = myself()
+
+    runnerHand = result[0]
+    i = 0
+    while i < runnerHand.length
+      y = CANVAS['height'] - CARD_PARAMS['height'] # Add to bottom row
+      x = CARD_PARAMS['width'] * 3 + i * CARD_PARAMS['width'] * 0.7 # Start in 3rd column and overlap a bit
+      runnerCard = runnerHand[i]
+
+      if playerObj.side == 'corp'
+        runnerCard = gameObj['runner']['cardBack']
+        
+      runnerCard['gameLoc'] = 'runner.hand'
+      add_card_to_canvas @, playerObj, runnerCard, x, y
+      i++
+
+    corpHand = result[1]
+    i = 0
+    while i < corpHand.length
+      y = 0
+      x = (CANVAS['width'] - CARD_PARAMS['width'] * 3) - i * CARD_PARAMS['width'] * 0.7
+      corpCard = corpHand[i]
+
+      if playerObj.side == 'runner'
+        corpCard = gameObj['corp']['cardBack']
+
+      corpCard['gameLoc'] = 'corp.hand'
+      add_card_to_canvas @, playerObj, corpCard, x, y
+      i++

@@ -22,40 +22,11 @@ Template.main_canvas.rendered = ->
   main_canvas.on "selection:cleared", (e) ->
     Session.set "selectedCard", undefined
 
+
+  # Refresh display every time either player's hand is changed
   Meteor.call "getPlayersHands", game(), myself(), (err, result) ->
-    # Array of runner hand then corp hand
     console.log err if err
-
-    gameObj = game()
-    playerObj = myself()
-
-    runnerHand = result[0]
-    i = 0
-    while i < runnerHand.length
-      y = CANVAS['height'] - CARD_PARAMS['height'] # Add to bottom row
-      x = CARD_PARAMS['width'] * 3 + i * CARD_PARAMS['width'] * 0.7 # Start in 3rd column and overlap a bit
-      runnerCard = runnerHand[i]
-
-      if playerObj.side == 'corp'
-        runnerCard = gameObj['runner']['cardBack']
-        
-      runnerCard['gameLoc'] = 'runner.hand'
-      add_card_to_canvas main_canvas, playerObj, runnerCard, x, y
-      i++
-
-    corpHand = result[1]
-    i = 0
-    while i < corpHand.length
-      y = 0
-      x = (CANVAS['width'] - CARD_PARAMS['width'] * 3) - i * CARD_PARAMS['width'] * 0.7
-      corpCard = corpHand[i]
-
-      if playerObj.side == 'runner'
-        corpCard = gameObj['corp']['cardBack']
-
-      corpCard['gameLoc'] = 'corp.hand'
-      add_card_to_canvas main_canvas, playerObj, corpCard, x, y
-      i++
+    main_canvas.displayPlayerHands result
 
 
   Meteor.call "getTopOfDiscardPiles", myself(), (err, result) ->
