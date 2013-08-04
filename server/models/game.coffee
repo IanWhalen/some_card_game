@@ -220,6 +220,8 @@ class @Game
 
 
   moveTopCardFromDeckToHand: (playerObj, cardObj) ->
+    cardObj['gameLoc'] = playerObj.side + '.hand'
+
     updateDeck = {}
     updateHand = {}
 
