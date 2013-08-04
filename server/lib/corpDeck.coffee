@@ -11,17 +11,7 @@
     score: 0
     credits: 5
     clicks: 0
-  remoteServers: [
-    ICE: []
-    assetsAndAgendas: []
-    action: 'remoteServer1'
-    actionText: 'Install to Remote Server 1'
-  ,
-    ICE: []
-    assetsAndAgendas: []
-    name: 'remoteServer2'
-    actionText: 'Install to Remote Server 2'
-  ]
+  remoteServers: []
 
 @CORP_DECK = [
   _id: "hedge-fund-1"
