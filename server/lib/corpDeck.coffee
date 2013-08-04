@@ -11,15 +11,17 @@
     score: 0
     credits: 5
     clicks: 0
-  # remoteServers: [
-  #   'Remote Server 1':
-  #     ICE: []
-  #     text: 'Install to Remote Server 1.'
-  # ,
-  #   'Remote Server 2':
-  #     ICE: []
-  #     text: 'Install to Remote Server 2.'
-  # ]
+  remoteServers: [
+    ICE: []
+    assetsAndAgendas: []
+    action: 'remoteServer1'
+    actionText: 'Install to Remote Server 1'
+  ,
+    ICE: []
+    assetsAndAgendas: []
+    name: 'remoteServer2'
+    actionText: 'Install to Remote Server 2'
+  ]
 
 @CORP_DECK = [
   _id: "hedge-fund-1"
@@ -27,10 +29,10 @@
   src: "hedge_fund.png"
   cardType: "Operation"
   handActions: [
-    useHedgeFund:
-      click_cost: 1
-      credit_cost: 5
-      text: "Gain 9 credits."
+    action: 'useHedgeFund'
+    click_cost: 1
+    credit_cost: 5
+    actionText: "Gain 9 credits."
   ]
 ,
   _id: "hedge-fund-2"
@@ -38,10 +40,10 @@
   src: "hedge_fund.png"
   cardType: "Operation"
   handActions: [
-    useHedgeFund:
-      click_cost: 1
-      credit_cost: 5
-      text: "Gain 9 credits."
+    action: 'useHedgeFund'
+    click_cost: 1
+    credit_cost: 5
+    actionText: "Gain 9 credits."
   ]
 ,
   _id: "hedge-fund-3"
@@ -49,10 +51,10 @@
   src: "hedge_fund.png"
   cardType: "Operation"
   handActions: [
-    useHedgeFund:
-      click_cost: 1
-      credit_cost: 5
-      text: "Gain 9 credits."
+    action: 'useHedgeFund'
+    click_cost: 1
+    credit_cost: 5
+    actionText: "Gain 9 credits."
   ]
 ,
   _id: "biotic-labor-1"
@@ -60,10 +62,10 @@
   src: "biotic-labor.png"
   cardType: "Operation"
   handActions: [
-    useBioticLabor:
-      click_cost: 1
-      credit_cost: 4
-      text: "Gain 2 clicks."
+    action: 'useBioticLabor'
+    click_cost: 1
+    credit_cost: 4
+    actionText: "Gain 2 clicks."
   ]
 ,
   _id: "biotic-labor-2"
@@ -71,10 +73,10 @@
   src: "biotic-labor.png"
   cardType: "Operation"
   handActions: [
-    useBioticLabor:
-      click_cost: 1
-      credit_cost: 4
-      text: "Gain 2 clicks."
+    action: 'useBioticLabor'
+    click_cost: 1
+    credit_cost: 4
+    actionText: "Gain 2 clicks."
   ]
 ,
   _id: "pad-campaign-1"
@@ -82,10 +84,10 @@
   src: "pad-campaign.png"
   cardType: "Asset"
   handActions: [
-    installAsset:
-      click_cost: 1
-      credit_cost: 2
-      text: "Install PAD Campaign."
+    click_cost: 1
+    credit_cost: 2
+    actionText: "Install PAD Campaign."
+    action: 'installAsset'
   ]
 ]
 

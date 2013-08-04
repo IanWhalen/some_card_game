@@ -21,10 +21,10 @@
   cardType: "Resource"
   addBenefit: "add1Link"
   handActions: [
-    installResource:
-      click_cost: 1
-      credit_cost: 1
-      text: "Install Access To Globalsec"
+    action: 'installResource'
+    click_cost: 1
+    credit_cost: 1
+    actionText: "Install Access To Globalsec"
   ]
 ,
   _id: "access-to-globalsec-3"
@@ -33,10 +33,10 @@
   cardType: "Resource"
   addBenefit: "add1Link"
   handActions: [
-    installResource:
-      click_cost: 1
-      credit_cost: 1
-      text: "Install Access To Globalsec"
+    action: 'installResource'
+    click_cost: 1
+    credit_cost: 1
+    actionText: "Install Access To Globalsec"
   ]
 ,
   _id: "sure-gamble-1"
@@ -44,10 +44,10 @@
   src: "sure_gamble.png"
   cardType: "Event"
   handActions: [
-    useSureGamble:
-      click_cost: 1
-      credit_cost: 5
-      text: "Gain 9 credits."
+    action: 'useSureGamble'
+    click_cost: 1
+    credit_cost: 5
+    actionText: "Gain 9 credits."
   ]
 ,
   _id: "diesel-1"
@@ -55,10 +55,10 @@
   src: "diesel.png"
   cardType: "Event"
   handActions: [
-    useDiesel:
-      click_cost: 1
-      credit_cost: 0
-      text: "Draw 3 cards."
+    action: 'useDiesel'
+    click_cost: 1
+    credit_cost: 0
+    actionText: "Draw 3 cards."
   ]
 ,
   _id: "sure-gamble-2"
@@ -66,10 +66,10 @@
   src: "sure_gamble.png"
   cardType: "Event"
   handActions: [
-    useSureGamble:
-      click_cost: 1
-      credit_cost: 5
-      text: "Gain 9 credits."
+    action: 'useSureGamble'
+    click_cost: 1
+    credit_cost: 5
+    actionText: "Gain 9 credits."
   ]
 ,
   _id: "diesel-2"
@@ -77,10 +77,10 @@
   src: "diesel.png"
   cardType: "Event"
   handActions: [
-    useDiesel:
-      click_cost: 1
-      credit_cost: 0
-      text: "Draw 3 cards."
+    action: 'useDiesel'
+    click_cost: 1
+    credit_cost: 0
+    actionText: "Draw 3 cards."
   ]
 ,
   _id: "sure-gamble-3"
@@ -88,10 +88,10 @@
   src: "sure_gamble.png"
   cardType: "Event"
   handActions: [
-    useSureGamble:
-      click_cost: 1
-      credit_cost: 5
-      text: "Gain 9 credits."
+    action: 'useSureGamble'
+    click_cost: 1
+    credit_cost: 5
+    actionText: "Gain 9 credits."
   ]
 ,
   _id: "diesel-3"
@@ -99,10 +99,10 @@
   src: "diesel.png"
   cardType: "Event"
   handActions: [
-    useDiesel:
-      click_cost: 1
-      credit_cost: 0
-      text: "Draw 3 cards."
+    action: 'useDiesel'
+    click_cost: 1
+    credit_cost: 0
+    actionText: "Draw 3 cards."
   ]
 ,
   _id: "access-to-globalsec-1"
@@ -111,10 +111,10 @@
   cardType: "Resource"
   addBenefit: "add1Link"
   handActions: [
-    installResource:
-      click_cost: 1
-      credit_cost: 1
-      text: "Install Access To Globalsec"
+    action: 'installResource'
+    click_cost: 1
+    credit_cost: 1
+    actionText: "Install Access To Globalsec"
   ]
 ,
   _id: "armitage-codebusting-1"
@@ -124,16 +124,16 @@
   counters: 12
   trashIfNoCounters: true
   handActions: [
-    installResource:
-      click_cost: 1
-      credit_cost: 1
-      text: "Install Armitage Codebusting"
+    action: 'installResource'
+    click_cost: 1
+    credit_cost: 1
+    actionText: "Install Armitage Codebusting"
   ]
   boardActions: [
-    useArmitageCodebusting:
-      click_cost: 1
-      credit_cost: 0
-      text: "Use 1 click to gain 2 credits"
+    action: 'useArmitageCodebusting'
+    click_cost: 1
+    credit_cost: 0
+    actionText: "Use 1 click to gain 2 credits"
   ]
 ,
   _id: "akamatsu-mem-chip-1"
@@ -142,10 +142,10 @@
   cardType: "Hardware"
   addBenefit: "add1Memory"
   handActions: [
-    installHardware:
-      click_cost: 1
-      credit_cost: 1
-      text: "Install Akamatsu Mem Chip"
+    action: 'installHardware'
+    click_cost: 1
+    credit_cost: 1
+    actionText: "Install Akamatsu Mem Chip"
   ]
 ,
   _id: "akamatsu-mem-chip-2"
@@ -154,10 +154,10 @@
   cardType: "Hardware"
   addBenefit: "add1Memory"
   handActions: [
-    installHardware:
-      click_cost: 1
-      credit_cost: 1
-      text: "Install Akamatsu Mem Chip"
+    action: 'installHardware'
+    click_cost: 1
+    credit_cost: 1
+    actionText: "Install Akamatsu Mem Chip"
   ]
 ,
   _id: "modded-1"
@@ -166,11 +166,10 @@
   cardType: "Event"
   description: "Install a program or a piece of hardware, lowering the installation cost by 3."
   handActions: [
-    useModded:
-      click_cost: 1
-      credit_cost: 0
-      text: "Use Modded"
-
+    action: 'useModded'
+    click_cost: 1
+    credit_cost: 0
+    actionText: "Use Modded"
   ]
 ,
   _id: "modded-2"
@@ -179,11 +178,10 @@
   cardType: "Event"
   description: "Install a program or a piece of hardware, lowering the installation cost by 3."
   handActions: [
-    useModded:
-      click_cost: 1
-      credit_cost: 0
-      text: "Use Modded"
-
+    action: 'useModded'
+    click_cost: 1
+    credit_cost: 0
+    actionText: "Use Modded"
   ]
 ## Event
 # Infiltration (Core) x3

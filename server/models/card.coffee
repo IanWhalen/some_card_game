@@ -10,8 +10,7 @@ class @Card
     if @.getSideLoc() == 'resources'
       arr = 'boardActions'
 
-    actionObj = _.find @[arr], (obj) -> action of obj
-    actionObj[action]
+    return actionObj = _.find @[arr], (obj) -> obj['action'] = action
 
 
   getSide: () ->
