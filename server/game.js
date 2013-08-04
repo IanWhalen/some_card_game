@@ -141,6 +141,14 @@ Meteor.methods({
   },
 
 
+  doInstallAssetAction: function (playerObj, cardId, server) {
+    var game = getGameObj(playerObj);
+    var corp = new Corp(game['corp'], game['_id']);
+
+    return corp.installAsset(cardId, server);
+  },
+
+
   //-----------------------------------------------------------------------------
   // CARD DISPLAY FUNCTIONS
   //

@@ -49,9 +49,15 @@ class @Corp extends @Player
     return [clickCost, creditCost, logs]
 
   #-----------------------------------------------------------------------------
-  # HELPER FUNCTIONS
+  # CORP ACTIONS
   #
   #-----------------------------------------------------------------------------
+
+  installAsset: (cardId, server) ->
+    cardObj = _.find @['hand'], (obj) -> obj._id is cardId
+    
+    @moveCardToServer cardObj, server
+
 
 
   #-----------------------------------------------------------------------------
@@ -68,6 +74,16 @@ class @Corp extends @Player
 
     Games.update( @gameId, { $pop:  updateDeck } )
     Games.update( @gameId, { $push: updateHand } )
+
+
+  moveCardToServer: (cardObj, server) ->
+    updateHand = {}
+    updateHand["corp.hand"] = cardObj
+
+    @addAssetToRemoteServer cardObj, server['action']
+    @removeCardFromHand updateHand
+
+
   #-----------------------------------------------------------------------------
   # LOGGING FUNCTIONS
   #

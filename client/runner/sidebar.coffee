@@ -29,6 +29,12 @@ Template.sidebar.events "click button.action-button": (e) ->
     Meteor.call 'createNewRemoteServer', myself(), (err, result) ->
       console.log err if err
 
+      newServer = result
+      Meteor.call 'doInstallAssetAction', myself(), cardId, newServer, (err, result) ->
+        console.log err if err
+
+
+
   else
     Meteor.call "doCardAction", myself(), gameLoc, cardId, action, (err, result) ->
       console.log err if err
