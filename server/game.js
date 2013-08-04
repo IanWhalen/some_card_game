@@ -133,6 +133,14 @@ Meteor.methods({
     gameObj.installHardware(playerObj, gameLoc, cardId, costMod);
   },
 
+
+  createNewRemoteServer: function (playerObj) {
+    var game = getGameObj(playerObj);
+
+    return game.createNewRemoteServer();
+  },
+
+
   //-----------------------------------------------------------------------------
   // CARD DISPLAY FUNCTIONS
   //

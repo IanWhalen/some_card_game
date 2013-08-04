@@ -4,12 +4,30 @@ class @Game
       @[key] = value
 
 
+  #-----------------------------------------------------------------------------
+  # BOARD FUNCTIONS
+  #
+  #-----------------------------------------------------------------------------
+
   newGameSetup: () ->
     corp = new Corp(@['corp'], @._id)
     corp.startTurn()
     @incTurnCounter()
     @logForBothSides 'Starting a new game.'
     @logForBothSides '===== It is now the Corp\'s turn. ====='
+
+
+  createNewRemoteServer: () ->
+    numberOfExistingServers = @['corp']['remoteServers'].length + 1
+    newServer =
+      ICE: []
+      assetsAndAgendas: []
+      action: "remoteServer#{numberOfExistingServers}"
+      actionText: "Install to Remote Server #{numberOfExistingServers}."
+
+    @_pushToArray 'corp.remoteServers', newServer
+    return newServer
+
 
 
   #-----------------------------------------------------------------------------
