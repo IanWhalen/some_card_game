@@ -135,6 +135,7 @@ Meteor.startup ->
   Session.set 'runnerIsModded', false
   Session.set 'programsAndHardwareInHand', false
 
+
   fabric.Canvas.prototype.addCountersToCard = (playerObj, card, cardX, cardY) ->
     x = cardX + CARD_PARAMS['width'] / 2
     y = cardY + CARD_PARAMS['height'] + 6
@@ -157,33 +158,9 @@ Meteor.startup ->
   fabric.Canvas.prototype.displayPlayerHands = (result) ->
     playerObj = myself()
 
-    runnerHand = result[0]
-    i = 0
-    while i < runnerHand.length
-      y = CANVAS['height'] - CARD_PARAMS['height'] # Add to bottom row
-      x = CARD_PARAMS['width'] * 3 + i * CARD_PARAMS['width'] * 0.7 # Start in 3rd column and overlap a bit
-      runnerCard = runnerHand[i]
+    @displayRunnerHand playerObj, result[0]
+    @displayCorpHand playerObj, result[1]
 
-      if playerObj.side == 'corp'
-        runnerCard = {src: 'runner-back.jpg'}
-        
-      runnerCard['gameLoc'] = 'runner.hand'
-      @addCardToCanvas playerObj, runnerCard, x, y
-      i++
-
-    corpHand = result[1]
-    i = 0
-    while i < corpHand.length
-      y = 0
-      x = (CANVAS['width'] - CARD_PARAMS['width'] * 3) - i * CARD_PARAMS['width'] * 0.7
-      corpCard = corpHand[i]
-
-      if playerObj.side == 'runner'
-        corpCard = {src: 'corp-back.jpg'}
-
-      corpCard['gameLoc'] = 'corp.hand'
-      @addCardToCanvas playerObj, corpCard, x, y
-      i++
 
   fabric.Canvas.prototype.addCardToCanvas = (playerObj, card, x, y) ->
     x = x + CARD_PARAMS['width'] / 2
@@ -203,3 +180,33 @@ Meteor.startup ->
 
       oImg.setPositionByOrigin (p)
       @add oImg
+
+
+  fabric.Canvas.prototype.displayRunnerHand = (playerObj, hand) ->
+    i = 0
+    while i < hand.length
+      y = CANVAS['height'] - CARD_PARAMS['height'] # Add to bottom row
+      x = CARD_PARAMS['width'] * 3 + i * CARD_PARAMS['width'] * 0.7 # Start in 3rd column and overlap a bit
+      card = hand[i]
+
+      if playerObj.side == 'corp'
+        card = {src: 'runner-back.jpg'}
+        
+      card['gameLoc'] = 'runner.hand'
+      @addCardToCanvas playerObj, card, x, y
+      i++
+
+
+  fabric.Canvas.prototype.displayCorpHand = (playerObj, hand) ->
+    i = 0
+    while i < hand.length
+      y = 0
+      x = (CANVAS['width'] - CARD_PARAMS['width'] * 3) - i * CARD_PARAMS['width'] * 0.7
+      card = hand[i]
+
+      if playerObj.side == 'runner'
+        card = {src: 'corp-back.jpg'}
+
+      card['gameLoc'] = 'corp.hand'
+      @addCardToCanvas playerObj, card, x, y
+      i++
