@@ -11,6 +11,15 @@ Template.actionChoices.actions = () ->
   if Template.actionChoices.onlyOneCard
     cardObj = Session.get("selectedCard")
     
+    if cardObj['cardType'] is 'Asset'
+      Meteor.call 'getRemoteServers', myself(), (err, result) ->
+        console.log err if err
+        Session.set 'remoteServers', result
+
+      opts = _.toArray(Session.get('remoteServers'))
+      opts.push {action: 'installAssetToNewRemoteServer', actionText: 'Install to new remote server'}
+      return opts
+
     if cardObj['gameLoc'] in ['runner.hand', 'corp.hand']
       return cardObj['handActions']
     
