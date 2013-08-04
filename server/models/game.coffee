@@ -22,7 +22,7 @@ class @Game
     loc = gameLoc.split(".")[1];  # e.g. "hand" or "deck"
 
     cardObj = _.find @[side][loc], (obj) ->
-      obj._id is cardId    
+      obj._id is cardId
     cardObj['gameLoc'] = gameLoc
 
     cardObj
@@ -34,7 +34,7 @@ class @Game
     if playerObj.side is 'runner'
       player = new Runner(@[playerObj.side], @._id)
     cardObj = new Card(@.getCardFromCorrectLocation gameLoc, cardId)
-    
+
     actionData = cardObj.getActionDataFromCard action if cardObj?
     creditCost = actionData['credit_cost']
     clickCost = actionData['click_cost']
