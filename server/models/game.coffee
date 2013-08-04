@@ -368,3 +368,11 @@ class @Game
 
     Games.update @._id,
       $set: modObj
+
+
+  _pushToArray: (targetField, value) ->
+    modObj = {}
+    modObj[targetField] = value
+
+    Games.update @._id,
+      $push: modObj
