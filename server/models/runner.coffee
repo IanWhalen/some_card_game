@@ -77,6 +77,8 @@ class @Runner extends @Player
     @logForBothSides 'The Runner spends 1 click to use Diesel and draw 3 cards.'
 
     return 'usedDiesel'
+
+
   #-----------------------------------------------------------------------------
   # CARD MOVEMENT FUNCTIONS
   #
@@ -91,3 +93,12 @@ class @Runner extends @Player
 
     Games.update( @gameId, { $pop:  updateDeck } )
     Games.update( @gameId, { $push: updateHand } )
+
+
+  #-----------------------------------------------------------------------------
+  # LOGGING FUNCTIONS
+  #
+  #-----------------------------------------------------------------------------
+
+  logForSelf: (line) ->
+    @logForRunner line

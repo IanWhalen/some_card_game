@@ -64,3 +64,10 @@ class @Corp extends @Player
 
     Games.update( @gameId, { $pop:  updateDeck } )
     Games.update( @gameId, { $push: updateHand } )
+  #-----------------------------------------------------------------------------
+  # LOGGING FUNCTIONS
+  #
+  #-----------------------------------------------------------------------------
+
+  logForSelf: (line) ->
+    @logForCorp line
