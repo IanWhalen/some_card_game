@@ -37,12 +37,16 @@ class @Corp extends @Player
 
   resetClicks: () -> @setIntegerField "corp.stats.clicks", 3
 
-  incClicks: (amount) -> 
-    console.log amount
-    @_incIntegerField 'corp.stats.clicks', amount
+  incClicks: (amount) -> @_incIntegerField 'corp.stats.clicks', amount
 
   incCredits: (amount) -> @_incIntegerField 'corp.stats.credits', amount
 
+  applyCostMods: (actionData, costMod) ->
+    logs = []
+    clickCost = actionData['click_cost']
+    creditCost = actionData['credit_cost']
+
+    return [clickCost, creditCost, logs]
 
   #-----------------------------------------------------------------------------
   # HELPER FUNCTIONS
