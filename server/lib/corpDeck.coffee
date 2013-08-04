@@ -12,6 +12,7 @@
     credits: 5
     clicks: 0
   remoteServers: []
+  hand: []
 
 @CORP_DECK = [
   _id: "hedge-fund-1"
