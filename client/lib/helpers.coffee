@@ -210,3 +210,20 @@ Meteor.startup ->
       card['gameLoc'] = 'corp.hand'
       @addCardToCanvas playerObj, card, x, y
       i++
+
+
+  fabric.Canvas.prototype.displayRunnerResources = (result) ->
+    playerObj = myself()
+
+    i = 0
+    while i < result.length
+      y = CANVAS['height'] - CARD_PARAMS['height'] * 2 - 15 # Add to 2nd to bottom row with room for counters
+      x = CARD_PARAMS['width'] * 2 + i * CARD_PARAMS['width'] # Start in 2nd column
+      resource = result[i]
+
+      resource['gameLoc'] = 'runner.resources'
+      @addCardToCanvas playerObj, resource, x, y
+
+      if resource.counters
+        @addCountersToCard playerObj, resource, x, y
+      i++
