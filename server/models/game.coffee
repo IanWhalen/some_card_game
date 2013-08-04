@@ -39,15 +39,22 @@ class @Game
     creditCost = actionData['credit_cost']
     clickCost = actionData['click_cost']
 
-    if player.hasEnoughClicks(clickCost) and player.hasEnoughCredits(creditCost)
-      player.payAllCosts actionData['click_cost'], actionData['credit_cost']
-      result = player[action](cardObj)
+    if not player.hasEnoughClicks clickCost
+      player.logForSelf "You can not use #{cardObj.name} because you do not have enough clicks left."
+      return false
 
-      if cardObj.counters <= 0 and cardObj.trashIfNoCounters?
-        @moveCardToDiscard cardObj
+    if not player.hasEnoughCredits creditCost
+      player.logForSelf "You can not use #{cardObj.name} because you do not have enough credits left."
+      return false
 
-      if cardObj.cardType in ['Event', 'Operation']
-        @moveCardToDiscard cardObj
+    player.payAllCosts actionData['click_cost'], actionData['credit_cost']
+    result = player[action](cardObj)
+
+    if cardObj.counters <= 0 and cardObj.trashIfNoCounters?
+      @moveCardToDiscard cardObj
+
+    if cardObj.cardType in ['Event', 'Operation']
+      @moveCardToDiscard cardObj
 
     return result
 
