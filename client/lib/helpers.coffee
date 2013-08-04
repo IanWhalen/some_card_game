@@ -162,7 +162,7 @@ Meteor.startup ->
     @displayCorpHand playerObj, result[1]
 
 
-  fabric.Canvas.prototype.addCardToCanvas = (playerObj, card, x, y) ->
+  fabric.Canvas.prototype.addCardToCanvas = (playerObj, card, x, y, xyFlip) ->
     x = x + CARD_PARAMS['width'] / 2
     y = y + CARD_PARAMS['height'] / 2
     p = new fabric.Point(x, y)
@@ -175,8 +175,7 @@ Meteor.startup ->
       if playerObj.side != card['gameLoc'].split(".")[0]
         oImg.set "flipY", true
 
-      if playerObj.side is "corp"
-        p = new fabric.Point(@width - x, @height - y)
+      p = new fabric.Point(@width - x, @height - y) if xyFlip
 
       oImg.setPositionByOrigin (p)
       @add oImg
