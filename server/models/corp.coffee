@@ -78,7 +78,9 @@ class @Corp extends @Player
 
   moveCardToServer: (cardObj, server) ->
     updateHand = {}
-    updateHand["corp.hand"] = cardObj
+    idObj = {}
+    idObj['_id'] = cardObj['_id']
+    updateHand["corp.hand"] = idObj
 
     @addAssetToRemoteServer cardObj, server['action']
     @removeCardFromHand updateHand
