@@ -31,7 +31,7 @@ class @Card
     updateEmbeddedObj[@gameLoc + '.$.counters'] = amount
     updateObj['$inc'] = updateEmbeddedObj
 
-    @_incEmbeddedIntegerField gameId, findObj, updateObj, amount
+    @_incEmbeddedIntegerField findObj, updateObj
     @counters += amount
 
 
