@@ -220,6 +220,12 @@ Meteor.methods({
     }
   },
 
+
+  getRemoteServers: function (playerObj) {
+    return getGameObj(playerObj)['corp']['remoteServers'];
+  },
+
+
   //-----------------------------------------------------------------------------
   // NETWORK FUNCTIONS
   //
