@@ -4,7 +4,7 @@
 
 @CANVAS = 
   width: 1080
-  height: 600
+  height: 630
 
 
 @CARD_PARAMS =

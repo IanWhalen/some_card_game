@@ -58,10 +58,10 @@ div.sidebarStats > p {
 
 #history {
     overflow-y: scroll;
-    width: 1080px;
+    width: 540px;
     height: 100px;
     position: absolute;
-    top: 620px;
+    top: 650px;
 }
 
 #history > p {
