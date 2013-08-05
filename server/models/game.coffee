@@ -20,6 +20,7 @@ class @Game
   createNewRemoteServer: () ->
     serverId = @['corp']['remoteServers'].length + 1
     newServer =
+      name: "Remote Server #{serverId}"
       ICE: []
       assetsAndAgendas: []
       action: "remoteServer#{serverId}"
