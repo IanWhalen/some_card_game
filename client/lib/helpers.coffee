@@ -253,10 +253,6 @@ Meteor.startup ->
       
       i++
 
-    # side = playerObj.side.capitalize()
-    # text = "|========== #{side}'s Hand ==========|"
-    # @addLocationText playerObj, text, x+45, @height-10
-
 
   fabric.Canvas::displayOpponentHand = (playerObj, handSize) ->
     card = {}
