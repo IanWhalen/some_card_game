@@ -181,6 +181,7 @@ Meteor.startup ->
       @height - 8,
       (true if playerObj.side is 'corp')
 
+
   fabric.Canvas::addCountersToCard = (playerObj, card, cardX, cardY) ->
     x = cardX + CARD_PARAMS['width'] / 2
     y = cardY + CARD_PARAMS['height'] + 6

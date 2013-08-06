@@ -16,6 +16,7 @@
 
 @CORP_DECK = [
   _id: "hedge-fund-1"
+  owner: 'corp'
   name: "Hedge Fund"
   src: "hedge_fund.png"
   cardType: "Operation"
@@ -27,6 +28,7 @@
   ]
 ,
   _id: "hedge-fund-2"
+  owner: 'corp'
   name: "Hedge Fund"
   src: "hedge_fund.png"
   cardType: "Operation"
@@ -38,6 +40,7 @@
   ]
 ,
   _id: "hedge-fund-3"
+  owner: 'corp'
   name: "Hedge Fund"
   src: "hedge_fund.png"
   cardType: "Operation"
@@ -49,6 +52,7 @@
   ]
 ,
   _id: "biotic-labor-1"
+  owner: 'corp'
   name: "Biotic Labor"
   src: "biotic-labor.png"
   cardType: "Operation"
@@ -60,6 +64,7 @@
   ]
 ,
   _id: "biotic-labor-2"
+  owner: 'corp'
   name: "Biotic Labor"
   src: "biotic-labor.png"
   cardType: "Operation"
@@ -71,6 +76,7 @@
   ]
 ,
   _id: "pad-campaign-1"
+  owner: 'corp'
   name: "PAD Campaign"
   src: "pad-campaign.png"
   cardType: "Asset"

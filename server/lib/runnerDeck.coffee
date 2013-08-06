@@ -17,6 +17,7 @@
 
 @RUNNER_DECK = [
   _id: "access-to-globalsec-2"
+  owner: 'runner'
   name: "Access To Globalsec"
   src: "access-to-globalsec.png"
   cardType: "Resource"
@@ -29,6 +30,7 @@
   ]
 ,
   _id: "access-to-globalsec-3"
+  owner: 'runner'
   name: "Access To Globalsec"
   src: "access-to-globalsec.png"
   cardType: "Resource"
@@ -41,6 +43,7 @@
   ]
 ,
   _id: "sure-gamble-1"
+  owner: 'runner'
   name: "Sure Gamble"
   src: "sure_gamble.png"
   cardType: "Event"
@@ -52,6 +55,7 @@
   ]
 ,
   _id: "diesel-1"
+  owner: 'runner'
   name: "Diesel"
   src: "diesel.png"
   cardType: "Event"
@@ -63,6 +67,7 @@
   ]
 ,
   _id: "sure-gamble-2"
+  owner: 'runner'
   name: "Sure Gamble"
   src: "sure_gamble.png"
   cardType: "Event"
@@ -74,6 +79,7 @@
   ]
 ,
   _id: "diesel-2"
+  owner: 'runner'
   name: "Diesel"
   src: "diesel.png"
   cardType: "Event"
@@ -85,6 +91,7 @@
   ]
 ,
   _id: "sure-gamble-3"
+  owner: 'runner'
   name: "Sure Gamble"
   src: "sure_gamble.png"
   cardType: "Event"
@@ -96,6 +103,7 @@
   ]
 ,
   _id: "diesel-3"
+  owner: 'runner'
   name: "Diesel"
   src: "diesel.png"
   cardType: "Event"
@@ -107,6 +115,7 @@
   ]
 ,
   _id: "access-to-globalsec-1"
+  owner: 'runner'
   name: "Access To Globalsec"
   src: "access-to-globalsec.png"
   cardType: "Resource"
@@ -119,6 +128,7 @@
   ]
 ,
   _id: "armitage-codebusting-1"
+  owner: 'runner'
   name: "Armitage Codebusting"
   src: "armitage-codebusting.png"
   cardType: "Resource"
@@ -138,6 +148,7 @@
   ]
 ,
   _id: "akamatsu-mem-chip-1"
+  owner: 'runner'
   name: "Akamatsu Mem Chip"
   src: "akamatsu-mem-chip.png"
   cardType: "Hardware"
@@ -150,6 +161,7 @@
   ]
 ,
   _id: "akamatsu-mem-chip-2"
+  owner: 'runner'
   name: "Akamatsu Mem Chip"
   src: "akamatsu-mem-chip.png"
   cardType: "Hardware"
@@ -162,6 +174,7 @@
   ]
 ,
   _id: "modded-1"
+  owner: 'runner'
   name: "Modded"
   src: "modded.png"
   cardType: "Event"
@@ -174,6 +187,7 @@
   ]
 ,
   _id: "modded-2"
+  owner: 'runner'
   name: "Modded"
   src: "modded.png"
   cardType: "Event"
