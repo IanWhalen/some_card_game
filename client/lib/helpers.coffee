@@ -33,28 +33,6 @@
   game()[opp]["cardBack"]
 
 
-@show_game_start_images = (cvs, playerObj, game) ->
-  # First add cards for runner
-  add_card_to_canvas cvs,
-                     playerObj,
-                     game["runner"]["cardBack"],
-                     CARD_PARAMS['width'],
-                     CANVAS['height'] - CARD_PARAMS['height']
-
-  add_card_to_canvas cvs,
-                     playerObj,
-                     game["runner"]["identity"],
-                     CARD_PARAMS['width'] * 2,
-                     CANVAS['height'] - CARD_PARAMS['height']
-  
-  # Then add cards for corp
-  add_card_to_canvas cvs,
-                     playerObj,
-                     game['corp']['cardBack'],
-                     CANVAS['width'] - CARD_PARAMS['width'] * 2
-                     0
-
-
 @myself = ->
   Players.findOne Session.get("player_id")
 
@@ -130,13 +108,80 @@
 #-----------------------------------------------------------------------------
 
 Meteor.startup ->
+  String::capitalize = ->
+    @charAt(0).toUpperCase() + @slice(1)
+
   Session.set 'selectedCard', undefined
   Session.set 'showDialog', false
   Session.set 'runnerIsModded', false
   Session.set 'programsAndHardwareInHand', false
 
 
-  fabric.Canvas.prototype.addCountersToCard = (playerObj, card, cardX, cardY) ->
+  fabric.Canvas::showGameStartImages = (playerObj, game) ->
+    @addCardToCanvas playerObj,                     # Runner deck
+      {src: 'runner-back.jpg', gameLoc: 'runner'},
+      CARD_PARAMS['width']*1.05,
+      @height - CARD_PARAMS['height'] - 20,
+      (true if playerObj.side is 'corp')
+
+    @addCardToCanvas playerObj,                     # Runner identity
+      game["runner"]["identity"],
+      CARD_PARAMS['width'] * 2 * 1.05,
+      @height - CARD_PARAMS['height'] - 20,
+      (true if playerObj.side is 'corp')
+
+    @addCardToCanvas playerObj,                     # Corp deck
+      {src: 'corp-back.jpg', gameLoc: 'corp'},
+      @width - CARD_PARAMS['width']*2*1.05,
+      20,
+      (true if playerObj.side is 'corp')
+
+    @addCardToCanvas playerObj,                     # Corp identity
+      game['corp']['identity'],
+      @width - CARD_PARAMS['width']*3*1.05,
+      20,
+      (true if playerObj.side is 'corp')
+
+
+  # Created from the perspective of the Runner
+  fabric.Canvas::showGameStartText = (playerObj) ->
+    @addLocationText playerObj,
+      "|--------------     Corp's Hand     --------------|",
+      @width - CARD_PARAMS['width']*4.5*1.05,
+      8,
+      (true if playerObj.side is 'corp')
+
+    @addLocationText playerObj,
+      "|--  Corp's Deck  --|",
+      @width - CARD_PARAMS['width']*1.5*1.05,
+      8,
+      (true if playerObj.side is 'corp')
+
+    @addLocationText playerObj,
+      "|-- Corp's Discard --|",
+      @width - CARD_PARAMS['width']*.5,
+      8,
+      (true if playerObj.side is 'corp')
+
+    @addLocationText playerObj,
+      "|--------------    Runner's Hand    --------------|",
+      CARD_PARAMS['width']*4.5*1.05,
+      @height - 8,
+      (true if playerObj.side is 'corp')
+
+    @addLocationText playerObj,
+      "|-  Runner's Deck  -|",
+      CARD_PARAMS['width']*1.5*1.05,
+      @height - 8,
+      (true if playerObj.side is 'corp')
+
+    @addLocationText playerObj,
+      "|- Runner's Discard -|",
+      CARD_PARAMS['width']*.5,
+      @height - 8,
+      (true if playerObj.side is 'corp')
+
+  fabric.Canvas::addCountersToCard = (playerObj, card, cardX, cardY) ->
     x = cardX + CARD_PARAMS['width'] / 2
     y = cardY + CARD_PARAMS['height'] + 6
     
@@ -146,16 +191,30 @@ Meteor.startup ->
       p = new fabric.Point x, y
 
     textAttributes =
-      fontSize: 14
+      fontSize: 12
       selectable: false
 
     text = new fabric.Text card.counters + '●', textAttributes
 
     text.setPositionByOrigin p
-    textObj = @.add text
+    @add text
 
 
-  fabric.Canvas.prototype.displayPlayerHands = (result) ->
+  fabric.Canvas::addLocationText = (playerObj, text, x, y, xyFlip) ->
+    textAttributes =
+      fontSize: 10
+      selectable: true
+
+    textObj = new fabric.Text text, textAttributes
+
+    [x, y] = [@width - x, @height - y] if xyFlip
+    p = new fabric.Point(x, y)
+
+    textObj.setPositionByOrigin p, 'center', 'center'
+    @add textObj
+
+
+  fabric.Canvas::displayPlayerHands = (result) ->
     # result = { ownHand: [Card, Card], opponentHandSize: 3 }
     playerObj = myself()
 
@@ -163,7 +222,7 @@ Meteor.startup ->
     @displayOpponentHand playerObj, result['opponentHandSize']
 
 
-  fabric.Canvas.prototype.addCardToCanvas = (playerObj, card, x, y, xyFlip) ->
+  fabric.Canvas::addCardToCanvas = (playerObj, card, x, y, xyFlip) ->
     x = x + CARD_PARAMS['width'] / 2
     y = y + CARD_PARAMS['height'] / 2
     p = new fabric.Point(x, y)
@@ -182,18 +241,24 @@ Meteor.startup ->
       @add oImg
 
 
-  fabric.Canvas.prototype.displayOwnHand = (playerObj, hand) ->
+  fabric.Canvas::displayOwnHand = (playerObj, hand) ->
     i = 0
     while i < hand.length
-      y = @height - CARD_PARAMS['height'] # Add to bottom row
-      x = CARD_PARAMS['width'] * 3 + i * CARD_PARAMS['width'] * 0.7 # Start in 3rd column and overlap a bit
       card = hand[i]
+
+      y = @height - CARD_PARAMS['height'] - 20                        # Bottom row 
+      x = CARD_PARAMS['width']*3*1.05 + i*CARD_PARAMS['width']*0.4    # Start in 3rd column and overlap
         
       @addCardToCanvas playerObj, card, x, y
+      
       i++
 
+    # side = playerObj.side.capitalize()
+    # text = "|========== #{side}'s Hand ==========|"
+    # @addLocationText playerObj, text, x+45, @height-10
 
-  fabric.Canvas.prototype.displayOpponentHand = (playerObj, handSize) ->
+
+  fabric.Canvas::displayOpponentHand = (playerObj, handSize) ->
     card = {}
     if playerObj.side is 'runner'
       card['gameLoc'] = 'corp.hand'
@@ -204,19 +269,19 @@ Meteor.startup ->
 
     i = 0
     while i < handSize
-      y = 0
-      x = (CANVAS['width'] - CARD_PARAMS['width'] * 4) - i * CARD_PARAMS['width'] * 0.7
+      y = 0 + 20
+      x = (@width - CARD_PARAMS['width']*4*1.05) - i*CARD_PARAMS['width']*0.4
 
       @addCardToCanvas playerObj, card, x, y
       i++
 
 
-  fabric.Canvas.prototype.displayRunnerResources = (result) ->
+  fabric.Canvas::displayRunnerResources = (result) ->
     playerObj = myself()
 
     i = 0
     while i < result.length
-      y = CANVAS['height'] - CARD_PARAMS['height'] * 2 - 15 # Add to 2nd to bottom row with room for counters
+      y = CANVAS['height'] - CARD_PARAMS['height'] * 2 - 15   # 2nd row from bottom with room for counters
       x = CARD_PARAMS['width'] * 2 + i * CARD_PARAMS['width'] # Start in 2nd column
       resource = result[i]
 
@@ -228,20 +293,39 @@ Meteor.startup ->
       i++
 
 
-  fabric.Canvas.prototype.displayRunnerHardware = (result) ->
+  fabric.Canvas::displayRunnerHardware = (result) ->
     playerObj = myself()
 
     i = 0
-    while i < result.length
-      y = CANVAS['height'] - CARD_PARAMS['height'] * 3 - 30 # Add to 2nd to bottom row with room for counters
-      x = CARD_PARAMS['width'] * 2 + i * CARD_PARAMS['width'] # Start in 2nd column
+    while i < result.length                                   # Iterate through installed hardware
       hardware = result[i]
 
-      xyFlip = true if playerObj.side is 'corp'
-
+      y = CANVAS['height'] - CARD_PARAMS['height'] * 3 - 30   # 3rd row from bottom with room for counters
+      x = CARD_PARAMS['width'] * 2 + i * CARD_PARAMS['width'] # 2nd column
       hardware['gameLoc'] = 'runner.hardware'
+
+      xyFlip = true if playerObj.side is 'corp'               # Flip on x/y axis if player is the runner
       @addCardToCanvas playerObj, hardware, x, y, xyFlip
 
       if hardware.counters
         @addCountersToCard playerObj, hardware, x, y
+      i++
+
+
+  # TODO: Handle server without asset/agenda
+  fabric.Canvas::displayRemoteServers = (result) ->
+    playerObj = myself()
+
+    i = 0
+    while i < result.length                                     # Iterate through the remote servers
+      server = result[i]
+      card = server['assetsAndAgendas'][0]                      # Get the installed asset or agenda
+
+      y = @height - CARD_PARAMS['height'] - 20                  # Bottom row with room for server name, counters
+      x = CARD_PARAMS['width']*6 + i*CARD_PARAMS['width']*1.2   # Just to the right of Corp's hand
+
+      xyFlip = true if playerObj.side is 'runner'               # Flip on x/y axis if player is the runner
+      @addCardToCanvas playerObj, card, x, y, xyFlip
+      @addLocationText playerObj, "|-- #{server.name} --|", x+45, @height-8, xyFlip
+      @addCountersToCard playerObj, card, x, y if hardware.counters
       i++

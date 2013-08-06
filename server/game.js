@@ -152,8 +152,30 @@ Meteor.methods({
   //-----------------------------------------------------------------------------
 
   getRemoteServers: function(playerObj) {
-    return getGameObj(playerObj)['corp']['remoteServers'] || [];
+    var remotes = getGameObj(playerObj)['corp']['remoteServers'] || [];
+    
+    for (var i = 0; i < remotes.length; i++) {            // Loop through the list of remote servers
+      var server = remotes[i];
+
+      assetsAndAgendas = server['assetsAndAgendas'];
+      for (var j = 0; j < assetsAndAgendas.length; j++) { // And loop through each server's assets/agendas
+        var card = server['assetsAndAgendas'][j];
+        if (card['rezzed'] === false) {                   // If a card hasn't been rezzed
+          if (playerObj.side === 'corp') {
+            card['trueSrc'] = card['src'];                // Show the Corp the real card when hovering
+            card['src'] = 'corp-back.jpg';                // But only show the card back when on the table
+          } else {
+            var blankCard = {src: 'corp-back.jpg'};       // And wipe everything for the Runner
+            blankCard['gameLoc'] = 'corp.remoteServers';
+            remotes[i]['assetsAndAgendas'][j] = blankCard;
+          }
+        }
+      }
+    }
+
+    return remotes;
   },
+
 
   getRunnerResources: function(playerObj) {
     return getGameObj(playerObj)['runner']['resources'] || [];
@@ -218,11 +240,6 @@ Meteor.methods({
     } catch (e) {
       return false;
     }
-  },
-
-
-  getRemoteServers: function (playerObj) {
-    return getGameObj(playerObj)['corp']['remoteServers'];
   },
 
 
