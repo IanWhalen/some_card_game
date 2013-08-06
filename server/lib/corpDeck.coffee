@@ -80,9 +80,16 @@
   name: "PAD Campaign"
   src: "pad-campaign.png"
   cardType: "Asset"
-  handActions: [
+  addBenefit: 'gain1CreditEachTurn'
+  boardActions: [
     click_cost: 1
     credit_cost: 2
+    ActionText: 'Rez PAD Campaign'
+    action: 'rezAsset'
+  ]
+  handActions: [
+    click_cost: 1
+    credit_cost: 0
     actionText: "Install PAD Campaign."
     action: 'installAsset'
   ]
