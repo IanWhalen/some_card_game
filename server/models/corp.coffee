@@ -61,6 +61,14 @@ class @Corp extends @Player
     @moveCardToServer cardObj, server
 
 
+  #-----------------------------------------------------------------------------
+  # CORP ONGOING BENEFITS
+  #
+  #-----------------------------------------------------------------------------
+
+  gain1CreditEachTurn: () ->
+    @setBooleanField 'corp.identity.gain1CreditEachTurn', true
+
 
   #-----------------------------------------------------------------------------
   # CARD MOVEMENT FUNCTIONS
