@@ -13,6 +13,7 @@ class @Corp extends @Player
   startTurn: () ->
     @resetClicks()
     @draw1Card()
+    @setBooleanField 'corp.identity.gain1CreditOnFirstInstall', true
 
 
   #-----------------------------------------------------------------------------
@@ -47,6 +48,13 @@ class @Corp extends @Player
     creditCost = actionData['credit_cost']
 
     return [clickCost, creditCost, logs]
+
+  applyMods: () ->
+    if @identity.gain1CreditOnFirstInstall
+      @add1Credit()
+      @setBooleanField 'runner.identity.gain1CreditOnFirstInstall', false
+      logs.push "Corp gained 1 credit from this install because of their identity."    
+
 
   #-----------------------------------------------------------------------------
   # CORP ACTIONS
