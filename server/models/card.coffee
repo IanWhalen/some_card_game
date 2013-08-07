@@ -5,20 +5,12 @@ class @Card
 
 
   getActionDataFromCard: (action) ->
-    if @.getSideLoc() == 'hand'
+    if @loc == 'hand'
       arr = 'handActions'
-    if @.getSideLoc() == 'resources'
+    if @loc == 'resources'
       arr = 'boardActions'
 
     return actionObj = _.find @[arr], (obj) -> obj['action'] = action
-
-
-  getSide: () ->
-    @['gameLoc'].split(".")[0]
-
-
-  getSideLoc: () ->
-    @['gameLoc'].split(".")[1]
 
 
   incCounters: (gameId, amount) ->

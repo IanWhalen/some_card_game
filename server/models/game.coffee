@@ -81,29 +81,6 @@ class @Game
   #
   #-----------------------------------------------------------------------------
 
-  installResource: (playerObj, gameLoc, cardId, costMod) ->
-    runner = new Runner(@['runner'], @['_id'])
-    cardObj = new Card(@.getCardFromCorrectLocation gameLoc, cardId)
-    actionData = cardObj.getActionDataFromCard 'installResource' if cardObj?
-
-    [clickCost, creditCost, logs] = @applyCostMods actionData, costMod
-    if not runner.hasEnoughClicks clickCost
-      @logForRunner "You can not install #{cardObj.name} because you do not have enough clicks left."
-      return false
-
-    if not runner.hasEnoughCredits creditCost
-      @logForRunner "You can not install #{cardObj.name} because you do not have enough credits left."
-      return false
-    
-    runner.payAllCosts clickCost, creditCost
-    @[cardObj['addBenefit']]() if cardObj['addBenefit']?
-    @moveCardToResources cardObj
-    
-    line = "The Runner spends #{actionData["click_cost"]} click and " +
-      "€#{actionData['credit_cost']} to install #{cardObj.name}."
-    @logForBothSides line
-
-
   installHardware: (playerObj, gameLoc, cardId, costMod) ->
     runner = new Runner(@['runner'], @['_id'])
     cardObj = new Card(@.getCardFromCorrectLocation gameLoc, cardId)

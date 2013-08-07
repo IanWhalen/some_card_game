@@ -18,7 +18,7 @@ Template.sidebar.events "click button.action-button": (e) ->
   action = e.target.dataset.action # e.g. "draw9Credits"
 
   if action is 'installResource'
-    Meteor.call 'doInstallResourceAction', myself(), gameLoc, cardId, (err, result) ->
+    Meteor.call 'doInstallResourceAction', myself(), cardId, (err, result) ->
       console.log err if err
 
   if action is 'installHardware'

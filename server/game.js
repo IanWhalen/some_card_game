@@ -116,10 +116,11 @@ Meteor.methods({
   },
 
 
-  doInstallResourceAction: function (playerObj, gameLoc, cardId) {
-    var gameObj = getGameObj(playerObj);
+  doInstallResourceAction: function (playerObj, cardId) {
+    var game = getGameObj(playerObj);
+    var runner = new Runner(game.runner, game._id);
 
-    gameObj.installResource(playerObj, gameLoc, cardId);
+    return runner.installResource(cardId, 'foo');
   },
 
 

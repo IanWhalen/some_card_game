@@ -18,11 +18,48 @@ class @Runner extends @Player
 
   incMemory: (amount) -> @_incIntegerField 'runner.stats.memory', amount
 
+  installResource: (cardId, costMod) ->
+    card = new Card( _.find @hand, (obj) -> obj._id is cardId )
+    actionData = card.getActionDataFromCard 'installResource' if card?
+
+    [clickCost, creditCost, logs] = @applyCostMods actionData, costMod
+    if not @hasEnoughClicks clickCost
+      @logForSelf "You can not install #{card.name} because you do not have enough clicks left."
+      return false
+
+    if not @hasEnoughCredits creditCost
+      @logForSelf "You can not install #{card.name} because you do not have enough credits left."
+      return false
+    
+    @payAllCosts clickCost, creditCost
+    @[card.addBenefit]() if card.addBenefit?
+    card.loc = 'resources'
+    @moveCardToResources card
+    
+    line = "The Runner spends #{clickCost} click and €#{creditCost} to install #{card.name}."
+    @logForBothSides line
+
 
   #-----------------------------------------------------------------------------
-  # HELPER FUNCTIONS
+  # CARD MOVEMENT
   #
   #-----------------------------------------------------------------------------
+
+  moveCardToResources: (cardObj) ->
+    updateHand = {}                                 # {}
+    idObj = {}                                      # {}
+    idObj['_id'] = cardObj['_id']                   # { _id: 'access-to-globalsec-2' }
+    updateHand["runner.hand"] = idObj               # { 'runner.hand' : { _id : 'access-to-globalsec-2' } }
+
+    updateResources = {}                            # {}
+    cardObj.loc = 'resources'                       # cardObj
+    updateResources["runner.resources"] = cardObj   # { 'runner.resources' : cardObj }
+
+    Games.update @gameId,                           # Remove card from Hand
+      $pull: updateHand
+
+    Games.update @gameId,                           # Add card to installed Resources
+      $push: updateResources
 
 
   #-----------------------------------------------------------------------------
@@ -39,6 +76,13 @@ class @Runner extends @Player
   incLink: (amount) -> @_incIntegerField 'runner.stats.link', amount
 
   incMemory: (amount) -> @_incIntegerField 'runner.stats.memory', amount
+
+  applyCostMods: (actionData, costMod) ->
+    logs = []
+    clickCost = actionData['click_cost']
+    creditCost = actionData['credit_cost']
+
+    return [clickCost, creditCost, logs]
 
 
   #-----------------------------------------------------------------------------
