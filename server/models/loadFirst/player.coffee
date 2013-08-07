@@ -30,6 +30,15 @@ class @Player
 
   hasEnoughClicks: (n) -> @['stats']['clicks'] >= n
 
+  applyClickMod: (clickCost, clickMod) ->
+    clickCost += clickMod
+    if clickCost < 0 then return 0 else return clickCost
+
+
+  applyCreditMod: (creditCost, creditMod) ->
+    creditCost += creditMod
+    if creditCost < 0 then return 0 else return creditCost
+
 
   #-----------------------------------------------------------------------------
   # HELPER FUNCTIONS
