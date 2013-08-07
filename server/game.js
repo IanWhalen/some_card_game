@@ -131,9 +131,11 @@ Meteor.methods({
 
 
   createNewRemoteServer: function (playerObj) {
-    var game = getGameObj(playerObj);
+    if (playerObj.side === 'corp') {
+      var game = getGameObj(playerObj);
 
-    return game.createNewRemoteServer();
+      return game.createNewRemoteServer();
+    }
   },
 
 
