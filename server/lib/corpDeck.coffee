@@ -4,6 +4,7 @@
     src: "corpIdentity.png"
     gameLoc: 'corp'
     actions: []
+    gain1CreditOnFirstInstall: true
   cardBack:
     src: "corp-back.jpg"
     gameLoc: 'corp'
@@ -17,6 +18,7 @@
 @CORP_DECK = [
   _id: "hedge-fund-1"
   owner: 'corp'
+  loc: 'deck'
   name: "Hedge Fund"
   src: "hedge_fund.png"
   cardType: "Operation"
@@ -29,6 +31,7 @@
 ,
   _id: "hedge-fund-2"
   owner: 'corp'
+  loc: 'deck'
   name: "Hedge Fund"
   src: "hedge_fund.png"
   cardType: "Operation"
@@ -41,6 +44,7 @@
 ,
   _id: "hedge-fund-3"
   owner: 'corp'
+  loc: 'deck'
   name: "Hedge Fund"
   src: "hedge_fund.png"
   cardType: "Operation"
@@ -53,6 +57,7 @@
 ,
   _id: "biotic-labor-1"
   owner: 'corp'
+  loc: 'deck'
   name: "Biotic Labor"
   src: "biotic-labor.png"
   cardType: "Operation"
@@ -65,6 +70,7 @@
 ,
   _id: "biotic-labor-2"
   owner: 'corp'
+  loc: 'deck'
   name: "Biotic Labor"
   src: "biotic-labor.png"
   cardType: "Operation"
@@ -77,20 +83,22 @@
 ,
   _id: "pad-campaign-1"
   owner: 'corp'
+  loc: 'deck'
   name: "PAD Campaign"
   src: "pad-campaign.png"
   cardType: "Asset"
   addBenefit: 'gain1CreditEachTurn'
-  boardActions: [
+  unrezzedActions: [
     click_cost: 1
     credit_cost: 2
     ActionText: 'Rez PAD Campaign'
     action: 'rezAsset'
   ]
+  rezzedActions: []
   handActions: [
     click_cost: 1
     credit_cost: 0
-    actionText: "Install PAD Campaign."
+    actionText: "Install PAD Campaign"
     action: 'installAsset'
   ]
 ]
