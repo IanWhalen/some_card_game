@@ -10,21 +10,43 @@ Template.actionChoices.onlyOneCard = () ->
 Template.actionChoices.actions = () ->
   if Template.actionChoices.onlyOneCard
     cardObj = Session.get("selectedCard")
-    
-    if cardObj['cardType'] is 'Asset'
-      Meteor.call 'getRemoteServers', myself(), (err, result) ->
-        console.log err if err
-        Session.set 'remoteServers', result
 
-      opts = _.toArray(Session.get('remoteServers'))
-      opts.push {action: 'installAssetToNewRemoteServer', actionText: 'Install to new remote server'}
-      return opts
+    ##########
+    # ASSETS #
+    ##########
+    if cardObj.cardType is 'Asset'
 
-    if cardObj['gameLoc'] in ['runner.hand', 'corp.hand']
-      return cardObj['handActions']
-    
-    if cardObj['gameLoc'] is 'runner.resources'
-      return cardObj['boardActions']
+      # Installed but unrezzed Assets
+      if cardObj.loc is 'remoteServer' and cardObj.rezzed is false
+        return cardObj.unrezzedActions
+
+      # Uninstalled Assets
+      if cardObj.loc is 'hand' and cardObj.cardType is 'Asset'
+        Meteor.call 'getRemoteServers', myself(), (err, result) ->
+          console.log err if err
+          Session.set 'remoteServers', result
+        opts = _.toArray(Session.get('remoteServers'))
+        opts.push
+          action: "installAssetToNewRemoteServer"
+          actionText: "Install to new remote server"
+        return opts
+
+    #############
+    # RESOURCES #
+    #############
+    if cardObj.cardType is 'Resource'
+
+      # Installed Resources
+      if cardObj.loc is 'resources'
+        return cardObj.boardActions
+
+    ###########
+    # DEFAULT #
+    ###########
+
+    # Cards still in hand
+    if cardObj.loc is 'hand'
+      return cardObj.handActions
   
   else
     return []
