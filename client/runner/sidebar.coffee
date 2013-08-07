@@ -17,38 +17,36 @@ Template.sidebar.events "click button.action-button": (e) ->
   cardId = selectedCard._id        # e.g. "sure-gamble-1"
   action = e.target.dataset.action # e.g. "draw9Credits"
 
-  if action is 'installResource'
-    Meteor.call 'doInstallResourceAction', myself(), cardId, (err, result) ->
-      console.log err if err
-
-  if action is 'installHardware'
-    Meteor.call 'doInstallHardwareAction', myself(), gameLoc, cardId, (err, result) ->
-      console.log err if err
-
-  if action is 'installAssetToNewRemoteServer'
-    Meteor.call 'createNewRemoteServer', myself(), (err, result) ->
-      console.log err if err
-
-      newServer = result
-      Meteor.call 'doInstallAssetAction', myself(), cardId, newServer, (err, result) ->
+  switch action
+    when 'installResource'
+      Meteor.call 'doInstallResourceAction', myself(), cardId, (err, result) ->
+        console.log 'got to installResource'
+        console.log err if err
+    when 'installHardware'
+      Meteor.call 'doInstallHardwareAction', myself(), gameLoc, cardId, (err, result) ->
+        console.log err if err
+    when 'installAssetToNewRemoteServer'
+      Meteor.call 'createNewRemoteServer', myself(), (err, result) ->
         console.log err if err
 
-
-
-  else
-    Meteor.call "doCardAction", myself(), gameLoc, cardId, action, (err, result) ->
-      console.log err if err
-      
-      if result is 'runnerIsModded'
-        Meteor.call "getRunnerHand", myself(), (err, result) ->
+        newServer = result
+        Meteor.call 'doInstallAssetAction', myself(), cardId, newServer, (err, result) ->
           console.log err if err
+    else
+      Meteor.call "doCardAction", myself(), cardId, action, (err, result) ->
+        console.log err if err
+        console.log 'got to doCardAction'
 
-          cards = _.filter(result, (card) ->
-            card['cardType'] in ['Program', 'Hardware']
-          )
+        if result is 'runnerIsModded'
+          Meteor.call "getRunnerHand", myself(), (err, result) ->
+            console.log err if err
 
-          Session.set "programsAndHardwareInHand", cards
-          Session.set 'runnerIsModded', true
-          Session.set 'showDialog', true
+            cards = _.filter(result, (card) ->
+              card['cardType'] in ['Program', 'Hardware']
+            )
+
+            Session.set "programsAndHardwareInHand", cards
+            Session.set 'runnerIsModded', true
+            Session.set 'showDialog', true
 
   Session.set "selectedCard", undefined
