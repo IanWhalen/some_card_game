@@ -76,8 +76,6 @@ class @Corp extends @Player
       return false
     
     @payAllCosts clickCost, creditCost
-    @[card['addBenefit']]() if card.addBenefit?
-    
     line = "The Runner spends #{clickCost} click and to install a card to a Remote Server."
     @logForBothSides line
 
