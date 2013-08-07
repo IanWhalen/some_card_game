@@ -45,14 +45,14 @@ Template.main_canvas.rendered = ->
     runnerDiscardTop = result['runner']
     if runnerDiscardTop
       runnerX = 0
-      runnerY = CANVAS['height'] - CARD_PARAMS['height']
+      runnerY = CANVAS['height'] - CARD_PARAMS['height'] - 20
       runnerDiscardTop['gameLoc'] = 'runner.discard'
       add_card_to_canvas main_canvas, playerObj, runnerDiscardTop, runnerX, runnerY
 
     corpDiscardTop = result['corp']
     if corpDiscardTop
       corpX = CANVAS['width'] - CARD_PARAMS['width']
-      corpY = 0
+      corpY = 20
       corpDiscardTop['gameLoc'] = 'corp.discard'
       add_card_to_canvas main_canvas, playerObj, corpDiscardTop, corpX, corpY
 
