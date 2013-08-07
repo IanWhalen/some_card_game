@@ -76,7 +76,7 @@ class @Corp extends @Player
       return false
     
     @payAllCosts clickCost, creditCost
-    line = "The Runner spends #{clickCost} click and to install a card to a Remote Server."
+    line = "The Runner spends #{clickCost} click to install a card to #{server.name}."
     @logForBothSides line
 
     card.rezzed = false
