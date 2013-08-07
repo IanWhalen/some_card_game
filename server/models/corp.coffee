@@ -63,11 +63,27 @@ class @Corp extends @Player
   #-----------------------------------------------------------------------------
 
   installAsset: (cardId, server) ->
-    cardObj = _.find @['hand'], (obj) -> obj._id is cardId
-    cardObj['rezzed'] = false
-    cardObj['loc'] = 'assets'
+    card = new Card(_.find @['hand'], (obj) -> obj._id is cardId)
+    actionData = card.getActionDataFromCard 'installAsset' if card?
 
-    @moveCardToServer cardObj, server
+    [clickCost, creditCost, logs] = @applyCostMods actionData, false
+    if not @hasEnoughClicks clickCost
+      @logForSelf "You can not install #{card.name} because you do not have enough clicks left."
+      return false
+
+    if not @hasEnoughCredits creditCost
+      @logForSelf "You can not install #{card.name} because you do not have enough credits left."
+      return false
+    
+    @payAllCosts clickCost, creditCost
+    @[card['addBenefit']]() if card.addBenefit?
+    
+    line = "The Runner spends #{clickCost} click and to install a card to a Remote Server."
+    @logForBothSides line
+
+    card.rezzed = false
+    card.loc = 'assets'
+    @moveCardToServer card, server
 
 
   #-----------------------------------------------------------------------------
