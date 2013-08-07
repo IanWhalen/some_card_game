@@ -63,7 +63,7 @@ class @Corp extends @Player
   #-----------------------------------------------------------------------------
 
   installAsset: (cardId, server) ->
-    card = new Card(_.find @['hand'], (obj) -> obj._id is cardId)
+    card = new Card( _.find @hand, (obj) -> obj._id is cardId )
     actionData = card.getActionDataFromCard 'installAsset' if card?
 
     [clickCost, creditCost, logs] = @applyCostMods actionData, false
