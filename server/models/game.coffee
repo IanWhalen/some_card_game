@@ -177,51 +177,60 @@ class @Game
   #-----------------------------------------------------------------------------
 
   moveCardToResources: (cardObj) ->
-    updateHand = {}
-    idObj = {}
-    idObj['_id'] = cardObj['_id']
-    updateHand["runner.hand"] = idObj
+    updateHand = {}                                 # {}
+    idObj = {}                                      # {}
+    idObj['_id'] = cardObj['_id']                   # { _id: 'access-to-globalsec-2' }
+    updateHand["runner.hand"] = idObj               # { 'runner.hand' : { _id : 'access-to-globalsec-2' } }
 
-    updateResources = {};
-    cardObj['gameLoc'] = 'runner.resources'
-    updateResources["runner.resources"] = cardObj
+    updateResources = {}                            # {}
+    cardObj.loc = 'resources'                       # cardObj
+    updateResources["runner.resources"] = cardObj   # { 'runner.resources' : cardObj }
 
-    Games.update(@._id, { $pull:  updateHand});
-    Games.update(@._id, { $push: updateResources});
+    Games.update @_id,                              # Remove card from Hand
+      $pull: updateHand
+
+    Games.update @_id,                              # Add card to installed Resources
+      $push: updateResources
 
 
   moveCardToHardware: (cardObj) ->
-    updateHand = {}
-    idObj = {}
-    idObj['_id'] = cardObj['_id']
-    updateHand["runner.hand"] = idObj
+    updateHand = {}                                 # {}
+    idObj = {}                                      # {}
+    idObj._id = cardObj._id                         # { _id: 'akamatsu-mem-chip-1' }
+    updateHand["runner.hand"] = idObj               # { 'runner.hand' : { _id : 'akamatsu-mem-chip-1' } }
 
-    updateHardware = {};
-    cardObj['gameLoc'] = 'runner.hardware'
-    updateHardware["runner.hardware"] = cardObj
+    updateHardware = {}                             # {}
+    cardObj.loc = 'hardware'                        # cardObj
+    updateHardware["runner.hardware"] = cardObj     # { 'runner.hardware': cardObj }
 
-    Games.update(@._id, { $pull:  updateHand});
-    Games.update(@._id, { $push: updateHardware});
+    Games.update @_id,                              # Remove card from Hand
+      $pull: updateHand
+
+    Games.update @_id,                              # Add card to installed Hardware
+      $push: updateHardware
 
 
   moveCardToDiscard: (cardObj) ->
-    target = cardObj.getSide() + '.discard'
+    target = cardObj.owner + '.discard'             # 'corp.discard' or 'runner.discard'
 
-    startLoc = {}
-    idObj = {}
-    idObj['_id'] = cardObj['_id']
-    startLoc[cardObj['gameLoc']] = idObj
+    startLoc = {}                                   # {}
+    idObj = {}                                      # {}
+    idObj._id = cardObj._id                         # { _id: 'sure-gamble-1' }
+    startLoc[cardObj.owner + cardObj.loc] = idObj   # { 'runner.hand' : { _id : 'sure-gamble-1' } }
 
-    updateDiscard = {}
-    cardObj['gameLoc'] = target
-    updateDiscard[target] = cardObj      
+    updateDiscard = {}                              # {}
+    cardObj.loc = 'discard'                         # cardObj
+    updateDiscard[target] = cardObj                 # { 'runner.discard': cardObj }
 
-    Games.update( @._id, { $pull: startLoc } )
-    Games.update( @._id, { $push: updateDiscard } )
+    Games.update @_id,                              # Remove card from starting location
+      $pull: startLoc
+    
+    Games.update @_id,                              # Add card to top of Discard
+      $push: updateDiscard
 
 
   moveTopCardFromDeckToHand: (playerObj, cardObj) ->
-    cardObj['gameLoc'] = playerObj.side + '.hand'
+    cardObj.loc = 'hand'
 
     updateDeck = {}
     updateHand = {}
