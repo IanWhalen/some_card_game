@@ -44,14 +44,12 @@ class @Game
       obj._id is cardId
     cardObj['gameLoc'] = gameLoc
 
-    cardObj
+    return cardObj
 
 
   doCardAction: (playerObj, gameLoc, cardId, action) ->
-    if playerObj.side is 'corp'
-      player = new Corp(@[playerObj.side], @._id)
-    if playerObj.side is 'runner'
-      player = new Runner(@[playerObj.side], @._id)
+    player = new Corp(@['corp'], @_id) if playerObj.side is 'corp'
+    player = new Runner(@['runner'], @_id) if playerObj.side is 'runner'
     cardObj = new Card(@.getCardFromCorrectLocation gameLoc, cardId)
 
     actionData = cardObj.getActionDataFromCard action if cardObj?
