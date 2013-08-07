@@ -56,6 +56,7 @@ class @Corp extends @Player
   installAsset: (cardId, server) ->
     cardObj = _.find @['hand'], (obj) -> obj._id is cardId
     cardObj['rezzed'] = false
+    cardObj['loc'] = 'assets'
 
     @moveCardToServer cardObj, server
 
@@ -68,6 +69,7 @@ class @Corp extends @Player
 
   moveTopCardFromDeckToHand: (cardObj) ->
     cardObj['gameLoc'] = 'corp.hand'
+    cardObj.loc = 'hand'
 
     updateDeck = {}
     updateHand = {}
