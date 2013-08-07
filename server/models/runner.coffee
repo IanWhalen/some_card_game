@@ -14,6 +14,10 @@ class @Runner extends @Player
 
   add1Memory: () -> @incMemory 1
 
+  incLink: (amount) -> @_incIntegerField 'runner.stats.link', amount
+
+  incMemory: (amount) -> @_incIntegerField 'runner.stats.memory', amount
+
 
   #-----------------------------------------------------------------------------
   # HELPER FUNCTIONS
