@@ -36,15 +36,6 @@ class @Game
   #
   #-----------------------------------------------------------------------------
 
-  getCardFromCorrectLocation: (gameLoc, cardId) ->
-    side = gameLoc.split(".")[0]; # e.g. "runner"
-    loc = gameLoc.split(".")[1];  # e.g. "hand" or "deck"
-
-    cardObj = _.find @[side][loc], (obj) ->
-      obj._id is cardId
-    cardObj['gameLoc'] = gameLoc
-
-    return cardObj
 
 
   doCardAction: (playerObj, gameLoc, cardId, action) ->
@@ -74,6 +65,8 @@ class @Game
       @moveCardToDiscard cardObj
 
     return result
+  getCardFromCorrectLocation: (cardId) ->
+    return cardObj = _.find @[side][loc], (obj) -> obj._id is cardId
 
 
   #-----------------------------------------------------------------------------
