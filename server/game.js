@@ -148,6 +148,14 @@ Meteor.methods({
   },
 
 
+  doRezAssetAction: function (playerObj, cardId, server) {
+    var game = getGameObj(playerObj);
+    var corp = new Corp(game.corp, game._id);
+
+    return corp.rezAsset(cardId, server);
+  },
+
+
   //-----------------------------------------------------------------------------
   // CARD DISPLAY FUNCTIONS
   //

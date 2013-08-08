@@ -13,9 +13,10 @@ Template.sidebar.events "click button#endTurn": ->
 Template.sidebar.events "click button.action-button": (e) ->
   selectedCard = Session.get "selectedCard"
   
-  gameLoc = selectedCard.gameLoc   # e.g. "runner.deck" or "corp.hand"
-  cardId = selectedCard._id        # e.g. "sure-gamble-1"
-  action = e.target.dataset.action # e.g. "draw9Credits"
+  gameLoc = selectedCard.gameLoc              # runner.deck
+  cardId = selectedCard._id                   # sure-gamble-1
+  action = e.target.dataset.action            # draw9Credits
+  remoteServer = selectedCard.remoteServer    # remoteServer1
 
   switch action
     when 'installResource'
@@ -32,6 +33,9 @@ Template.sidebar.events "click button.action-button": (e) ->
         newServer = result
         Meteor.call 'doInstallAssetAction', myself(), cardId, newServer, (err, result) ->
           console.log err if err
+    when 'rezAsset'
+      Meteor.call 'doRezAssetAction', myself(), cardId, remoteServer, (err, result) ->
+        console.log err if err
     else
       Meteor.call "doCardAction", myself(), cardId, action, (err, result) ->
         console.log err if err

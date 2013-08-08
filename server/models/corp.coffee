@@ -70,7 +70,6 @@ class @Corp extends @Player
     if not @hasEnoughClicks clickCost
       @logForSelf "You can not install #{card.name} because you do not have enough clicks left."
       return false
-
     if not @hasEnoughCredits creditCost
       @logForSelf "You can not install #{card.name} because you do not have enough credits left."
       return false
@@ -80,9 +79,30 @@ class @Corp extends @Player
     @logForBothSides line
 
     card.rezzed = false
-    card.loc = 'assets'
+    card.loc = 'remoteServer'
     @moveCardToServer card, server
 
+
+  rezAsset: (cardId, serverName) ->
+    server = _.find( @remoteServers, (i) -> i.action is serverName)
+    card = new Card( server.assetsAndAgendas[0] )
+    actionData = card.getActionDataFromCard 'rezAsset' if card
+
+    [clickCost, creditCost, logs] = @applyCostMods actionData, false
+    if not @hasEnoughClicks clickCost
+      @logForSelf "You can not install #{card.name} because you do not have enough clicks left."
+      return false
+    if not @hasEnoughCredits creditCost
+      @logForSelf "You can not install #{card.name} because you do not have enough credits left."
+      return false
+
+    @payAllCosts clickCost, creditCost
+    line = "The Runner spends #{clickCost} clicks and €#{creditCost} to rez #{server.name}."
+    @logForBothSides line
+
+    @[card.addBenefit]() if card.addBenefit?
+    card.rezzed = true
+    @updateAssetOnRemoteServer "corp.remoteServers.#{server.name}.assetsAndAgendas", card
 
   #-----------------------------------------------------------------------------
   # CORP ONGOING BENEFITS
@@ -113,6 +133,7 @@ class @Corp extends @Player
 
 
   moveCardToServer: (cardObj, server) ->
+    cardObj.remoteServer = server.action
     updateHand = {}
     idObj = {}
     idObj['_id'] = cardObj['_id']
@@ -143,3 +164,17 @@ class @Corp extends @Player
     ,
       $push:
         "corp.remoteServers.$.assetsAndAgendas": cardObj
+
+
+  updateAssetOnRemoteServer: (target, card) ->
+    updateLocation = {}
+    idObj = {}
+    idObj._id = card._id
+    updateLocation[target] = idObj
+
+    Games.update
+      _id: @gameId
+      "corp.remoteServers.action": card.remoteServer
+    ,
+      $set:
+        "corp.remoteServers.$.assetsAndAgendas": [card]
