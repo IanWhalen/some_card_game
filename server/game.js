@@ -124,10 +124,11 @@ Meteor.methods({
   },
 
 
-  doInstallHardwareAction: function (playerObj, gameLoc, cardId, costMod) {
-    var gameObj = getGameObj(playerObj);
+  doInstallHardwareAction: function (playerObj, cardId, costMod) {
+    var game = getGameObj(playerObj);
+    var runner = new Runner(game.runner, game._id);
 
-    gameObj.installHardware(playerObj, gameLoc, cardId, costMod);
+    return runner.installHardware(cardId, costMod);
   },
 
 
