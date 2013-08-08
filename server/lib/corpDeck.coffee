@@ -12,6 +12,7 @@
     score: 0
     credits: 5
     clicks: 0
+    handLimit: 5
   remoteServers: []
   hand: []
 
