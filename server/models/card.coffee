@@ -16,11 +16,11 @@ class @Card
   incCounters: (gameId, amount) ->
     findObj = {}
     findObj['_id'] = gameId
-    findObj[@gameLoc + '._id'] = @._id
+    findObj[@owner + '.' + @loc + '._id'] = @_id
 
     updateObj = {}
     updateEmbeddedObj = {}
-    updateEmbeddedObj[@gameLoc + '.$.counters'] = amount
+    updateEmbeddedObj["#{@owner}.#{@loc}.$.counters"] = amount
     updateObj['$inc'] = updateEmbeddedObj
 
     @_incEmbeddedIntegerField findObj, updateObj
