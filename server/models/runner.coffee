@@ -100,6 +100,22 @@ class @Runner extends @Player
       $push: updateResources
 
 
+  moveCardToHardware: (card) ->
+    updateHand = {}                                 # {}
+    idObj = {}                                      # {}
+    idObj._id = card._id                            # { _id: 'access-to-globalsec-2' }
+    updateHand["runner.hand"] = idObj               # { 'runner.hand' : { _id : 'access-to-globalsec-2' } }
+
+    updateHardware = {}                             # {}
+    updateHardware["runner.hardware"] = card        # { 'runner.resources' : cardObj }
+
+    Games.update @gameId,                           # Remove card from Hand
+      $pull: updateHand
+
+    Games.update @gameId,                           # Add card to installed Hardware
+      $push: updateHardware
+
+
   moveCardToDiscard: (card) ->
     target = 'runner.discard'                       # 'corp.discard' or 'runner.discard'
 
