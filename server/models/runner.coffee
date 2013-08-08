@@ -111,8 +111,6 @@ class @Runner extends @Player
     card.loc = 'discard'                            # card
     updateDiscard[target] = card                    # { 'runner.discard': card }
 
-    console.log startLoc
-    console.log updateDiscard
     Games.update @gameId,                           # Remove card from starting location
       $pull: startLoc
     
