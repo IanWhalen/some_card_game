@@ -296,10 +296,8 @@ Meteor.startup ->
     i = 0
     while i < result.length                                   # Iterate through installed hardware
       hardware = result[i]
-
       y = CANVAS['height'] - CARD_PARAMS['height'] * 3 - 30   # 3rd row from bottom with room for counters
       x = CARD_PARAMS['width'] * 2 + i * CARD_PARAMS['width'] # 2nd column
-      hardware['gameLoc'] = 'runner.hardware'
 
       xyFlip = true if playerObj.side is 'corp'               # Flip on x/y axis if player is the runner
       @addCardToCanvas playerObj, hardware, x, y, xyFlip
@@ -324,5 +322,5 @@ Meteor.startup ->
       xyFlip = true if playerObj.side is 'runner'               # Flip on x/y axis if player is the runner
       @addCardToCanvas playerObj, card, x, y, xyFlip
       @addLocationText playerObj, "|-- #{server.name} --|", x+45, @height-8, xyFlip
-      @addCountersToCard playerObj, card, x, y if hardware.counters
+      @addCountersToCard playerObj, card, x, y if card.counters
       i++
