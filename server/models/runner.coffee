@@ -90,15 +90,15 @@ class @Runner extends @Player
   #
   #-----------------------------------------------------------------------------
 
-  useArmitageCodebusting: (cardObj) ->
+  useArmitageCodebusting: (card) ->
     line = switch
-      when cardObj.counters is 1
+      when card.counters is 1
         @incCredits 1
-        cardObj.incCounters(@gameId, -1)
+        card.incCounters(@gameId, -1)
         line = 'The Runner spends 1 click to take 1 credit from Armitage Codebusting.'
-      when cardObj.counters >= 2
+      when card.counters >= 2
         @incCredits 2
-        cardObj.incCounters(@gameId, -2)
+        card.incCounters(@gameId, -2)
         line = 'The Runner spends 1 click to take 2 credits from Armitage Codebusting.'
 
     @logForBothSides line
