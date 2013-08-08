@@ -27,9 +27,31 @@ class @Runner extends @Player
     @[card.addBenefit]() if card.addBenefit?
     card.loc = 'resources'
     @moveCardToResources card
+
+    @logForBothSides(line) for line in logs
+    @logForBothSides "The Runner spends #{clickCost} click and €#{creditCost} to install #{card.name}."
+
+
+  installHardware: (cardId, costMod) ->
+    card = new Card( _.find @hand, (obj) -> obj._id is cardId )
+    actionData = card.getActionDataFromCard 'installHardware' if card?
+
+    [clickCost, creditCost, logs] = @applyCostMods actionData, costMod
+    if not @hasEnoughClicks clickCost
+      @logForSelf "You can not install #{card.name} because you do not have enough clicks left."
+      return false
+
+    if not @hasEnoughCredits creditCost
+      @logForSelf "You can not install #{card.name} because you do not have enough credits left."
+      return false
+
+    @payAllCosts clickCost, creditCost
+    @[card.addBenefit]() if card.addBenefit?
+    card.loc = 'hardware'
+    @moveCardToHardware card
     
-    line = "The Runner spends #{clickCost} click and €#{creditCost} to install #{card.name}."
-    @logForBothSides line
+    @logForBothSides(line) for line in logs
+    @logForBothSides "The Runner spends #{clickCost} click and €#{creditCost} to install #{card.name}."
 
 
   doCardAction: (cardId, action) ->
