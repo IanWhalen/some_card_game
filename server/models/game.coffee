@@ -30,65 +30,6 @@ class @Game
     return newServer
 
 
-
-  #-----------------------------------------------------------------------------
-  # CARD FUNCTIONS
-  #
-  #-----------------------------------------------------------------------------
-
-  getCardFromCorrectLocation: (cardId) ->
-    return cardObj = _.find @[side][loc], (obj) -> obj._id is cardId
-
-
-  #-----------------------------------------------------------------------------
-  # RUNNER CARD ACTIONS
-  #
-  #-----------------------------------------------------------------------------
-
-  installHardware: (playerObj, gameLoc, cardId, costMod) ->
-    runner = new Runner(@['runner'], @['_id'])
-    cardObj = new Card(@.getCardFromCorrectLocation gameLoc, cardId)
-    actionData = cardObj.getActionDataFromCard 'installHardware' if cardObj?
-
-    [clickCost, creditCost, logs] = @applyCostMods actionData, costMod
-
-    if not runner.hasEnoughClicks clickCost
-      @logForRunner "You can not install #{cardObj.name} because you do not have enough clicks left."
-      return false
-
-    if not runner.hasEnoughCredits creditCost
-      @logForRunner "You can not install #{cardObj.name} because you do not have enough credits left."
-      return false
-
-    runner.payAllCosts clickCost, creditCost
-    @[cardObj['addBenefit']]() if cardObj['addBenefit']?
-    @moveCardToHardware cardObj
-    
-    @logForBothSides(line) for line in logs
-    @logForBothSides "The Runner spends #{clickCost} click and €#{creditCost} to install #{cardObj.name}."
-
-
-  #-----------------------------------------------------------------------------
-  # RUNNER BENEFITS
-  #
-  #-----------------------------------------------------------------------------
-
-  add1Link: () ->
-    @incLink 1
-
-
-  add1Memory: () ->
-    @incMemory 1
-
-
-  incLink: (amount) ->
-    @_incIntegerField 'runner.stats.link', amount
-
-
-  incMemory: (amount) ->
-    @_incIntegerField 'runner.stats.memory', amount
-
-
   #-----------------------------------------------------------------------------
   # SHARED CARD ACTIONS
   #
@@ -130,23 +71,6 @@ class @Game
 
     Games.update @_id,                              # Add card to installed Resources
       $push: updateResources
-
-
-  moveCardToHardware: (cardObj) ->
-    updateHand = {}                                 # {}
-    idObj = {}                                      # {}
-    idObj._id = cardObj._id                         # { _id: 'akamatsu-mem-chip-1' }
-    updateHand["runner.hand"] = idObj               # { 'runner.hand' : { _id : 'akamatsu-mem-chip-1' } }
-
-    updateHardware = {}                             # {}
-    cardObj.loc = 'hardware'                        # cardObj
-    updateHardware["runner.hardware"] = cardObj     # { 'runner.hardware': cardObj }
-
-    Games.update @_id,                              # Remove card from Hand
-      $pull: updateHand
-
-    Games.update @_id,                              # Add card to installed Hardware
-      $push: updateHardware
 
 
   moveCardToDiscard: (cardObj) ->
@@ -198,38 +122,6 @@ class @Game
   #
   #-----------------------------------------------------------------------------
 
-  applyCostMods: (actionData, costMod) ->
-    logs = []
-    clickCost = actionData['click_cost']
-    creditCost = actionData['credit_cost']
-
-    if costMod is 'Modded'
-      clickCost = @applyClickMod clickCost, -1
-      creditCost = @applyCreditMod creditCost, -3
-      logs.push 'Modded made this install cheaper by up to 3 credits.'
-    
-    if @['runner']['identity']['reduceFirstProgramOrHardwareInstallCostBy1']
-      creditCost = @applyCreditMod creditCost, -1
-      @setBooleanField 'runner.identity.reduceFirstProgramOrHardwareInstallCostBy1', false
-      logs.push "Runner's identity made this install cheaper by up to 1 credit."
-
-    return [clickCost, creditCost, logs]
-
-  applyClickMod: (clickCost, clickMod) ->
-    clickCost += clickMod
-    if clickCost < 0 then return 0 else return clickCost
-
-
-  applyCreditMod: (creditCost, creditMod) ->
-    creditCost += creditMod
-    if creditCost < 0 then return 0 else return creditCost
-
-
-  payAllCosts: (playerObj, creditCost, clickCost) ->
-    @incCredits playerObj, -1 * creditCost
-    @incClicks playerObj, -1 * clickCost
-
-
   setPlayerClicksToZero: (playerObj) ->
     @setIntegerField playerObj.side + ".stats.clicks", 0
 
@@ -240,23 +132,6 @@ class @Game
 
   resetRunnerClicks: () ->
     @setIntegerField "runner.stats.clicks", 4
-
-
-  playerHasResources: (playerObj, actionData) ->
-    creditCost = actionData['credit_cost']
-    clickCost = actionData['click_cost']
-
-    if @playerHasCredits playerObj.side, creditCost
-      if @playerHasClicks playerObj.side, clickCost
-        return true
-
-
-  playerHasCredits: (side, creditCost) ->
-    return @[side]['stats']['credits'] >= creditCost
-
-
-  playerHasClicks: (side, clickCost) ->
-    return @[side]['stats']['clicks'] >= clickCost
 
 
   #-----------------------------------------------------------------------------
