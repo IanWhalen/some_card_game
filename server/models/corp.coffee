@@ -97,7 +97,7 @@ class @Corp extends @Player
       return false
 
     @payAllCosts clickCost, creditCost
-    line = "The Runner spends #{clickCost} clicks and €#{creditCost} to rez #{server.name}."
+    line = "The Runner spends #{clickCost} clicks and €#{creditCost} to rez #{card.name}."
     @logForBothSides line
 
     @[card.addBenefit]() if card.addBenefit?
