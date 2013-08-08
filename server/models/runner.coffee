@@ -10,14 +10,6 @@ class @Runner extends @Player
   #
   #-----------------------------------------------------------------------------
 
-  add1Link: () -> @incLink 1
-
-  add1Memory: () -> @incMemory 1
-
-  incLink: (amount) -> @_incIntegerField 'runner.stats.link', amount
-
-  incMemory: (amount) -> @_incIntegerField 'runner.stats.memory', amount
-
   installResource: (cardId, costMod) ->
     card = new Card( _.find @hand, (obj) -> obj._id is cardId )
     actionData = card.getActionDataFromCard 'installResource' if card?
@@ -76,6 +68,15 @@ class @Runner extends @Player
     for loc in [@resources, @hardware, @hand]
       card = new Card( _.find loc, (obj) -> obj._id is cardId )
       return card if card
+
+  add1Link: () -> @incLink 1
+
+  add1Memory: () -> @incMemory 1
+
+  incLink: (amount) -> @_incIntegerField 'runner.stats.link', amount
+
+  incMemory: (amount) -> @_incIntegerField 'runner.stats.memory', amount
+
 
   #-----------------------------------------------------------------------------
   # CARD MOVEMENT
