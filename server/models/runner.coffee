@@ -139,6 +139,16 @@ class @Runner extends @Player
     clickCost = actionData['click_cost']
     creditCost = actionData['credit_cost']
 
+    if costMod is 'Modded'
+      clickCost = @applyClickMod clickCost, -1
+      creditCost = @applyCreditMod creditCost, -3
+      logs.push 'Modded made this install cheaper by up to 3 credits.'
+
+    if @.identity.reduceFirstProgramOrHardwareInstallCostBy1
+      creditCost = @applyCreditMod creditCost, -1
+      @setBooleanField 'runner.identity.reduceFirstProgramOrHardwareInstallCostBy1', false
+      logs.push "Runner's identity made this install cheaper by up to 1 credit."
+
     return [clickCost, creditCost, logs]
 
 
