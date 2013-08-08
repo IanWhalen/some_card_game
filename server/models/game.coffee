@@ -36,35 +36,6 @@ class @Game
   #
   #-----------------------------------------------------------------------------
 
-
-
-  doCardAction: (playerObj, gameLoc, cardId, action) ->
-    player = new Corp(@['corp'], @_id) if playerObj.side is 'corp'
-    player = new Runner(@['runner'], @_id) if playerObj.side is 'runner'
-    cardObj = new Card(@.getCardFromCorrectLocation gameLoc, cardId)
-
-    actionData = cardObj.getActionDataFromCard action if cardObj?
-    creditCost = actionData['credit_cost']
-    clickCost = actionData['click_cost']
-
-    if not player.hasEnoughClicks clickCost
-      player.logForSelf "You can not use #{cardObj.name} because you do not have enough clicks left."
-      return false
-
-    if not player.hasEnoughCredits creditCost
-      player.logForSelf "You can not use #{cardObj.name} because you do not have enough credits left."
-      return false
-
-    player.payAllCosts actionData['click_cost'], actionData['credit_cost']
-    result = player[action](cardObj)
-
-    if cardObj.counters <= 0 and cardObj.trashIfNoCounters?
-      @moveCardToDiscard cardObj
-
-    if cardObj.cardType in ['Event', 'Operation']
-      @moveCardToDiscard cardObj
-
-    return result
   getCardFromCorrectLocation: (cardId) ->
     return cardObj = _.find @[side][loc], (obj) -> obj._id is cardId
 

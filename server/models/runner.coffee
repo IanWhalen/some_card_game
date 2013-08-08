@@ -40,6 +40,33 @@ class @Runner extends @Player
     @logForBothSides line
 
 
+  doCardAction: (cardId, action) ->
+    console.log 'got here'
+    card = @searchAllLocsForCard cardId
+    actionData = card.getActionDataFromCard action
+
+    [clickCost, creditCost, logs] = @applyCostMods actionData, ''
+    if not @hasEnoughClicks clickCost
+      @logForSelf "You can not use #{card.name} because you do not have enough clicks left."
+      return false
+
+    if not @hasEnoughCredits creditCost
+      @logForSelf "You can not use #{card.name} because you do not have enough credits left."
+      return false
+
+    @payAllCosts clickCost, creditCost
+    result = @[action](card)
+
+    if card.counters <= 0 and card.trashIfNoCounters?
+      @moveCardToDiscard card
+
+    if card.cardType in ['Event', 'Operation']
+      @moveCardToDiscard card
+
+    return result
+
+
+
   #-----------------------------------------------------------------------------
   # HELPERS
   #

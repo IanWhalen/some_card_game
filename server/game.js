@@ -235,14 +235,11 @@ Meteor.methods({
   },
 
 
-  doCardAction: function (playerObj, gameLoc, cardId, action) {
-    var gameObj = getGameObj(playerObj);
+  doCardAction: function (playerObj, cardId, action) {
+    var game = getGameObj(playerObj);
+    var runner = new Runner(game.runner, game._id);
 
-    try {
-      return gameObj.doCardAction(playerObj, gameLoc, cardId, action);
-    } catch (e) {
-      return false;
-    }
+    return runner.doCardAction(cardId, action);
   },
 
 
