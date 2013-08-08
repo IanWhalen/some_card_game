@@ -62,6 +62,27 @@ class @Runner extends @Player
       $push: updateResources
 
 
+  moveCardToDiscard: (card) ->
+    target = 'runner.discard'                       # 'corp.discard' or 'runner.discard'
+
+    startLoc = {}                                   # {}
+    idObj = {}                                      # {}
+    idObj._id = card._id                            # { _id: 'sure-gamble-1' }
+    startLoc["#{card.owner}.#{card.loc}"] = idObj         # { 'runner.hand' : { _id : 'sure-gamble-1' } }
+
+    updateDiscard = {}                              # {}
+    card.loc = 'discard'                            # card
+    updateDiscard[target] = card                    # { 'runner.discard': card }
+
+    console.log startLoc
+    console.log updateDiscard
+    Games.update @gameId,                           # Remove card from starting location
+      $pull: startLoc
+    
+    Games.update @gameId,                           # Add card to top of Discard
+      $push: updateDiscard
+
+
   #-----------------------------------------------------------------------------
   # ECONOMY FUNCTIONS
   #
