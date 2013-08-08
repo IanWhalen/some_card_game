@@ -22,7 +22,7 @@ class @Runner extends @Player
     if not @hasEnoughCredits creditCost
       @logForSelf "You can not install #{card.name} because you do not have enough credits left."
       return false
-    
+
     @payAllCosts clickCost, creditCost
     @[card.addBenefit]() if card.addBenefit?
     card.loc = 'resources'
@@ -33,7 +33,6 @@ class @Runner extends @Player
 
 
   doCardAction: (cardId, action) ->
-    console.log 'got here'
     card = @searchAllLocsForCard cardId
     actionData = card.getActionDataFromCard action
 
@@ -86,11 +85,10 @@ class @Runner extends @Player
   moveCardToResources: (cardObj) ->
     updateHand = {}                                 # {}
     idObj = {}                                      # {}
-    idObj['_id'] = cardObj['_id']                   # { _id: 'access-to-globalsec-2' }
+    idObj._id = cardObj._id                         # { _id: 'access-to-globalsec-2' }
     updateHand["runner.hand"] = idObj               # { 'runner.hand' : { _id : 'access-to-globalsec-2' } }
 
     updateResources = {}                            # {}
-    cardObj.loc = 'resources'                       # cardObj
     updateResources["runner.resources"] = cardObj   # { 'runner.resources' : cardObj }
 
     Games.update @gameId,                           # Remove card from Hand

@@ -21,7 +21,6 @@ Template.sidebar.events "click button.action-button": (e) ->
   switch action
     when 'installResource'
       Meteor.call 'doInstallResourceAction', myself(), cardId, (err, result) ->
-        console.log 'got to installResource'
         console.log err if err
     when 'installHardware'
       Meteor.call 'doInstallHardwareAction', myself(), gameLoc, cardId, (err, result) ->
@@ -39,8 +38,6 @@ Template.sidebar.events "click button.action-button": (e) ->
     else
       Meteor.call "doCardAction", myself(), cardId, action, (err, result) ->
         console.log err if err
-        console.log 'got to doCardAction'
-
         if result is 'runnerIsModded'
           Meteor.call "getRunnerHand", myself(), (err, result) ->
             console.log err if err
