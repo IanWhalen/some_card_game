@@ -91,7 +91,7 @@
   unrezzedActions: [
     click_cost: 1
     credit_cost: 2
-    ActionText: 'Rez PAD Campaign'
+    actionText: 'Rez PAD Campaign'
     action: 'rezAsset'
   ]
   rezzedActions: []
