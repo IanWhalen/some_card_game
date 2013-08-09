@@ -132,55 +132,67 @@ Meteor.startup ->
 
     @addCardToCanvas playerObj,                     # Corp deck
       {src: 'corp-back.jpg', gameLoc: 'corp'},
-      @width - CARD_PARAMS['width']*2*1.05,
+      @width - (CARD_PARAMS['width'] + CARD_PARAMS['width']*1.05),
       20,
       (true if playerObj.side is 'corp')
 
     @addCardToCanvas playerObj,                     # Corp identity
       game['corp']['identity'],
-      @width - CARD_PARAMS['width']*3*1.05,
+      @width - (CARD_PARAMS['width'] + CARD_PARAMS['width']*2*1.05),
       20,
       (true if playerObj.side is 'corp')
 
 
   # Created from the perspective of the Runner
   fabric.Canvas::showGameStartText = (playerObj) ->
+
+    ########
+    # CORP #
+    ########
     @addLocationText playerObj,
-      "|--------------     Corp's Hand     --------------|",
-      @width - CARD_PARAMS['width']*4.5*1.05,
+      "|-------                Hand                -------|",
+      @width - CARD_PARAMS['width']*3*1.05 - 160,
+      8,
+      (true if playerObj.side is 'corp')
+
+    @addLocationText playerObj,           
+      "|-  Deck  -|",
+      @width - CARD_PARAMS['width']*1.5*1.031,
       8,
       (true if playerObj.side is 'corp')
 
     @addLocationText playerObj,
-      "|--  Corp's Deck  --|",
-      @width - CARD_PARAMS['width']*1.5*1.05,
-      8,
-      (true if playerObj.side is 'corp')
-
-    @addLocationText playerObj,
-      "|-- Corp's Discard --|",
+      "|- Discard -|",
       @width - CARD_PARAMS['width']*.5,
       8,
       (true if playerObj.side is 'corp')
 
+    ##########
+    # RUNNER #
+    ##########
     @addLocationText playerObj,
-      "|--------------    Runner's Hand    --------------|",
-      CARD_PARAMS['width']*4.5*1.05,
+      "|-------                Hand                -------|",
+      CARD_PARAMS['width']*3*1.05 + 160,
       @height - 8,
       (true if playerObj.side is 'corp')
 
     @addLocationText playerObj,
-      "|-  Runner's Deck  -|",
-      CARD_PARAMS['width']*1.5*1.05,
+      "|-  Deck  -|",
+      CARD_PARAMS['width']*1.5*1.031,
       @height - 8,
       (true if playerObj.side is 'corp')
 
     @addLocationText playerObj,
-      "|- Runner's Discard -|",
+      "|- Discard -|",
       CARD_PARAMS['width']*.5,
       @height - 8,
       (true if playerObj.side is 'corp')
 
+    @addLocationText playerObj,
+      "|---------                  Hardware                  ---------|",
+      CARD_PARAMS['width']*9,
+      @height - 8,
+      (true if playerObj.side is 'corp')
 
   fabric.Canvas::addCountersToCard = (playerObj, card, cardX, cardY) ->
     x = cardX + CARD_PARAMS['width'] / 2
@@ -250,7 +262,7 @@ Meteor.startup ->
       card = hand[i]
 
       y = @height - CARD_PARAMS['height'] - 20                        # Bottom row 
-      x = CARD_PARAMS['width']*3*1.05 + i*CARD_PARAMS['width']*0.4    # Start in 3rd column and overlap
+      x = CARD_PARAMS['width']*3*1.05 + i*CARD_PARAMS['width']*0.3    # Start in 3rd column and overlap
         
       @addCardToCanvas playerObj, card, x, y
       
@@ -269,7 +281,7 @@ Meteor.startup ->
     i = 0
     while i < handSize
       y = 0 + 20
-      x = (@width - CARD_PARAMS['width']*4*1.05) - i*CARD_PARAMS['width']*0.4
+      x = (@width - CARD_PARAMS['width']*4*1.05) - i*CARD_PARAMS['width']*0.3
 
       @addCardToCanvas playerObj, card, x, y
       i++
@@ -280,8 +292,8 @@ Meteor.startup ->
 
     i = 0
     while i < result.length
-      y = CANVAS['height'] - CARD_PARAMS['height'] * 2 - 15   # 2nd row from bottom with room for counters
-      x = CARD_PARAMS['width'] * 2 + i * CARD_PARAMS['width'] # Start in 2nd column
+      y = @height - CARD_PARAMS['height']*2 - 40   # 2nd row from bottom with room for counters
+      x = i*CARD_PARAMS['width']*1.01
       resource = result[i]
 
       xyFlip = true if playerObj.side is 'corp'
@@ -296,12 +308,13 @@ Meteor.startup ->
     playerObj = myself()
 
     i = 0
-    while i < result.length                                   # Iterate through installed hardware
+    while i < result.length                                    # Iterate through installed hardware
+      console.log 'got here'
       hardware = result[i]
-      y = CANVAS['height'] - CARD_PARAMS['height'] * 3 - 30   # 3rd row from bottom with room for counters
-      x = CARD_PARAMS['width'] * 2 + i * CARD_PARAMS['width'] # 2nd column
+      y = @height - CARD_PARAMS['height'] - 20
+      x = CARD_PARAMS['width']*7 + i*CARD_PARAMS['width']*1.01
 
-      xyFlip = true if playerObj.side is 'corp'               # Flip on x/y axis if player is the runner
+      xyFlip = true if playerObj.side is 'corp'                # Flip on x/y axis if player is the runner
       @addCardToCanvas playerObj, hardware, x, y, xyFlip
 
       if hardware.counters
@@ -319,7 +332,7 @@ Meteor.startup ->
       card = server['assetsAndAgendas'][0]                      # Get the installed asset or agenda
 
       y = @height - CARD_PARAMS['height'] - 20                  # Bottom row with room for server name, counters
-      x = CARD_PARAMS['width']*6 + i*CARD_PARAMS['width']*1.2   # Just to the right of Corp's hand
+      x = CARD_PARAMS['width']*7 + i*CARD_PARAMS['width']*1.2   # Just to the right of Corp's hand
 
       xyFlip = true if playerObj.side is 'runner'               # Flip on x/y axis if player is the runner
       @addCardToCanvas playerObj, card, x, y, xyFlip
