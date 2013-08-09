@@ -84,8 +84,8 @@ class @Player
   #-----------------------------------------------------------------------------
 
   _incIntegerField: (targetField, amount) ->
-    modObj = {};
-    modObj[targetField] = amount;
+    modObj = {}
+    modObj[targetField] = amount
 
     Games.update @gameId,
       $inc: modObj
