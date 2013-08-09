@@ -1,3 +1,7 @@
+p {
+    font-family: monaco;
+}
+
 .hidden {
     display: none;
 }

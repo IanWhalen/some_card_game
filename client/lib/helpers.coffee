@@ -192,7 +192,8 @@ Meteor.startup ->
       p = new fabric.Point x, y
 
     textAttributes =
-      fontSize: 12
+      fontSize: 10
+      fontFamily: 'monaco'
       selectable: false
 
     text = new fabric.Text card.counters + '●', textAttributes
@@ -204,6 +205,7 @@ Meteor.startup ->
   fabric.Canvas::addLocationText = (playerObj, text, x, y, xyFlip) ->
     textAttributes =
       fontSize: 10
+      fontFamily: 'monaco'
       selectable: true
 
     textObj = new fabric.Text text, textAttributes
