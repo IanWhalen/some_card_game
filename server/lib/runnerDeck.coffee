@@ -15,6 +15,8 @@
     clicks: 0
     handLimit: 5
   hand: []
+  resources: []
+  hardware: []
 
 @RUNNER_DECK = [
   _id: "access-to-globalsec-2"
