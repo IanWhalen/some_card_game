@@ -246,9 +246,11 @@ Meteor.methods({
 
   doCardAction: function (playerObj, cardId, action) {
     var game = getGameObj(playerObj);
-    var runner = new Runner(game.runner, game._id);
+    var player = (playerObj['side'] === 'corp') ?
+      new Corp( game['corp'], game['_id'] ) :
+      new Runner( game['runner'], game['_id'] );
 
-    return runner.doCardAction(cardId, action);
+    return player.doCardAction(cardId, action);
   },
 
 
