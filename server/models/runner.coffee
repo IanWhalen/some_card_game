@@ -86,9 +86,9 @@ class @Runner extends @Player
   #-----------------------------------------------------------------------------
 
   searchAllLocsForCard: (cardId) ->
-    for loc in [@resources, @hardware, @hand]
-      card = new Card( _.find loc, (obj) -> obj._id is cardId )
-      return card if card
+    allCards = _.union(@resources, @hardware, @hand)
+    card = new Card _.find(allCards, (obj) -> obj._id is cardId)
+    return card if card
 
   add1Link: () -> @incLink 1
 
@@ -219,14 +219,14 @@ class @Runner extends @Player
 
 
   useSureGamble: (cardObj) ->
-    @add9Credits
+    @add9Credits()
     @logForBothSides 'The Runner spends 1 click and 5 credits to use Sure Gamble and gain 9 credits.'
 
     return 'usedSureGamble'
 
 
   useDiesel: (cardObj) ->
-    @draw3Cards
+    @draw3Cards()
     @logForBothSides 'The Runner spends 1 click to use Diesel and draw 3 cards.'
 
     return 'usedDiesel'
