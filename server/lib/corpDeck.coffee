@@ -102,6 +102,48 @@
     actionText: "Install PAD Campaign"
     action: 'installAsset'
   ]
+,
+  _id: "pad-campaign-2"
+  owner: 'corp'
+  loc: 'deck'
+  name: "PAD Campaign"
+  src: "pad-campaign.png"
+  cardType: "Asset"
+  addBenefit: 'gain1CreditEachTurn'
+  unrezzedActions: [
+    click_cost: 1
+    credit_cost: 2
+    actionText: 'Rez PAD Campaign'
+    action: 'rezAsset'
+  ]
+  rezzedActions: []
+  handActions: [
+    click_cost: 1
+    credit_cost: 0
+    actionText: "Install PAD Campaign"
+    action: 'installAsset'
+  ]
+,
+  _id: "pad-campaign-3"
+  owner: 'corp'
+  loc: 'deck'
+  name: "PAD Campaign"
+  src: "pad-campaign.png"
+  cardType: "Asset"
+  addBenefit: 'gain1CreditEachTurn'
+  unrezzedActions: [
+    click_cost: 1
+    credit_cost: 2
+    actionText: 'Rez PAD Campaign'
+    action: 'rezAsset'
+  ]
+  rezzedActions: []
+  handActions: [
+    click_cost: 1
+    credit_cost: 0
+    actionText: "Install PAD Campaign"
+    action: 'installAsset'
+  ]
 ]
 
 ## Agenda (9)
@@ -112,7 +154,6 @@
 # Adonis Campaign (Core) x3
 # Aggressive Secretary (Core) x2
 # Melange Mining Corp (Core) x2
-# PAD Campaign (Core) x3
 ## ICE (17)
 # Enigma (Core) x3
 # Heimdall 1.0 (Core) x2
