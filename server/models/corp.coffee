@@ -39,6 +39,8 @@ class @Corp extends @Player
 
   resetClicks: () -> @setIntegerField "corp.stats.clicks", 3
 
+  setClicksToZero: () -> @setIntegerField 'corp.stats.clicks', 0
+
   incClicks: (amount) -> @_incIntegerField 'corp.stats.clicks', amount
 
   incCredits: (amount) -> @_incIntegerField 'corp.stats.credits', amount

@@ -162,6 +162,8 @@ class @Runner extends @Player
 
   resetClicks: () -> @setIntegerField 'runner.stats.clicks', 4
 
+  setClicksToZero: () -> @setIntegerField 'runner.stats.clicks', 0
+
   incClicks: (amount) -> @_incIntegerField 'runner.stats.clicks', amount
 
   incCredits: (amount) -> @_incIntegerField 'runner.stats.credits', amount
