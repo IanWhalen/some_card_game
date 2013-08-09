@@ -6,6 +6,20 @@ class @Player
 
 
   #-----------------------------------------------------------------------------
+  # GAME PROCESS FUNCTIONS
+  #
+  #-----------------------------------------------------------------------------
+
+  endTurn: () ->
+    if @hand.length > @stats.handLimit
+      @logForSelf "You must discard before ending your turn."
+      return false
+
+    @setClicksToZero()
+    return true
+
+
+  #-----------------------------------------------------------------------------
   # CARD ACTIONS (SHARED)
   #
   #-----------------------------------------------------------------------------
