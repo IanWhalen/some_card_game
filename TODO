@@ -1,0 +1,12 @@
+endGame()
+    end game if someone scores 7
+    end game if runner draws on empty deck
+
+Runner and Corp can discard cards from hand or board
+Force discard at end of turn based on hand limit
+
+Runner can trash assets after run
+
+Runs
+
+Protect actions so that they reject for the correct reason instead of "You can not install Akamatsu Mem Chip because you do not have enough clicks left."
