@@ -14,7 +14,7 @@ class @Runner extends @Player
     card = new Card( _.find @hand, (obj) -> obj._id is cardId )
     actionData = card.getActionDataFromCard 'installResource' if card?
 
-    [clickCost, creditCost, logs] = @applyCostMods actionData, costMod
+    [clickCost, creditCost, logs] = @applyCostMods actionData, card.cardType, costMod
     if not @hasEnoughClicks clickCost
       @logForSelf "You can not install #{card.name} because you do not have enough clicks left."
       return false
@@ -36,7 +36,7 @@ class @Runner extends @Player
     card = new Card( _.find @hand, (obj) -> obj._id is cardId )
     actionData = card.getActionDataFromCard 'installHardware' if card?
 
-    [clickCost, creditCost, logs] = @applyCostMods actionData, costMod
+    [clickCost, creditCost, logs] = @applyCostMods actionData, card.cardType, costMod
     if not @hasEnoughClicks clickCost
       @logForSelf "You can not install #{card.name} because you do not have enough clicks left."
       return false
@@ -58,7 +58,7 @@ class @Runner extends @Player
     card = @searchAllLocsForCard cardId
     actionData = card.getActionDataFromCard action
 
-    [clickCost, creditCost, logs] = @applyCostMods actionData, ''
+    [clickCost, creditCost, logs] = @applyCostMods actionData, card.cardType, ''
     if not @hasEnoughClicks clickCost
       @logForSelf "You can not use #{card.name} because you do not have enough clicks left."
       return false
@@ -170,7 +170,7 @@ class @Runner extends @Player
 
   incMemory: (amount) -> @_incIntegerField 'runner.stats.memory', amount
 
-  applyCostMods: (actionData, costMod) ->
+  applyCostMods: (actionData, cardType, costMod) ->
     logs = []
     clickCost = actionData['click_cost']
     creditCost = actionData['credit_cost']
@@ -180,7 +180,7 @@ class @Runner extends @Player
       creditCost = @applyCreditMod creditCost, -3
       logs.push 'Modded made this install cheaper by up to 3 credits.'
 
-    if @.identity.reduceFirstProgramOrHardwareInstallCostBy1
+    if @identity.reduceFirstProgramOrHardwareInstallCostBy1 and cardType in ['Program', 'Hardware']
       creditCost = @applyCreditMod creditCost, -1
       @setBooleanField 'runner.identity.reduceFirstProgramOrHardwareInstallCostBy1', false
       logs.push "Runner's identity made this install cheaper by up to 1 credit."
