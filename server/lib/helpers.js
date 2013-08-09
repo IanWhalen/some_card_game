@@ -34,15 +34,18 @@ getOppSide = function(side) {
 
 getOppPlayerObj = function(playerObj) {
   var gameObj = game(playerObj);
-  var oppSideString = getOppSide(playerObj['side']);
+  var oppSideString = getOppSide(playerObj.side);
 
   return Players.findOne({game_id: gameObj._id, side: oppSideString});
 };
 
 
-switchCurrentPlayer = function(gameObj, playerObj) {
+switchCurrentPlayer = function(game, playerObj) {
   var oppSide = getOppSide(playerObj.side);
-  var playerId = gameObj[oppSide]['playerId'];
+  var playerId = game[oppSide]['playerId'];
 
-  gameObj.setCurrentPlayerField(playerId);
+  game.setCurrentPlayerField(playerId);
+  
+  game.logForBothSides(playerObj['side'].capitalize() + " has ended their turn.");
+  game.logForBothSides('===== It is now the ' + oppSide.capitalize() + "\'s turn. =====");
 };

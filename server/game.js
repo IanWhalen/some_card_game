@@ -88,30 +88,25 @@ Meteor.methods({
 
 
   doEndTurnAction: function(currentPlayerObj) {
-    var gameObj = getGameObj(currentPlayerObj);
-    var oppPlayerObj = getOppPlayerObj(currentPlayerObj);
+    var game = getGameObj(currentPlayerObj);
 
-    if (currentPlayerObj['_id'] === gameObj['current_player']) {
-      // Get current player to appropriate state
-      gameObj.setPlayerClicksToZero(currentPlayerObj);
-      // TODO: checkHandSizeAgainstHandLimit();
+    if (currentPlayerObj['side'] === 'corp') {
+      var player = new Corp( game.corp, game._id );
+      var opponent = new Runner( game.runner, game._id );
+    } else {
+      var opponent = new Corp( game.corp, game._id );
+      var player = new Runner( game.runner, game._id );
+    }
 
-      // Get next player to appropriate state
-      if (currentPlayerObj['side'] === 'runner') {
-        var corp = new Corp(gameObj['corp'], gameObj['_id']);
-        corp.startTurn();
-        gameObj.incTurnCounter();
-      } else if (currentPlayerObj['side'] === 'corp') {
-        gameObj.resetRunnerData();
+
+    if (player.playerId === game.current_player) {
+      if (player.endTurn()) {
+        opponent.startTurn();
+        game.incTurnCounter();
+        switchCurrentPlayer(game, currentPlayerObj);
+      } else {
+        return false;
       }
-
-      // Make current player switch official
-      switchCurrentPlayer(gameObj, currentPlayerObj);
-
-      var line1 = currentPlayerObj['side'].capitalize() + " has ended their turn.";
-      var line2 = '===== It is now the ' + oppPlayerObj['side'].capitalize() + "\'s turn. =====";
-      gameObj.logForBothSides(line1);
-      gameObj.logForBothSides(line2);
     }
   },
 
