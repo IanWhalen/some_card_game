@@ -19,6 +19,12 @@ Template.sidebar.events "click button.action-button": (e) ->
   remoteServer = selectedCard.remoteServer    # remoteServer1
 
   switch action
+    when 'installICEToNewRemoteServer'
+      Meteor.call 'createNewRemoteServer', myself(), (err, result) ->
+        console.log err if err
+        newServer = result
+        Meteor.call 'doInstallICEAction', myself(), cardId, newServer, (err, result) ->
+          console.log err if err
     when 'installResource'
       Meteor.call 'doInstallResourceAction', myself(), cardId, (err, result) ->
         console.log err if err
