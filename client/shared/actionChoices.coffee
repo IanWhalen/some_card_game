@@ -10,6 +10,21 @@ Template.actionChoices.onlyOneCard = () ->
 Template.actionChoices.actions = () ->
   if Template.actionChoices.onlyOneCard
     cardObj = Session.get("selectedCard")
+    #######
+    # ICE #
+    #######
+    if cardObj.cardType is 'ICE'
+      
+      # Uninstalled ICE
+      if cardObj.loc is 'hand'
+        Meteor.call 'getRemoteServers', myself(), (err, result) ->
+          console.log err if err
+          Session.set 'remoteServers', result
+        opts = _.toArray(Session.get('remoteServers'))
+        opts.push
+          action: "installICEToNewRemoteServer"
+          actionText: "Install to new remote server"
+        return opts
 
     ##########
     # ASSETS #
@@ -21,7 +36,7 @@ Template.actionChoices.actions = () ->
         return cardObj.unrezzedActions
 
       # Uninstalled Assets
-      if cardObj.loc is 'hand' and cardObj.cardType is 'Asset'
+      if cardObj.loc is 'hand'
         Meteor.call 'getRemoteServers', myself(), (err, result) ->
           console.log err if err
           Session.set 'remoteServers', result
