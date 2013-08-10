@@ -162,6 +162,14 @@ Meteor.methods({
   },
 
 
+  doRezICEAction: function (playerObj, cardId, server) {
+    var game = getGameObj(playerObj);
+    var corp = new Corp(game.corp, game._id);
+
+    return corp.rezICE(cardId, server);
+  },
+
+
   doRezAssetAction: function (playerObj, cardId, server) {
     var game = getGameObj(playerObj);
     var corp = new Corp(game.corp, game._id);
