@@ -91,6 +91,7 @@ class @Corp extends @Player
 
   installAsset: (cardId, server) ->
     card = new Card( _.find @hand, (obj) -> obj._id is cardId )
+
     actionData = card.getActionDataFromCard 'installAsset' if card?
 
     [clickCost, creditCost, logs] = @applyCostMods actionData, false
@@ -160,24 +161,24 @@ class @Corp extends @Player
 
 
   moveCardToServer: (cardObj, server) ->
-    cardObj.remoteServer = server.action
+    cardObj.remoteServer = server._id
     updateHand = {}
     idObj = {}
     idObj['_id'] = cardObj['_id']
     updateHand["corp.hand"] = idObj
 
-    @addAssetToRemoteServer cardObj, server['action']
+    @addAssetToRemoteServer cardObj, server._id
     @removeCardFromHand updateHand
 
 
   moveICEToServer: (card, server) ->
-    card.remoteServer = server.action
+    card.remoteServer = server._id
     updateHand = {}
     idObj = {}
     idObj._id = card._id
     updateHand["corp.hand"] = idObj
 
-    @addICEToRemoteServer card, server.action
+    @addICEToRemoteServer card, server._id
     @removeCardFromHand updateHand
 
 
@@ -198,7 +199,7 @@ class @Corp extends @Player
   addAssetToRemoteServer: (cardObj, serverId) ->
     Games.update
       _id: @gameId
-      "corp.remoteServers.action": serverId
+      "corp.remoteServers._id": serverId
     ,
       $push:
         "corp.remoteServers.$.assetsAndAgendas": cardObj
@@ -207,7 +208,7 @@ class @Corp extends @Player
   addICEToRemoteServer: (card, serverId) ->
     Games.update
       _id: @gameId
-      "corp.remoteServers.action": serverId
+      "corp.remoteServers._id": serverId
     ,
       $push:
         "corp.remoteServers.$.ICE": card

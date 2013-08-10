@@ -16,31 +16,54 @@ Template.sidebar.events "click button.action-button": (e) ->
   gameLoc = selectedCard.gameLoc              # runner.deck
   cardId = selectedCard._id                   # sure-gamble-1
   action = e.target.dataset.action            # draw9Credits
+  target = e.target.dataset?.target           # newRemoteServer
   remoteServer = selectedCard.remoteServer    # remoteServer1
 
   switch action
-    when 'installICEToNewRemoteServer'
-      Meteor.call 'createNewRemoteServer', myself(), (err, result) ->
-        console.log err if err
-        newServer = result
-        Meteor.call 'doInstallICEAction', myself(), cardId, newServer, (err, result) ->
+    #######
+    # ICE #
+    #######
+    when 'installICE'
+      if target is 'newServer'
+        Meteor.call 'createNewRemoteServer', myself(), (err, result) ->
           console.log err if err
+          newServer = result
+          Meteor.call 'doInstallICEAction', myself(), cardId, newServer, (err, result) ->
+            console.log err if err
+      else
+        Meteor.call 'doInstallICEAction', myself(), cardId, target, (err, result) ->
+            console.log err if err
+    #############
+    # RESOURCES #
+    #############
     when 'installResource'
       Meteor.call 'doInstallResourceAction', myself(), cardId, (err, result) ->
         console.log err if err
+    ############
+    # HARDWARE #
+    ############
     when 'installHardware'
       Meteor.call 'doInstallHardwareAction', myself(), cardId, (err, result) ->
         console.log err if err
-    when 'installAssetToNewRemoteServer'
-      Meteor.call 'createNewRemoteServer', myself(), (err, result) ->
-        console.log err if err
-
-        newServer = result
-        Meteor.call 'doInstallAssetAction', myself(), cardId, newServer, (err, result) ->
+    ##########
+    # ASSETS #
+    ##########
+    when 'installAsset'
+      if target is 'newServer'
+        Meteor.call 'createNewRemoteServer', myself(), (err, result) ->
           console.log err if err
+          newServer = result
+          Meteor.call 'doInstallAssetAction', myself(), cardId, newServer, (err, result) ->
+            console.log err if err
+      else
+        Meteor.call 'doInstallAssetAction', myself(), cardId, target, (err, result) ->
+            console.log err if err
     when 'rezAsset'
       Meteor.call 'doRezAssetAction', myself(), cardId, remoteServer, (err, result) ->
         console.log err if err
+    ###################
+    # EVERYTHING ELSE #
+    ###################
     else
       Meteor.call "doCardAction", myself(), cardId, action, (err, result) ->
         console.log err if err

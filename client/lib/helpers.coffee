@@ -256,6 +256,26 @@ Meteor.startup ->
       @add oImg
 
 
+  fabric.Canvas::addICEToCanvas = (playerObj, card, x, y, xyFlip) ->
+    x = x + CARD_PARAMS['width'] / 2
+    y = y + CARD_PARAMS['height'] / 2
+    p = new fabric.Point(x, y)
+
+    fabric.Image.fromURL card["src"], (oImg) =>
+      oImg.set CARD_PARAMS
+      oImg.set "isCard", true
+      oImg.set "metadata", card
+      oImg.set "angle", 90
+
+      if playerObj.side != card['gameLoc'].split(".")[0]
+        oImg.set "flipY", true
+
+      p = new fabric.Point(@width - x, @height - y) if xyFlip
+
+      oImg.setPositionByOrigin (p)
+      @add oImg
+
+
   fabric.Canvas::displayOwnHand = (playerObj, hand) ->
     i = 0
     while i < hand.length
@@ -326,16 +346,27 @@ Meteor.startup ->
   fabric.Canvas::displayRemoteServers = (result) ->
     playerObj = myself()
 
-    i = 0
-    while i < result.length                                     # Iterate through the remote servers
-      server = result[i]
-      card = server['assetsAndAgendas'][0]                      # Get the installed asset or agenda
+    for server, i in result
+      do (server, i) =>
+        card = server['assetsAndAgendas'][0]                      # Get the installed asset or agenda
+        if card
+          y = @height - CARD_PARAMS['height'] - 20                  # Bottom row with room for server name, counters
+          x = CARD_PARAMS['width']*7 + i*CARD_PARAMS['width']*1.4   # Just to the right of Corp's hand
 
-      y = @height - CARD_PARAMS['height'] - 20                  # Bottom row with room for server name, counters
-      x = CARD_PARAMS['width']*7 + i*CARD_PARAMS['width']*1.2   # Just to the right of Corp's hand
+          xyFlip = true if playerObj.side is 'runner'               # Flip on x/y axis if player is the runner
+          @addCardToCanvas playerObj, card, x, y, xyFlip
+          @addCountersToCard playerObj, card, x, y if card.counters
 
-      xyFlip = true if playerObj.side is 'runner'               # Flip on x/y axis if player is the runner
-      @addCardToCanvas playerObj, card, x, y, xyFlip
-      @addLocationText playerObj, "|-- #{server.name} --|", x+45, @height-8, xyFlip
-      @addCountersToCard playerObj, card, x, y if card.counters
-      i++
+        for ice, j in server['ICE']
+          do (ice, j) =>
+            y = @height - CARD_PARAMS['height']*2 - CARD_PARAMS['width']*(j)
+            x = CARD_PARAMS['width']*7 + i*CARD_PARAMS['width']*1.4
+
+            xyFlip = true if playerObj.side is 'runner'
+            console.log ice
+            console.log j
+            @addICEToCanvas playerObj, ice, x, y, xyFlip
+
+        if card or server['ICE'].length
+          @addLocationText playerObj, "|-  #{server.name}  -|", x+45, @height-8, xyFlip
+

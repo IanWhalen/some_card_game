@@ -139,6 +139,11 @@ Meteor.methods({
   doInstallAssetAction: function (playerObj, cardId, server) {
     var game = getGameObj(playerObj);
     var corp = new Corp(game.corp, game._id);
+    if (typeof server === 'string') {
+      server = new Server( _.find(corp.remoteServers, function(obj) {
+        return obj._id === server;
+      }));
+    }
 
     return corp.installAsset(cardId, server);
   },
@@ -147,6 +152,11 @@ Meteor.methods({
   doInstallICEAction: function (playerObj, cardId, server) {
     var game = getGameObj(playerObj);
     var corp = new Corp(game.corp, game._id);
+    if (typeof server === 'string') {
+      server = new Server( _.find(corp.remoteServers, function(obj) {
+        return obj._id === server;
+      }));
+    }
 
     return corp.installICE(cardId, server);
   },
@@ -186,8 +196,23 @@ Meteor.methods({
           }
         }
       }
-    }
 
+      installedICE = server['ICE'];
+      for (var k = 0; k < installedICE.length; k++) {     // Then loop through each server's ICE
+        var ICE = server['ICE'][k];
+        if (ICE.rezzed === false) {                       // If a card hasn't been rezzed
+          if (playerObj.side === 'corp') {
+            ICE['trueSrc'] = ICE['src'];                  // Show the Corp the real card when hovering
+            ICE['src'] = 'corp-back.jpg';                 // But only show the card back when on the table
+          } else {
+            var blankICE = {src: 'corp-back.jpg'};        // And wipe everything for the Runner
+            blankICE['gameLoc'] = 'corp.remoteServers';
+            remotes[i]['ICE'][k] = blankICE;
+          }
+        }
+      }
+    }
+    console.log(remotes);
     return remotes;
   },
 

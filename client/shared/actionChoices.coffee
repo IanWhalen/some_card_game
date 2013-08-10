@@ -20,10 +20,15 @@ Template.actionChoices.actions = () ->
         Meteor.call 'getRemoteServers', myself(), (err, result) ->
           console.log err if err
           Session.set 'remoteServers', result
-        opts = _.toArray(Session.get('remoteServers'))
+        arr = _.toArray(Session.get('remoteServers'))
+        opts = _.map arr, (obj) ->
+          action: "installICE"
+          actionText: "Install to " + obj.name
+          _id: obj._id
         opts.push
-          action: "installICEToNewRemoteServer"
+          action: "installICE"
           actionText: "Install to new remote server"
+          _id: "newServer"
         return opts
 
     ##########
@@ -40,10 +45,15 @@ Template.actionChoices.actions = () ->
         Meteor.call 'getRemoteServers', myself(), (err, result) ->
           console.log err if err
           Session.set 'remoteServers', result
-        opts = _.toArray(Session.get('remoteServers'))
+        arr = _.toArray(Session.get('remoteServers'))
+        opts = _.map arr, (obj) ->
+          action: "installAsset"
+          actionText: "Install to " + obj.name
+          _id: obj._id
         opts.push
-          action: "installAssetToNewRemoteServer"
+          action: "installAsset"
           actionText: "Install to new remote server"
+          _id: "newServer"
         return opts
 
     #############

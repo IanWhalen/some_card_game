@@ -65,7 +65,7 @@
     <p>{{ cardDescription }}</p>
     {{#each actions}}
     <div>
-      <button class="action-button" data-action="{{ getActionName this }}">{{ getActionText this }}</button>
+      <button class="action-button" data-action="{{ getActionName this }}" data-target="{{ getTarget this }}">{{ getActionText this }}</button>
     </div>
     {{/each}}
     {{else}}

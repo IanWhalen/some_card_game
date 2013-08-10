@@ -5,3 +5,7 @@ Handlebars.registerHelper('getActionName',function(obj){
 Handlebars.registerHelper('getActionText',function(obj){
   return obj['actionText'];
 });
+
+Handlebars.registerHelper('getTarget',function(obj){
+  return obj['_id'];
+});

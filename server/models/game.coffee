@@ -18,15 +18,16 @@ class @Game
 
 
   createNewRemoteServer: () ->
-    serverId = @['corp']['remoteServers'].length + 1
+    count = @['corp']['remoteServers'].length + 1
     newServer =
-      name: "Remote Server #{serverId}"
+      name: "Remote Server #{count}"
       ICE: []
       assetsAndAgendas: []
-      action: "remoteServer#{serverId}"
-      actionText: "Install to Remote Server #{serverId}."
+      _id: "remoteServer#{count}"
+      actionText: "Install to Remote Server #{count}."
 
     @_pushToArray 'corp.remoteServers', newServer
+    console.log newServer
     return newServer
 
 

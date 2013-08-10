@@ -164,6 +164,26 @@
     actionText: "Install Enigma"
     action: 'installIce'
   ]
+,
+  _id: "enigma-2"
+  owner: 'corp'
+  loc: 'deck'
+  name: "Enigma"
+  src: "enigma.png"
+  cardType: "ICE"
+  unrezzedActions: [
+    click_cost: 1
+    credit_cost: 3
+    actionText: 'Rez Enigma'
+    action: 'rezICE'
+  ]
+  rezzedActions: []
+  handActions: [
+    click_cost: 1
+    credit_cost: 0
+    actionText: "Install Enigma"
+    action: 'installIce'
+  ]
 ]
 
 ## Agenda (9)
