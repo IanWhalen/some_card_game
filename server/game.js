@@ -144,6 +144,14 @@ Meteor.methods({
   },
 
 
+  doInstallICEAction: function (playerObj, cardId, server) {
+    var game = getGameObj(playerObj);
+    var corp = new Corp(game.corp, game._id);
+
+    return corp.installICE(cardId, server);
+  },
+
+
   doRezAssetAction: function (playerObj, cardId, server) {
     var game = getGameObj(playerObj);
     var corp = new Corp(game.corp, game._id);
