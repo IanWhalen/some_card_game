@@ -27,7 +27,6 @@ class @Game
       actionText: "Install to Remote Server #{count}."
 
     @_pushToArray 'corp.remoteServers', newServer
-    console.log newServer
     return newServer
 
 

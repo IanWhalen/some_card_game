@@ -212,7 +212,7 @@ Meteor.methods({
         }
       }
     }
-    console.log(remotes);
+
     return remotes;
   },
 

@@ -329,7 +329,6 @@ Meteor.startup ->
 
     i = 0
     while i < result.length                                    # Iterate through installed hardware
-      console.log 'got here'
       hardware = result[i]
       y = @height - CARD_PARAMS['height'] - 20
       x = CARD_PARAMS['width']*7 + i*CARD_PARAMS['width']*1.01
@@ -363,8 +362,6 @@ Meteor.startup ->
             x = CARD_PARAMS['width']*7 + i*CARD_PARAMS['width']*1.4
 
             xyFlip = true if playerObj.side is 'runner'
-            console.log ice
-            console.log j
             @addICEToCanvas playerObj, ice, x, y, xyFlip
 
         if card or server['ICE'].length
