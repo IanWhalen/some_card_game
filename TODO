@@ -7,6 +7,8 @@ Force discard at end of turn based on hand limit
 
 Runner can trash assets after run
 
-Runs
+Implement V1 of Runs
 
 Protect actions so that they reject for the correct reason instead of "You can not install Akamatsu Mem Chip because you do not have enough clicks left."
+
+Corp: ApplyMods on every Install (probably break 'install' into own function)
