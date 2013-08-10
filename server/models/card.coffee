@@ -10,7 +10,7 @@ class @Card
     if @loc == 'resources'
       arr = 'boardActions'
 
-    if @loc is 'remoteServer' and @cardType is 'Asset' and @rezzed is false
+    if @loc is 'remoteServer' and @cardType in ['Asset', 'ICE'] and @rezzed is false
       arr = 'unrezzedActions'
 
     return actionObj = _.find @[arr], (obj) -> obj['action'] = action
