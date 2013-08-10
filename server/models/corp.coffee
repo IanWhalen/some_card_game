@@ -64,6 +64,31 @@ class @Corp extends @Player
   #
   #-----------------------------------------------------------------------------
 
+  installICE: (cardId, serverObj) ->
+    card = new Card( _.find @hand, (obj) -> obj._id is cardId )
+    server = new Server( serverObj )
+    actionData = card.getActionDataFromCard 'installICE' if card?
+
+
+    [clickCost, creditCost, logs] = @applyCostMods actionData, false
+    creditCost += server.ICE.length
+
+    if not @hasEnoughClicks clickCost
+      @logForSelf "You can not install #{card.name} because you do not have enough clicks left."
+      return false
+    if not @hasEnoughCredits creditCost
+      @logForSelf "You can not install #{card.name} because you do not have enough credits left."
+      return false
+    
+    @payAllCosts clickCost, creditCost
+    line = "The Runner spends #{clickCost} click to install ICE on #{server.name}."
+    @logForBothSides line
+
+    card.rezzed = false
+    card.loc = 'remoteServer'
+    @moveICEToServer card, server
+
+
   installAsset: (cardId, server) ->
     card = new Card( _.find @hand, (obj) -> obj._id is cardId )
     actionData = card.getActionDataFromCard 'installAsset' if card?
@@ -145,6 +170,17 @@ class @Corp extends @Player
     @removeCardFromHand updateHand
 
 
+  moveICEToServer: (card, server) ->
+    card.remoteServer = server.action
+    updateHand = {}
+    idObj = {}
+    idObj._id = card._id
+    updateHand["corp.hand"] = idObj
+
+    @addICEToRemoteServer card, server.action
+    @removeCardFromHand updateHand
+
+
   #-----------------------------------------------------------------------------
   # LOGGING FUNCTIONS
   #
@@ -166,6 +202,15 @@ class @Corp extends @Player
     ,
       $push:
         "corp.remoteServers.$.assetsAndAgendas": cardObj
+
+
+  addICEToRemoteServer: (card, serverId) ->
+    Games.update
+      _id: @gameId
+      "corp.remoteServers.action": serverId
+    ,
+      $push:
+        "corp.remoteServers.$.ICE": card
 
 
   updateAssetOnRemoteServer: (target, card) ->
