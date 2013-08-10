@@ -112,7 +112,7 @@ class @Corp extends @Player
 
 
   rezAsset: (cardId, serverName) ->
-    server = _.find( @remoteServers, (i) -> i.action is serverName)
+    server = _.find( @remoteServers, (i) -> i._id is serverName)
     card = new Card( server.assetsAndAgendas[0] )
     actionData = card.getActionDataFromCard 'rezAsset' if card
 
@@ -131,6 +131,7 @@ class @Corp extends @Player
     @[card.addBenefit]() if card.addBenefit?
     card.rezzed = true
     @updateAssetOnRemoteServer "corp.remoteServers.#{server.name}.assetsAndAgendas", card
+
 
   #-----------------------------------------------------------------------------
   # CORP ONGOING BENEFITS
@@ -222,7 +223,7 @@ class @Corp extends @Player
 
     Games.update
       _id: @gameId
-      "corp.remoteServers.action": card.remoteServer
+      "corp.remoteServers._id": card.remoteServer
     ,
       $set:
         "corp.remoteServers.$.assetsAndAgendas": [card]
