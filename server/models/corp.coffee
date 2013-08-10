@@ -89,6 +89,30 @@ class @Corp extends @Player
     @moveICEToServer card, server
 
 
+  rezICE: (cardId, serverName) ->
+    server = new Server ( _.find( @remoteServers, (i) -> i._id is serverName ) )
+    console.log server
+    card = new Card( server.findICE(cardId) )
+    console.log card
+    actionData = card.getActionDataFromCard 'rezICE'
+
+    [clickCost, creditCost, logs] = @applyCostMods actionData, false
+    if not @hasEnoughClicks clickCost
+      @logForSelf "You can not install #{card.name} because you do not have enough clicks left."
+      return false
+    if not @hasEnoughCredits creditCost
+      @logForSelf "You can not install #{card.name} because you do not have enough credits left."
+      return false
+
+    @payAllCosts clickCost, creditCost
+    line = "The Runner spends #{clickCost} clicks and €#{creditCost} to rez #{card.name}."
+    @logForBothSides line
+
+    @[card.addBenefit]() if card.addBenefit?
+    card.rezzed = true
+    @updateICEOnRemoteServer "corp.remoteServers.#{server.name}.ICE", card
+
+
   installAsset: (cardId, server) ->
     card = new Card( _.find @hand, (obj) -> obj._id is cardId )
 
@@ -227,3 +251,17 @@ class @Corp extends @Player
     ,
       $set:
         "corp.remoteServers.$.assetsAndAgendas": [card]
+
+
+  updateICEOnRemoteServer: (target, card) ->
+    updateLocation = {}
+    idObj = {}
+    idObj._id = card._id
+    updateLocation[target] = idObj
+
+    Games.update
+      _id: @gameId
+      "corp.remoteServers._id": card.remoteServer
+    ,
+      $set:
+        "corp.remoteServers.$.ICE": [card]
