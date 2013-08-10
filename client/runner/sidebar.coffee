@@ -33,6 +33,9 @@ Template.sidebar.events "click button.action-button": (e) ->
       else
         Meteor.call 'doInstallICEAction', myself(), cardId, target, (err, result) ->
             console.log err if err
+    when 'rezICE'
+      Meteor.call 'doRezICEAction', myself(), cardId, remoteServer, (err, result) ->
+        console.log err if err
     #############
     # RESOURCES #
     #############

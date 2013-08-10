@@ -14,7 +14,11 @@ Template.actionChoices.actions = () ->
     # ICE #
     #######
     if cardObj.cardType is 'ICE'
-      
+
+      # Installed but unrezzed ICE
+      if cardObj.loc is 'remoteServer' and cardObj.rezzed is false
+        return cardObj.unrezzedActions
+
       # Uninstalled ICE
       if cardObj.loc is 'hand'
         Meteor.call 'getRemoteServers', myself(), (err, result) ->
