@@ -24,15 +24,8 @@ Template.sidebar.events "click button.action-button": (e) ->
     # ICE #
     #######
     when 'installICE'
-      if target is 'newServer'
-        Meteor.call 'createNewRemoteServer', myself(), (err, result) ->
-          console.log err if err
-          newServer = result
-          Meteor.call 'doInstallICEAction', myself(), cardId, newServer, (err, result) ->
-            console.log err if err
-      else
-        Meteor.call 'doInstallICEAction', myself(), cardId, target, (err, result) ->
-            console.log err if err
+      Meteor.call 'doInstallICEAction', myself(), cardId, target, (err, result) ->
+        console.log err if err
     when 'rezICE'
       Meteor.call 'doRezICEAction', myself(), cardId, remoteServer, (err, result) ->
         console.log err if err
@@ -52,15 +45,8 @@ Template.sidebar.events "click button.action-button": (e) ->
     # ASSETS #
     ##########
     when 'installAsset'
-      if target is 'newServer'
-        Meteor.call 'createNewRemoteServer', myself(), (err, result) ->
-          console.log err if err
-          newServer = result
-          Meteor.call 'doInstallAssetAction', myself(), cardId, newServer, (err, result) ->
-            console.log err if err
-      else
-        Meteor.call 'doInstallAssetAction', myself(), cardId, target, (err, result) ->
-            console.log err if err
+      Meteor.call 'doInstallAssetAction', myself(), cardId, target, (err, result) ->
+        console.log err if err
     when 'rezAsset'
       Meteor.call 'doRezAssetAction', myself(), cardId, remoteServer, (err, result) ->
         console.log err if err

@@ -139,7 +139,7 @@ Meteor.methods({
   doInstallAssetAction: function (playerObj, cardId, server) {
     var game = getGameObj(playerObj);
     var corp = new Corp(game.corp, game._id);
-    if (typeof server === 'string') {
+    if (server !== 'newServer' && typeof server === 'string') {
       server = new Server( _.find(corp.remoteServers, function(obj) {
         return obj._id === server;
       }));
@@ -152,7 +152,7 @@ Meteor.methods({
   doInstallICEAction: function (playerObj, cardId, server) {
     var game = getGameObj(playerObj);
     var corp = new Corp(game.corp, game._id);
-    if (typeof server === 'string') {
+    if (server !== 'newServer' && typeof server === 'string') {
       server = new Server( _.find(corp.remoteServers, function(obj) {
         return obj._id === server;
       }));
