@@ -125,3 +125,25 @@ class @Player
   removeCardFromHand: (updateObj) ->
     Games.update @gameId,
       $pull: updateObj
+
+
+  _discardCard: (card) ->
+    target = card.owner + '.discard'                  # 'corp.discard' or 'runner.discard'
+
+    updateStart = {}
+    idObj = {}
+    idObj._id = card._id                              # { _id: 'sure-gamble-1' }
+    updateStart["#{card.owner}.#{card.loc}"] = idObj  # { 'runner.hand' : { _id : 'sure-gamble-1' } }
+    console.log updateStart
+
+    Games.update @gameId,                             # Remove card from starting location
+      $pull: updateHand
+
+
+    updateDiscard = {}
+    card.loc = 'discard'
+    card.faceDown = true                              # Mark as faceDown so display logic keeps hidden
+    updateDiscard[target] = card                      # { 'runner.discard': card }
+
+    Games.update @gameId,                             # Add card to top of Discard
+      $push: updateDiscard
