@@ -20,6 +20,12 @@ Template.sidebar.events "click button.action-button": (e) ->
   remoteServer = selectedCard.remoteServer    # remoteServer1
 
   switch action
+    ##############
+    # EVERYTHING #
+    ##############
+    when 'discardFromHand'
+      Meteor.call 'doDiscardFromHandAction', myself(), cardId, (err, result) ->
+        console.log err if err
     #######
     # ICE #
     #######

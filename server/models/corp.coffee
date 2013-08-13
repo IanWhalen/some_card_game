@@ -84,7 +84,6 @@ class @Corp extends @Player
       server = game.createNewRemoteServer()
     
     @payAllCosts clickCost, creditCost
-    console.log server
     line = "The Runner spends #{clickCost} click to install ICE on #{server.name}."
     @logForBothSides line
 

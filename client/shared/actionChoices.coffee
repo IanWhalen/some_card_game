@@ -33,6 +33,9 @@ Template.actionChoices.actions = () ->
           action: "installICE"
           actionText: "Install to new remote server"
           _id: "newServer"
+        opts.push
+          action: 'discardFromHand'
+          actionText: 'Discard this card'
         return opts
 
     ##########
@@ -58,25 +61,28 @@ Template.actionChoices.actions = () ->
           action: "installAsset"
           actionText: "Install to new remote server"
           _id: "newServer"
+        opts.push
+          action: 'discardFromHand'
+          actionText: 'Discard this card'
         return opts
 
-    #############
-    # RESOURCES #
-    #############
-    if cardObj.cardType is 'Resource'
+    ############################################
+    # RESOURCES & HARDWARE & EVENT & OPERATION #
+    ############################################
+    if cardObj.cardType in ['Resource', 'Hardware', 'Event', 'Operation']
 
       # Installed Resources
-      if cardObj.loc is 'resources'
+      if cardObj.loc in ['resources', 'hardware']
         return cardObj.boardActions
 
-    ###########
-    # DEFAULT #
-    ###########
+      # Uninstalled Resources
+      if cardObj.loc is 'hand'
+        opts = cardObj.handActions
+        opts.push
+          action: 'discardFromHand'
+          actionText: 'Discard this card'
+        return opts
 
-    # Cards still in hand
-    if cardObj.loc is 'hand'
-      return cardObj.handActions
-  
   else
     return []
 

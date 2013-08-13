@@ -54,25 +54,6 @@
   me and me.game_id and Games.findOne(me.game_id)
 
 
-@add_card_to_canvas = (cvs, playerObj, card, x, y) ->
-  x = x + CARD_PARAMS['width'] / 2
-  y = y + CARD_PARAMS['height'] / 2
-  p = new fabric.Point(x, y)
-
-  fabric.Image.fromURL card["src"], (oImg) ->
-    oImg.set CARD_PARAMS
-    oImg.set "isCard", true
-    oImg.set "metadata", card
-
-    if playerObj.side != card['gameLoc'].split(".")[0]
-      oImg.set "flipY", true
-
-    if playerObj.side == "corp"
-      p = new fabric.Point(cvs.width - x, cvs.height - y)
-
-    oImg.setPositionByOrigin (p)
-    cvs.add oImg
-
 @add_hover_helper = (canvas) ->
   canvas.findTarget = ((originalFn) ->
     ->
@@ -247,8 +228,8 @@ Meteor.startup ->
       oImg.set "isCard", true
       oImg.set "metadata", card
 
-      if playerObj.side != card['gameLoc'].split(".")[0]
-        oImg.set "flipY", true
+      # if playerObj.side != card.owner
+      #   oImg.set "flipY", true
 
       p = new fabric.Point(@width - x, @height - y) if xyFlip
 
@@ -367,3 +348,20 @@ Meteor.startup ->
         if card or server['ICE'].length
           @addLocationText playerObj, "|-  #{server.name}  -|", x+45, @height-8, xyFlip
 
+
+  fabric.Canvas::displayDiscardPiles = (result) ->
+    playerObj = myself()
+
+    if result.runner
+      @addCardToCanvas playerObj,                     # Runner deck
+        result.runner,
+        0,
+        @height - CARD_PARAMS['height'] - 20,
+        (true if playerObj.side is 'corp')
+
+    if result.corp
+      @addCardToCanvas playerObj,                     # Corp deck
+        result.corp,
+        @width - CARD_PARAMS['width'],
+        0,
+        (true if playerObj.side is 'corp')
