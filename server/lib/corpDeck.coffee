@@ -15,6 +15,7 @@
     handLimit: 5
   remoteServers: []
   hand: []
+  discard: []
 
 @CORP_DECK = [
   _id: "hedge-fund-1"

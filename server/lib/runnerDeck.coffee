@@ -17,6 +17,7 @@
   hand: []
   resources: []
   hardware: []
+  discard: []
 
 @RUNNER_DECK = [
   _id: "access-to-globalsec-2"
