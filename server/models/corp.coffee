@@ -13,6 +13,7 @@ class @Corp extends @Player
   startTurn: () ->
     @resetClicks()
     @draw1Card()
+    @logForBothSides 'The Corp draws 1 card automatically.'
     @add1Credit() if @identity.gain1CreditEachTurn
     @setBooleanField 'corp.identity.gain1CreditOnFirstInstall', true
 
