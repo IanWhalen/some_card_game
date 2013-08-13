@@ -73,25 +73,6 @@ class @Game
       $push: updateResources
 
 
-  moveCardToDiscard: (cardObj) ->
-    target = cardObj.owner + '.discard'             # 'corp.discard' or 'runner.discard'
-
-    startLoc = {}                                   # {}
-    idObj = {}                                      # {}
-    idObj._id = cardObj._id                         # { _id: 'sure-gamble-1' }
-    startLoc[cardObj.owner + cardObj.loc] = idObj   # { 'runner.hand' : { _id : 'sure-gamble-1' } }
-
-    updateDiscard = {}                              # {}
-    cardObj.loc = 'discard'                         # cardObj
-    updateDiscard[target] = cardObj                 # { 'runner.discard': cardObj }
-
-    Games.update @_id,                              # Remove card from starting location
-      $pull: startLoc
-    
-    Games.update @_id,                              # Add card to top of Discard
-      $push: updateDiscard
-
-
   moveTopCardFromDeckToHand: (playerObj, cardObj) ->
     cardObj.loc = 'hand'
 

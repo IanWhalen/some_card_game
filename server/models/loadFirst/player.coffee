@@ -92,6 +92,13 @@ class @Player
       i++
 
 
+  discardFromHand: (cardId) ->
+    card = new Card( _.find @hand, (obj) -> obj._id is cardId )
+    @_discardCard card
+
+    @logForBothSides "The player discards 1 card."
+
+
   #-----------------------------------------------------------------------------
   # DATABASE FUNCTIONS
   #

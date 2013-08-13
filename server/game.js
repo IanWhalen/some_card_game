@@ -178,6 +178,16 @@ Meteor.methods({
   },
 
 
+  doDiscardFromHandAction: function (playerObj, cardId) {
+    var game = getGameObj(playerObj);
+    var player = (playerObj['side'] === 'corp') ?
+      new Corp( game['corp'], game['_id'] ) :
+      new Runner( game['runner'], game['_id'] );
+
+    return player.discardFromHand(cardId);
+  },
+
+
   //-----------------------------------------------------------------------------
   // CARD DISPLAY FUNCTIONS
   //
@@ -259,24 +269,27 @@ Meteor.methods({
 
 
   getTopOfDiscardPiles: function (playerObj) {
-    var discardPair = {};
-    var gameObj = getGameObj( playerObj );
+    var game = getGameObj( playerObj );
+    var cards = {corp: false, runner: false};
+    
+    var blankCorp = {src: 'corp-back.jpg', loc: 'discard'};
 
-    if (gameObj['runner']['discard']) {
-      var runnerDiscardPile = gameObj['runner']['discard'];
-      discardPair['runner'] = runnerDiscardPile[runnerDiscardPile.length-1];
-    } else {
-      discardPair['runner'] = false;
+    var runnerDiscard = game.runner.discard;
+    cards.runner = runnerDiscard[runnerDiscard.length-1] || false;
+    var corpDiscard = game.corp.discard;
+    var topCorpCard = corpDiscard[corpDiscard.length-1];
+
+    if (topCorpCard && topCorpCard.faceDown === true) {
+      if (playerObj.side === 'corp') {
+        topCorpCard.trueSrc = topCorpCard.src;                // Show the Corp the real card when hovering
+        topCorpCard.src = 'corp-back.jpg';                // But only show the card back when on the table
+        cards.corp = topCorpCard || false;
+      } else if (playerObj.side === 'runner') {
+        cards.corp = blankCorp;                 // And wipe everything for the Runner
+      }
     }
 
-    if (gameObj['corp']['discard']) {
-      var corpDiscardPile = gameObj['corp']['discard'];
-      discardPair['corp'] = corpDiscardPile[corpDiscardPile.length-1];
-    } else {
-      discardPair['corp'] = false;
-    }
-
-    return discardPair;
+    return cards;
   },
 
 

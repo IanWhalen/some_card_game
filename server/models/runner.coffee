@@ -79,10 +79,10 @@ class @Runner extends @Player
     result = @[action](card)
 
     if card.counters <= 0 and card.trashIfNoCounters?
-      @moveCardToDiscard card
+      @_discardCard card
 
     if card.cardType in ['Event', 'Operation']
-      @moveCardToDiscard card
+      @_discardCard card
 
     return result
 
@@ -142,25 +142,6 @@ class @Runner extends @Player
 
     Games.update @gameId,                           # Add card to installed Hardware
       $push: updateHardware
-
-
-  moveCardToDiscard: (card) ->
-    target = 'runner.discard'                       # 'corp.discard' or 'runner.discard'
-
-    startLoc = {}                                   # {}
-    idObj = {}                                      # {}
-    idObj._id = card._id                            # { _id: 'sure-gamble-1' }
-    startLoc["#{card.owner}.#{card.loc}"] = idObj         # { 'runner.hand' : { _id : 'sure-gamble-1' } }
-
-    updateDiscard = {}                              # {}
-    card.loc = 'discard'                            # card
-    updateDiscard[target] = card                    # { 'runner.discard': card }
-
-    Games.update @gameId,                           # Remove card from starting location
-      $pull: startLoc
-    
-    Games.update @gameId,                           # Add card to top of Discard
-      $push: updateDiscard
 
 
   #-----------------------------------------------------------------------------
