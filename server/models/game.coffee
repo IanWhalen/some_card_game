@@ -10,11 +10,11 @@ class @Game
   #-----------------------------------------------------------------------------
 
   newGameSetup: () ->
-    corp = new Corp(@['corp'], @._id)
-    corp.startTurn()
+    corp = new Corp(@corp, @_id)
     @incTurnCounter()
     @logForBothSides 'Starting a new game.'
     @logForBothSides '===== It is now the Corp\'s turn. ====='
+    corp.startTurn()
 
 
   createNewRemoteServer: () ->
