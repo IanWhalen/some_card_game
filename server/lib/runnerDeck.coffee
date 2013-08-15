@@ -4,6 +4,7 @@
     src: "runner_identity.png"
     gameLoc: 'runner'
     reduceFirstProgramOrHardwareInstallCostBy1: true
+    owner: 'runner'
   cardBack:
     src: "runner-back.jpg"
     gameLoc: 'runner'

@@ -249,6 +249,7 @@ Meteor.methods({
           } else {
             var blankICE = {src: 'corp-back.jpg'};        // And wipe everything for the Runner
             blankICE['gameLoc'] = 'corp.remoteServers';
+            blankICE.cardType = 'ICE'
             remotes[i]['ICE'][k] = blankICE;
           }
         }

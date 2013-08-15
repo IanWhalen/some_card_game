@@ -100,7 +100,7 @@ Meteor.startup ->
 
   fabric.Canvas::showGameStartImages = (playerObj, game) ->
     @addCardToCanvas playerObj,                     # Runner deck
-      {src: 'runner-back.jpg', gameLoc: 'runner'},
+      {src: 'runner-back.jpg', gameLoc: 'runner', owner: 'runner'},
       CARD_PARAMS['width']*1.05,
       @height - CARD_PARAMS['height'] - 20,
       (true if playerObj.side is 'corp')
@@ -112,7 +112,7 @@ Meteor.startup ->
       (true if playerObj.side is 'corp')
 
     @addCardToCanvas playerObj,                     # Corp deck
-      {src: 'corp-back.jpg', gameLoc: 'corp'},
+      {src: 'corp-back.jpg', gameLoc: 'corp', owner: 'runner'},
       @width - (CARD_PARAMS['width'] + CARD_PARAMS['width']*1.05),
       20,
       (true if playerObj.side is 'corp')
@@ -228,8 +228,8 @@ Meteor.startup ->
       oImg.set "isCard", true
       oImg.set "metadata", card
 
-      # if playerObj.side != card.owner
-      #   oImg.set "flipY", true
+      if playerObj.side != card.owner
+        oImg.set "flipY", true
 
       p = new fabric.Point(@width - x, @height - y) if xyFlip
 
@@ -246,10 +246,15 @@ Meteor.startup ->
       oImg.set CARD_PARAMS
       oImg.set "isCard", true
       oImg.set "metadata", card
-      oImg.set "angle", 90
 
-      if playerObj.side != card['gameLoc'].split(".")[0]
-        oImg.set "flipY", true
+      if card.cardType is 'ICE'
+        if playerObj.side != card.owner
+          oImg.set 'angle', 270
+        else
+          oImg.set 'angle', 90
+
+      # if playerObj.side != card.owner
+      # oImg.set "flipY", true
 
       p = new fabric.Point(@width - x, @height - y) if xyFlip
 

@@ -4,6 +4,7 @@
     src: "corpIdentity.png"
     gameLoc: 'corp'
     actions: []
+    owner: 'corp'
     gain1CreditOnFirstInstall: true
   cardBack:
     src: "corp-back.jpg"
