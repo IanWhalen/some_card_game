@@ -144,7 +144,7 @@ class @Player
     updateStart["#{card.owner}.#{card.loc}"] = idObj  # { 'runner.hand' : { _id : 'sure-gamble-1' } }
 
     Games.update @gameId,                             # Remove card from starting location
-      $pull: updateHand
+      $pull: updateStart
 
 
     updateDiscard = {}
