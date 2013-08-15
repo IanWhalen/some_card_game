@@ -187,7 +187,6 @@ class @Corp extends @Player
   #-----------------------------------------------------------------------------
 
   moveTopCardFromDeckToHand: (cardObj) ->
-    cardObj['gameLoc'] = 'corp.hand'
     cardObj.loc = 'hand'
 
     updateDeck = {}

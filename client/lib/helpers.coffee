@@ -100,7 +100,7 @@ Meteor.startup ->
 
   fabric.Canvas::showGameStartImages = (playerObj, game) ->
     @addCardToCanvas playerObj,                     # Runner deck
-      {src: 'runner-back.jpg', gameLoc: 'runner', owner: 'runner'},
+      {src: 'runner-back.jpg', owner: 'runner'},
       CARD_PARAMS['width']*1.05,
       @height - CARD_PARAMS['height'] - 20,
       (true if playerObj.side is 'corp')
@@ -112,7 +112,7 @@ Meteor.startup ->
       (true if playerObj.side is 'corp')
 
     @addCardToCanvas playerObj,                     # Corp deck
-      {src: 'corp-back.jpg', gameLoc: 'corp', owner: 'runner'},
+      {src: 'corp-back.jpg', owner: 'runner'},
       @width - (CARD_PARAMS['width'] + CARD_PARAMS['width']*1.05),
       20,
       (true if playerObj.side is 'corp')
@@ -276,13 +276,14 @@ Meteor.startup ->
 
 
   fabric.Canvas::displayOpponentHand = (playerObj, handSize) ->
-    card = {}
     if playerObj.side is 'runner'
-      card['gameLoc'] = 'corp.hand'
-      card['src'] = 'corp-back.jpg'
+      card =
+        src: 'corp-back.jpg'
+        owner: 'corp'
     else if playerObj.side is 'corp'
-      card['gameLoc'] = 'runner.hand'
-      card['src'] = 'runner-back.jpg'
+      card =
+        src: 'runner-back.jpg'
+        owner: 'runner'
 
     i = 0
     while i < handSize

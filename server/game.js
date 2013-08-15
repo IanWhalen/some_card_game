@@ -232,8 +232,7 @@ Meteor.methods({
             card['trueSrc'] = card['src'];                // Show the Corp the real card when hovering
             card['src'] = 'corp-back.jpg';                // But only show the card back when on the table
           } else {
-            var blankCard = {src: 'corp-back.jpg'};       // And wipe everything for the Runner
-            blankCard['gameLoc'] = 'corp.remoteServers';
+            var blankCard = {src: 'corp-back.jpg', owner: 'corp'};       // And wipe everything for the Runner
             remotes[i]['assetsAndAgendas'][j] = blankCard;
           }
         }
@@ -247,9 +246,8 @@ Meteor.methods({
             ICE['trueSrc'] = ICE['src'];                  // Show the Corp the real card when hovering
             ICE['src'] = 'corp-back.jpg';                 // But only show the card back when on the table
           } else {
-            var blankICE = {src: 'corp-back.jpg'};        // And wipe everything for the Runner
-            blankICE['gameLoc'] = 'corp.remoteServers';
-            blankICE.cardType = 'ICE'
+            var blankICE = {src: 'corp-back.jpg', owner: 'corp'};        // And wipe everything for the Runner
+            blankICE.cardType = 'ICE';
             remotes[i]['ICE'][k] = blankICE;
           }
         }

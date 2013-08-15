@@ -230,7 +230,6 @@ class @Runner extends @Player
   #-----------------------------------------------------------------------------
 
   moveTopCardFromDeckToHand: (cardObj) ->
-    cardObj['gameLoc'] = 'runner.hand'
     cardObj.loc = 'hand'
 
     updateDeck = {}

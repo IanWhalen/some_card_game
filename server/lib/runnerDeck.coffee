@@ -2,12 +2,11 @@
   identity:
     name: "Kate \"Mac\" McCaffrey"
     src: "runner_identity.png"
-    gameLoc: 'runner'
     reduceFirstProgramOrHardwareInstallCostBy1: true
     owner: 'runner'
   cardBack:
+    owner: 'runner'
     src: "runner-back.jpg"
-    gameLoc: 'runner'
   stats:
     memory: 4
     link: 0

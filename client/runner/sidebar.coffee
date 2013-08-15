@@ -12,8 +12,7 @@ Template.sidebar.events "click button#endTurn": ->
 
 Template.sidebar.events "click button.action-button": (e) ->
   selectedCard = Session.get "selectedCard"
-  
-  gameLoc = selectedCard.gameLoc              # runner.deck
+
   cardId = selectedCard._id                   # sure-gamble-1
   action = e.target.dataset.action            # draw9Credits
   target = e.target.dataset?.target           # newRemoteServer
