@@ -123,7 +123,7 @@ Meteor.methods({
     var game = getGameObj(playerObj);
     var runner = new Runner(game.runner, game._id);
 
-    if (player.playerId === game.current_player) {
+    if (runner.playerId === game.current_player) {
       return runner.installResource(cardId, 'foo');
     } else {
       return false;
@@ -135,7 +135,7 @@ Meteor.methods({
     var game = getGameObj(playerObj);
     var runner = new Runner(game.runner, game._id);
 
-    if (player.playerId === game.current_player) {
+    if (runner.playerId === game.current_player) {
       return runner.installHardware(cardId, costMod);
     } else {
       return false
@@ -174,7 +174,7 @@ Meteor.methods({
       }));
     }
 
-    if (player.playerId === game.current_player) {
+    if (corp.playerId === game.current_player) {
       return corp.installICE(cardId, server);
     } else {
       return false;
