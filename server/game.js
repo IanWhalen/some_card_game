@@ -78,15 +78,19 @@ Meteor.methods({
       new Corp( game['corp'], game['_id'] ) :
       new Runner( game['runner'], game['_id'] );
 
-    var clickCost = 1;
-    var creditCost = 0;
+    if (player.playerId === game.current_player) {
+      var clickCost = 1;
+      var creditCost = 0;
 
-    if (player.hasEnoughClicks(clickCost)) {
-      player.payAllCosts(1, 0);
-      player.add1Credit();
+      if (player.hasEnoughClicks(clickCost)) {
+        player.payAllCosts(1, 0);
+        player.add1Credit();
 
-      var line = 'The ' + playerObj['side'].capitalize() + " spends 1 click and gains 1 credit.";
-      game.logForBothSides(line);
+        var line = 'The ' + playerObj['side'].capitalize() + " spends 1 click and gains 1 credit.";
+        game.logForBothSides(line);
+      }
+    } else {
+      return false;
     }
   },
 
@@ -119,7 +123,11 @@ Meteor.methods({
     var game = getGameObj(playerObj);
     var runner = new Runner(game.runner, game._id);
 
-    return runner.installResource(cardId, 'foo');
+    if (player.playerId === game.current_player) {
+      return runner.installResource(cardId, 'foo');
+    } else {
+      return false;
+    }
   },
 
 
@@ -127,7 +135,11 @@ Meteor.methods({
     var game = getGameObj(playerObj);
     var runner = new Runner(game.runner, game._id);
 
-    return runner.installHardware(cardId, costMod);
+    if (player.playerId === game.current_player) {
+      return runner.installHardware(cardId, costMod);
+    } else {
+      return false
+    }
   },
 
 
@@ -162,7 +174,11 @@ Meteor.methods({
       }));
     }
 
-    return corp.installICE(cardId, server);
+    if (player.playerId === game.current_player) {
+      return corp.installICE(cardId, server);
+    } else {
+      return false;
+    }
   },
 
 
@@ -188,7 +204,11 @@ Meteor.methods({
       new Corp( game['corp'], game['_id'] ) :
       new Runner( game['runner'], game['_id'] );
 
-    return player.discardFromHand(cardId);
+    if (player.playerId === game.current_player) {
+      return player.discardFromHand(cardId);
+    } else {
+      return false;
+    }
   },
 
 
