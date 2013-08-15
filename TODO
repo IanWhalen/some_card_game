@@ -2,8 +2,7 @@ endGame()
     end game if someone scores 7
     end game if runner draws on empty deck
 
-Runner and Corp can discard cards from hand or board
-Force discard at end of turn based on hand limit
+Runner and Corp can discard cards from board
 
 Runner can trash assets after run
 
@@ -12,5 +11,3 @@ Implement V1 of Runs
 Protect actions so that they reject for the correct reason instead of "You can not install Akamatsu Mem Chip because you do not have enough clicks left."
 
 Corp: ApplyMods on every Install (probably break 'install' into own function)
-
-Remote serevrs are still created if asset/ice install fails.  Need to move all logic server-side to fix this.
