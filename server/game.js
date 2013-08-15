@@ -50,20 +50,24 @@ Meteor.methods({
   //-----------------------------------------------------------------------------
 
   doDrawAction: function(playerObj) {
-    var game = getGameObj(playerObj);
-    var player = (playerObj['side'] === 'corp') ?
-      new Corp( game['corp'], game['_id'] ) :
-      new Runner( game['runner'], game['_id'] );
+      var game = getGameObj( playerObj );
+      var player = ( playerObj.side === 'corp' ) ?
+        new Corp( game.corp, game._id ) :
+        new Runner( game.runner, game._id );
 
-    var clickCost = 1;
-    var creditCost = 0;
+    if (player.playerId === game.current_player) {
+      var clickCost = 1;
+      var creditCost = 0;
 
-    if (player.hasEnoughClicks(clickCost)) {
-      player.payAllCosts(1, 0);
-      player.draw1Card();
+      if (player.hasEnoughClicks(clickCost)) {
+        player.payAllCosts(1, 0);
+        player.draw1Card();
 
-      var line = 'The ' + playerObj['side'].capitalize() + " spends 1 click and draws 1 card.";
-      game.logForBothSides(line);
+        var line = 'The ' + playerObj['side'].capitalize() + " spends 1 click and draws 1 card.";
+        game.logForBothSides(line);
+      }
+    } else {
+      return false;
     }
   },
 

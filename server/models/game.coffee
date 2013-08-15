@@ -13,7 +13,6 @@ class @Game
     corp = new Corp(@corp, @_id)
     @incTurnCounter()
     @logForBothSides 'Starting a new game.'
-    @logForBothSides '===== It is now the Corp\'s turn. ====='
     corp.startTurn()
 
 

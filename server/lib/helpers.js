@@ -45,7 +45,4 @@ switchCurrentPlayer = function(game, playerObj) {
   var playerId = game[oppSide]['playerId'];
 
   game.setCurrentPlayerField(playerId);
-  
-  game.logForBothSides(playerObj['side'].capitalize() + " has ended their turn.");
-  game.logForBothSides('===== It is now the ' + oppSide.capitalize() + "\'s turn. =====");
 };

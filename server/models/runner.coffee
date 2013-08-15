@@ -10,6 +10,7 @@ class @Runner extends @Player
   #-----------------------------------------------------------------------------
 
   startTurn: () ->
+    @logForBothSides "===== It is now the Runner's turn. ====="
     @resetClicks()
 
 

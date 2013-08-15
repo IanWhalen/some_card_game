@@ -11,6 +11,7 @@ class @Corp extends @Player
   #-----------------------------------------------------------------------------
 
   startTurn: () ->
+    @logForBothSides "===== It is now the Corp's turn. ====="
     @resetClicks()
     @draw1Card()
     @logForBothSides 'The Corp draws 1 card automatically.'
@@ -84,7 +85,7 @@ class @Corp extends @Player
       server = game.createNewRemoteServer()
     
     @payAllCosts clickCost, creditCost
-    line = "The Runner spends #{clickCost} click to install ICE on #{server.name}."
+    line = "The Corp spends #{clickCost} click to install ICE on #{server.name}."
     @logForBothSides line
 
     card.rezzed = false

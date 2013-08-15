@@ -15,6 +15,7 @@ class @Player
       @logForSelf "You must discard before ending your turn."
       return false
 
+    @logForBothSides 'Current player has ended their turn.'
     @setClicksToZero()
     return true
 
