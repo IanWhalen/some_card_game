@@ -368,5 +368,5 @@ Meteor.startup ->
       @addCardToCanvas playerObj,                     # Corp deck
         result.corp,
         @width - CARD_PARAMS['width'],
-        0,
+        20,
         (true if playerObj.side is 'corp')
