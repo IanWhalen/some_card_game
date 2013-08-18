@@ -5,10 +5,8 @@ class @Card
 
 
   getActionDataFromCard: (action) ->
-    if @loc == 'hand'
-      arr = 'handActions'
-    if @loc == 'resources'
-      arr = 'boardActions'
+    arr = 'handActions' if @loc == 'hand'
+    arr = 'boardActions' if @loc == 'resources'
 
     if @loc is 'remoteServer' and @cardType in ['Asset', 'ICE'] and @rezzed is false
       arr = 'unrezzedActions'
@@ -18,7 +16,7 @@ class @Card
 
   incCounters: (gameId, amount) ->
     findObj = {}
-    findObj['_id'] = gameId
+    findObj._id = gameId
     findObj[@owner + '.' + @loc + '._id'] = @_id
 
     updateObj = {}

@@ -41,9 +41,9 @@ class @Player
   #
   #-----------------------------------------------------------------------------
 
-  hasEnoughCredits: (n) -> @['stats']['credits'] >= n
+  hasEnoughCredits: (n) -> @stats.credits >= n
 
-  hasEnoughClicks: (n) -> @['stats']['clicks'] >= n
+  hasEnoughClicks: (n) -> @stats.clicks >= n
 
   applyClickMod: (clickCost, clickMod) ->
     clickCost += clickMod
@@ -61,7 +61,7 @@ class @Player
   #-----------------------------------------------------------------------------
 
   # TODO: handle empty deck
-  getNthCardFromDeck: (n) -> @['deck'].slice(-1*n)[0];
+  getNthCardFromDeck: (n) -> @deck.slice(-1*n)[0]
 
   setIntegerField: (targetField, amount) -> @_setField targetField, amount
 
