@@ -30,27 +30,6 @@ class @Game
 
 
   #-----------------------------------------------------------------------------
-  # SHARED CARD ACTIONS
-  #
-  #-----------------------------------------------------------------------------
-
-  add1Credit: (playerObj) ->
-    @incCredits playerObj, 1
-
-
-  add9Credits: (playerObj) ->
-    @incCredits playerObj, 9
-
-
-  draw1Card: (playerObj) ->
-    @drawCards playerObj, 1
-
-
-  draw3Cards: (playerObj) ->
-    @drawCards playerObj, 3
-
-
-  #-----------------------------------------------------------------------------
   # CARD MOVEMENT FUNCTIONS
   #
   #-----------------------------------------------------------------------------
