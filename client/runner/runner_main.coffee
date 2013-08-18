@@ -11,6 +11,9 @@ Template.main_canvas.rendered = ->
   main_canvas.showGameStartText myself()
 
   main_canvas.on "object:over", (e) ->
+    if not e.target.metadata
+      return false
+
     meta = e.target.metadata
     imgSrc = if meta.trueSrc then meta.trueSrc else meta.src
     $("img#magnifier").attr "src", imgSrc

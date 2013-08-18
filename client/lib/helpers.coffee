@@ -199,7 +199,10 @@ Meteor.startup ->
     textAttributes =
       fontSize: 10
       fontFamily: 'monaco'
-      selectable: true
+      hasControls: false
+      hasRotatingPoint: false
+      lockMovementX: true
+      lockMovementY: true
 
     textObj = new fabric.Text text, textAttributes
 
@@ -252,9 +255,6 @@ Meteor.startup ->
           oImg.set 'angle', 270
         else
           oImg.set 'angle', 90
-
-      # if playerObj.side != card.owner
-      # oImg.set "flipY", true
 
       p = new fabric.Point(@width - x, @height - y) if xyFlip
 
