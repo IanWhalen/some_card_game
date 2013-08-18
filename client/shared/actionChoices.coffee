@@ -37,7 +37,7 @@ Template.actionChoices.actions = () ->
       if obj._id is 'corpDiscard'
         return [
           action: 'startRun'
-          actionText: "Begin a run on the Corp's deck",
+          actionText: "Begin a run on the Corp's discard",
           _id: obj._id
         ]
 
