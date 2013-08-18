@@ -9,10 +9,49 @@ Template.actionChoices.onlyOneObject = () ->
 
 Template.actionChoices.actions = () ->
   if Template.actionChoices.onlyOneObject
+    me = myself()
     obj = Session.get("selectedObj")
-    #######
-    # ICE #
-    #######
+
+    ###########
+    # SERVERS #
+    ###########
+    if obj.owner is 'corp' and obj.type is 'server' and me.side is 'runner'
+      
+      # Corp's Hand server
+      if obj._id is 'corpHand'
+        return [
+          action: 'startRun'
+          actionText: "Begin a run on the Corp's hand",
+          _id: obj._id
+        ]
+
+      # Corp's Deck server
+      if obj._id is 'corpDeck'
+        return [
+          action: 'startRun'
+          actionText: "Begin a run on the Corp's deck",
+          _id: obj._id
+        ]
+
+      # Corp's Discard server
+      if obj._id is 'corpDiscard'
+        return [
+          action: 'startRun'
+          actionText: "Begin a run on the Corp's deck",
+          _id: obj._id
+        ]
+
+      # Other this is a remote server
+      else
+        return [
+          action: 'startRun'
+          actionText: "Begin a run on #{obj.name}",
+          _id: obj._id
+        ]
+
+    ###########
+    #   ICE   #
+    ###########
     if obj.cardType is 'ICE'
 
       # Installed but unrezzed ICE
