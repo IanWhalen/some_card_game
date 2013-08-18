@@ -9,18 +9,18 @@ Template.actionChoices.onlyOneObject = () ->
 
 Template.actionChoices.actions = () ->
   if Template.actionChoices.onlyOneObject
-    cardObj = Session.get("selectedObj")
+    obj = Session.get("selectedObj")
     #######
     # ICE #
     #######
-    if cardObj.cardType is 'ICE'
+    if obj.cardType is 'ICE'
 
       # Installed but unrezzed ICE
-      if cardObj.loc is 'remoteServer' and cardObj.rezzed is false
-        return cardObj.unrezzedActions
+      if obj.loc is 'remoteServer' and obj.rezzed is false
+        return obj.unrezzedActions
 
       # Uninstalled ICE
-      if cardObj.loc is 'hand'
+      if obj.loc is 'hand'
         Meteor.call 'getRemoteServers', myself(), (err, result) ->
           console.log err if err
           Session.set 'remoteServers', result
@@ -41,14 +41,14 @@ Template.actionChoices.actions = () ->
     ##########
     # ASSETS #
     ##########
-    if cardObj.cardType is 'Asset'
+    if obj.cardType is 'Asset'
 
       # Installed but unrezzed Assets
-      if cardObj.loc is 'remoteServer' and cardObj.rezzed is false
-        return cardObj.unrezzedActions
+      if obj.loc is 'remoteServer' and obj.rezzed is false
+        return obj.unrezzedActions
 
       # Uninstalled Assets
-      if cardObj.loc is 'hand'
+      if obj.loc is 'hand'
         Meteor.call 'getRemoteServers', myself(), (err, result) ->
           console.log err if err
           Session.set 'remoteServers', result
@@ -69,15 +69,15 @@ Template.actionChoices.actions = () ->
     ############################################
     # RESOURCES & HARDWARE & EVENT & OPERATION #
     ############################################
-    if cardObj.cardType in ['Resource', 'Hardware', 'Event', 'Operation']
+    if obj.cardType in ['Resource', 'Hardware', 'Event', 'Operation']
 
       # Installed Resources
-      if cardObj.loc in ['resources', 'hardware']
-        return cardObj.boardActions
+      if obj.loc in ['resources', 'hardware']
+        return obj.boardActions
 
       # Uninstalled Resources
-      if cardObj.loc is 'hand'
-        opts = cardObj.handActions
+      if obj.loc is 'hand'
+        opts = obj.handActions
         opts.push
           action: 'discardFromHand'
           actionText: 'Discard this card'
