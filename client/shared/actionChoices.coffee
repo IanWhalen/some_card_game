@@ -1,15 +1,15 @@
 Template.actionChoices.playerSide = ->
   myself().side
 
-Template.actionChoices.onlyOneCard = () ->
-  if Session.get("selectedCard") && (Session.get("selectedCard") != undefined)
-    cardMetadata = Session.get "selectedCard"
+Template.actionChoices.onlyOneObject = () ->
+  if Session.get("selectedObj") && (Session.get("selectedObj") != undefined)
+    cardMetadata = Session.get "selectedObj"
   else
     false
 
 Template.actionChoices.actions = () ->
-  if Template.actionChoices.onlyOneCard
-    cardObj = Session.get("selectedCard")
+  if Template.actionChoices.onlyOneObject
+    cardObj = Session.get("selectedObj")
     #######
     # ICE #
     #######
@@ -88,13 +88,13 @@ Template.actionChoices.actions = () ->
 
 
 Template.actionChoices.cardName = () ->
-  if Template.actionChoices.onlyOneCard
-    actions = Session.get("selectedCard")['name']
+  if Template.actionChoices.onlyOneObject
+    actions = Session.get("selectedObj")['name']
   else
     ""
 
 Template.actionChoices.cardDescription = () ->
-  if Template.actionChoices.onlyOneCard
-    actions = Session.get("selectedCard")['description']
+  if Template.actionChoices.onlyOneObject
+    actions = Session.get("selectedObj")['description']
   else
     ""

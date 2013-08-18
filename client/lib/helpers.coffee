@@ -92,7 +92,7 @@ Meteor.startup ->
   String::capitalize = ->
     @charAt(0).toUpperCase() + @slice(1)
 
-  Session.set 'selectedCard', undefined
+  Session.set 'selectedObj', undefined
   Session.set 'showDialog', false
   Session.set 'runnerIsModded', false
   Session.set 'programsAndHardwareInHand', false

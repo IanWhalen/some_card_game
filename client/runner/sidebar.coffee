@@ -11,12 +11,12 @@ Template.sidebar.events "click button#endTurn": ->
 
 
 Template.sidebar.events "click button.action-button": (e) ->
-  selectedCard = Session.get "selectedCard"
+  selectedObj = Session.get "selectedObj"
 
-  cardId = selectedCard._id                   # sure-gamble-1
+  cardId = selectedObj._id                   # sure-gamble-1
   action = e.target.dataset.action            # draw9Credits
   target = e.target.dataset?.target           # newRemoteServer
-  remoteServer = selectedCard.remoteServer    # remoteServer1
+  remoteServer = selectedObj.remoteServer    # remoteServer1
 
   switch action
     ##############
@@ -73,4 +73,4 @@ Template.sidebar.events "click button.action-button": (e) ->
             Session.set 'runnerIsModded', true
             Session.set 'showDialog', true
 
-  Session.set "selectedCard", undefined
+  Session.set "selectedObj", undefined
