@@ -134,18 +134,21 @@ Meteor.startup ->
       "|-------                Hand                -------|",
       @width - CARD_PARAMS['width']*3*1.05 - 160,
       8,
+      {_id: 'corpHand', owner: 'corp', type: 'server'},
       (true if playerObj.side is 'corp')
 
     @addLocationText playerObj,           
       "|-  Deck  -|",
       @width - CARD_PARAMS['width']*1.5*1.031,
       8,
+      {_id: 'corpDeck', owner: 'corp', type: 'server'},
       (true if playerObj.side is 'corp')
 
     @addLocationText playerObj,
       "|- Discard -|",
       @width - CARD_PARAMS['width']*.5,
       8,
+      {_id: 'corpDiscard', owner: 'corp', type: 'server'},
       (true if playerObj.side is 'corp')
 
     ##########
@@ -155,24 +158,28 @@ Meteor.startup ->
       "|-------                Hand                -------|",
       CARD_PARAMS['width']*3*1.05 + 160,
       @height - 8,
+      {},
       (true if playerObj.side is 'corp')
 
     @addLocationText playerObj,
       "|-  Deck  -|",
       CARD_PARAMS['width']*1.5*1.031,
       @height - 8,
+      {},
       (true if playerObj.side is 'corp')
 
     @addLocationText playerObj,
       "|- Discard -|",
       CARD_PARAMS['width']*.5,
       @height - 8,
+      {},
       (true if playerObj.side is 'corp')
 
     @addLocationText playerObj,
       "|---------                  Hardware                  ---------|",
       CARD_PARAMS['width']*9,
       @height - 8,
+      {},
       (true if playerObj.side is 'corp')
 
   fabric.Canvas::addCountersToCard = (playerObj, card, cardX, cardY) ->
@@ -195,7 +202,7 @@ Meteor.startup ->
     @add text
 
 
-  fabric.Canvas::addLocationText = (playerObj, text, x, y, xyFlip) ->
+  fabric.Canvas::addLocationText = (playerObj, text, x, y, metadata, xyFlip) ->
     textAttributes =
       fontSize: 10
       fontFamily: 'monaco'
@@ -209,6 +216,7 @@ Meteor.startup ->
     [x, y] = [@width - x, @height - y] if xyFlip
     p = new fabric.Point(x, y)
 
+    textObj.set 'metadata', metadata
     textObj.setPositionByOrigin p, 'center', 'center'
     @add textObj
 
@@ -352,7 +360,13 @@ Meteor.startup ->
             @addICEToCanvas playerObj, ice, x, y, xyFlip
 
         if card or server['ICE'].length
-          @addLocationText playerObj, "|-  #{server.name}  -|", x+45, @height-8, xyFlip
+          metadata =
+            _id: server._id
+            owner: 'corp'
+            type: 'server'
+            name: server.name
+
+          @addLocationText playerObj, "|-  #{server.name}  -|", x+45, @height-8, metadata, xyFlip
 
 
   fabric.Canvas::displayDiscardPiles = (result) ->
