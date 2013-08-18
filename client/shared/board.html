@@ -67,7 +67,7 @@
     <p>{{ cardDescription }}</p>
     {{#each actions}}
     <div>
-      <button class="action-button" data-action="{{ getActionName this }}" data-target="{{ getTarget this }}" class="btn">{{ getActionText this }}</button>
+      <button class="btn action-button" data-action="{{ getActionName this }}" data-target="{{ getTarget this }}">{{ getActionText this }}</button>
     </div>
     {{/each}}
     {{else}}
@@ -86,7 +86,7 @@
       {{#each cardChoices}}
       <div class='card-choice'>
         <img class='card-choice-img' src='{{ src }}'>
-        <button class='action-button' data-id='{{ _id }}' data-cardType='{{ cardType }}' class="btn">Install {{ name }}</button>
+        <button class='btn action-button' data-id='{{ _id }}' data-cardType='{{ cardType }}'>Install {{ name }}</button>
       </div>
       {{/each}}
     </div>
