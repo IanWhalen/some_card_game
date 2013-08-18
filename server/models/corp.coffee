@@ -12,11 +12,17 @@ class @Corp extends @Player
 
   startTurn: () ->
     @logForBothSides "===== It is now the Corp's turn. ====="
-    @resetClicks()
+    
+    # Corp automatically draws a card by default
     @draw1Card()
     @logForBothSides 'The Corp draws 1 card automatically.'
-    @add1Credit() if @identity.gain1CreditEachTurn
+
+    # Update all 1-per-turn values
+    @resetClicks()
     @setBooleanField 'corp.identity.gain1CreditOnFirstInstall', true
+    
+    # Execute various conditional benefits
+    @add1Credit() if @identity.gain1CreditEachTurn
 
 
   #-----------------------------------------------------------------------------
