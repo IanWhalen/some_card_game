@@ -1,10 +1,6 @@
 ////////// Shared code (client and server) //////////
 
 Games = new Meteor.Collection('games');
-// { board: {},
-//   players: { runner: { player_id: 123, name: Ian, deck: [{}, {}], hand: [{}, {}] },
-//              corp:   { player_id: 234, name: John }}
-// }
 
 
 Players = new Meteor.Collection('players');
