@@ -138,7 +138,7 @@ Meteor.methods({
     if (runner.playerId === game.current_player) {
       return runner.installHardware(cardId, costMod);
     } else {
-      return false
+      return false;
     }
   },
 
@@ -158,7 +158,7 @@ Meteor.methods({
     if (server !== 'newServer' && typeof server === 'string') {
       server = new Server( _.find(corp.remoteServers, function(obj) {
         return obj._id === server;
-      }));
+      }), game._id );
     }
 
     return corp.installAsset(cardId, server);
@@ -171,7 +171,7 @@ Meteor.methods({
     if (server !== 'newServer' && typeof server === 'string') {
       server = new Server( _.find(corp.remoteServers, function(obj) {
         return obj._id === server;
-      }));
+      }), game._id );
     }
 
     if (corp.playerId === game.current_player) {
