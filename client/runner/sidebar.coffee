@@ -13,15 +13,21 @@ Template.sidebar.events "click button#endTurn": ->
 Template.sidebar.events "click button.action-button": (e) ->
   selectedObj = Session.get "selectedObj"
 
-  cardId = selectedObj._id                   # sure-gamble-1
+  cardId = selectedObj._id                    # sure-gamble-1
   action = e.target.dataset.action            # draw9Credits
   target = e.target.dataset?.target           # newRemoteServer
-  remoteServer = selectedObj.remoteServer    # remoteServer1
+  remoteServer = selectedObj.remoteServer     # remoteServer1
 
   switch action
-    ##############
-    # EVERYTHING #
-    ##############
+    ###########
+    # SERVERS #
+    ###########
+    when 'startRun'
+      Meteor.call 'doStartRunAction', myself(), target, (err, result) ->
+        console.log err if err
+    #################
+    # CARDS IN HAND #
+    #################
     when 'discardFromHand'
       Meteor.call 'doDiscardFromHandAction', myself(), cardId, (err, result) ->
         console.log err if err
