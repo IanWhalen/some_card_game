@@ -211,6 +211,23 @@ Meteor.methods({
     }
   },
 
+  //-----------------------------------------------------------------------------
+  // RUNNER ACTIONS
+  //
+  //
+  //
+  //-----------------------------------------------------------------------------
+
+  doStartRunAction: function (playerObj, targetId) {
+    var game = getGameObj( playerObj );
+
+    if (playerObj._id === game.current_player) {
+      return game.startRun(targetId);
+    } else {
+      return false;
+    }
+  },
+
 
   //-----------------------------------------------------------------------------
   // CARD DISPLAY FUNCTIONS
