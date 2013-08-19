@@ -29,6 +29,25 @@ class @Game
     return newServer
 
 
+  startRun: (targetId) ->
+    runner = new Runner( @runner, @_id )
+
+    switch targetId
+      when 'corpDeck'    
+        target = new Server( @corp.deck, @_id )
+      when 'corpHand'
+        target = new Server( @corp.hand, @_id )
+      when 'corpDiscard'
+        target = new Server( @corp.discard, @_id )
+      else
+        target = new Server( _.find(@corp.remoteServers, (obj) -> return obj._id is targetId), @_id )
+
+    if runner.canStartRun( target )
+      @_setField 'running', true
+    else
+      return false
+
+
   #-----------------------------------------------------------------------------
   # CARD MOVEMENT FUNCTIONS
   #
