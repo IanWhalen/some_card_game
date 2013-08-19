@@ -19,6 +19,24 @@ class @Runner extends @Player
   #
   #-----------------------------------------------------------------------------
 
+  canStartRun: (target) ->
+    actionData =
+      click_cost: 1
+      credit_cost: 0
+
+    [clickCost, creditCost, logs] = @applyCostMods actionData, 'server', ''
+    if not @hasEnoughClicks clickCost
+      @logForSelf "You can not start a run because you do not have enough clicks left."
+      return false
+
+    if not @hasEnoughCredits creditCost
+      @logForSelf "You can not start a run because you do not have enough credits left."
+      return false
+
+    @payAllCosts clickCost, creditCost
+    @logForBothSides "The Runner spends #{clickCost} click and €#{creditCost} to begin a run on #{target.name}."
+
+
   installResource: (cardId, costMod) ->
     card = new Card( _.find @hand, (obj) -> obj._id is cardId )
     actionData = card.getActionDataFromCard 'installResource' if card?
