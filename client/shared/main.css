@@ -1,5 +1,5 @@
-p {
-    font-family: monaco;
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: Monaco;
 }
 
 .hidden {
@@ -36,6 +36,7 @@ p {
 
 .actionContainer {
     width: 260px;
+    text-align: center;
 }
 
 div.actionContainer > button {
@@ -90,8 +91,7 @@ div#sidebar {
 
 body {
     margin: 0px;
-    background-color: #f4f4f4;
-    font-family: Helvetica, Arial, sans-serif;
+    font-family: Monaco, sans-serif;
 }
 
 /* base styles */

@@ -67,14 +67,14 @@
     <p>{{ cardDescription }}</p>
     {{#each actions}}
     <div>
-      <button class="btn action-button" data-action="{{ getActionName this }}" data-target="{{ getTarget this }}">{{ getActionText this }}</button>
+      <button class="btn btn-block action-button" data-action="{{ getActionName this }}" data-target="{{ getTarget this }}">{{ getActionText this }}</button>
     </div>
     {{/each}}
     {{else}}
     <p><strong>Default {{playerSide}} Choices</strong></p>
-    <button id="drawCard" class="btn">Draw a card</button>
-    <button id="gainCredit" class="btn">Gain 1 credit</button>
-    <button id="endTurn" class="btn">End Your Turn</button>
+    <button id="drawCard" class="btn btn-block">Draw a card</button>
+    <button id="gainCredit" class="btn btn-block">Gain 1 credit</button>
+    <button id="endTurn" class="btn btn-block">End Your Turn</button>
     {{/if}}
   </div>
 </template>
@@ -86,7 +86,7 @@
       {{#each cardChoices}}
       <div class='card-choice'>
         <img class='card-choice-img' src='{{ src }}'>
-        <button class='btn action-button' data-id='{{ _id }}' data-cardType='{{ cardType }}'>Install {{ name }}</button>
+        <button class='btn action-button btn-block' data-id='{{ _id }}' data-cardType='{{ cardType }}'>Install {{ name }}</button>
       </div>
       {{/each}}
     </div>
