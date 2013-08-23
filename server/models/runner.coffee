@@ -4,6 +4,7 @@ class @Runner extends @Player
       @[key] = value
     @['gameId'] = gameId
 
+
   #-----------------------------------------------------------------------------
   # GAME PROCESS FUNCTIONS
   #

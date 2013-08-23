@@ -30,7 +30,7 @@ describe 'Player cost modification functions', ->
     finalCost.should.equal 0
 
 describe 'Player resource validation functions', ->
-  player = new Player( {stats: {clicks: 1, credits: 1}} )
+  player = new Player {stats: {clicks: 1, credits: 1}}
   it 'should return true if player has enough credits', ->
     result = player.hasEnoughCredits 1
     result.should.equal true
