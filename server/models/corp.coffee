@@ -10,6 +10,11 @@ class @Corp extends @Player
   #
   #-----------------------------------------------------------------------------
 
+  startGame: () ->
+    @draw5Cards()
+    @startTurn()
+
+
   startTurn: () ->
     @logForBothSides "===== It is now the Corp's turn. ====="
     

@@ -10,6 +10,10 @@ class @Runner extends @Player
   #
   #-----------------------------------------------------------------------------
 
+  startGame: () ->
+    @draw5Cards()
+
+
   startTurn: () ->
     @logForBothSides "===== It is now the Runner's turn. ====="
     @resetClicks()

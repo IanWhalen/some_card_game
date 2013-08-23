@@ -10,10 +10,12 @@ class @Game
   #-----------------------------------------------------------------------------
 
   newGameSetup: () ->
-    corp = new Corp(@corp, @_id)
+    [corp, runner] = [new Corp(@corp, @_id), new Runner(@runner, @_id)]
+
     @incTurnCounter()
     @logForBothSides 'Starting a new game.'
-    corp.startTurn()
+    corp.startGame()
+    runner.startGame()
 
 
   createNewRemoteServer: () ->
@@ -81,18 +83,6 @@ class @Game
 
     Games.update( @._id, { $pop:  updateDeck } )
     Games.update( @._id, { $push: updateHand } )
-
-
-  drawCards: (playerObj, amount) ->
-    i = 0
-
-    while i < amount
-      cardObj = @getNthCardFromDeck playerObj, i+1
-      if cardObj
-        @moveTopCardFromDeckToHand playerObj, cardObj
-      else
-        console.log "Can not draw. Deck is empty."
-      i++
 
 
   #-----------------------------------------------------------------------------
