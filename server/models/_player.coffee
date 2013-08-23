@@ -10,14 +10,9 @@ class @Player
   #
   #-----------------------------------------------------------------------------
 
-  endTurn: () ->
-    if @hand.length > @stats.handLimit
-      @logForSelf "You must discard before ending your turn."
-      return false
-
-    @logForBothSides 'Current player has ended their turn.'
-    @setClicksToZero()
-    return true
+  canEndTurn: () ->
+    return false if @hand.length > @stats.handLimit
+    true
 
 
   #-----------------------------------------------------------------------------
@@ -35,6 +30,7 @@ class @Player
 
   draw3Cards: () -> @drawCards 3
 
+  draw5Cards: () -> @drawCards 5
 
   #-----------------------------------------------------------------------------
   # ECONOMY FUNCTIONS

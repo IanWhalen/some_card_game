@@ -33,7 +33,7 @@ Meteor.methods({
                      {multi: true});
 
 
-      // Run startup operations on Corp
+      // Run startup operations
       var game = new Game(Games.findOne(gameId));
       game.newGameSetup();
 
@@ -108,11 +108,14 @@ Meteor.methods({
 
 
     if (player.playerId === game.current_player) {
-      if (player.endTurn()) {
+      if (player.canEndTurn()) {
+        game.logForBothSides('Current player has ended their turn.');
+        player.setClicksToZero();
         opponent.startTurn();
         game.incTurnCounter();
         switchCurrentPlayer(game, currentPlayerObj);
       } else {
+        player.logForSelf("You must discard before ending your turn.");
         return false;
       }
     }
