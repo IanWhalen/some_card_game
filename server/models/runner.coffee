@@ -11,7 +11,7 @@ class @Runner extends @Player
   #-----------------------------------------------------------------------------
 
   startGame: () ->
-    @draw5Cards()
+    # @draw5Cards()
 
 
   startTurn: () ->
