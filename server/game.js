@@ -15,16 +15,16 @@ Meteor.methods({
 
     // if so, setup new game board
     if (corpId && runnerId) {
-      var gameId = Games.insert({ corp:           { player: corpId },
-                                  runner:         { player: runnerId },
-                                  current_player: corpId,
-                                  turn:           0
-                                 });
       RUNNER["deck"] = RUNNER_DECK;
       RUNNER['playerId'] = runnerId;
       CORP["deck"] = CORP_DECK;
       CORP['playerId'] = corpId;
-      Games.update( gameId, { $set: { "runner" : RUNNER, "corp" : CORP }});
+
+      var gameId = Games.insert({ corp:           CORP,
+                                  runner:         RUNNER,
+                                  current_player: corpId,
+                                  turn:           0
+                                 });
 
 
       // move both players from the lobby to the game
