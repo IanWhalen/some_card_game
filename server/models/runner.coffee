@@ -1,3 +1,5 @@
+{@Player} = require './_player' unless Meteor?
+
 class @Runner extends @Player
   constructor: (obj, gameId) ->
     for key, value of obj
