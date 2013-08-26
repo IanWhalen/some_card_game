@@ -31,17 +31,18 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 #magnifier-container {
     height: 420px;
-    width: 220px;
+    width: 290px;
 }
 
 .actionContainer {
-    width: 260px;
+    width: 290px;
     text-align: center;
 }
 
 div.actionContainer > button {
     clear: both;
     float: left;
+    width: 290px;
 }
 
 canvas {
@@ -83,7 +84,7 @@ div.sidebarStats > p {
 }
 
 div#sidebar {
-    width: 230px;
+    width: 290px;
     margin: 0px 5px;
 }
 
