@@ -35,7 +35,7 @@ class @Game
     runner = new Runner( @runner, @_id )
 
     switch targetId
-      when 'corpDeck'    
+      when 'corpDeck'
         target = new Server( @corp.deck, @_id )
       when 'corpHand'
         target = new Server( @corp.hand, @_id )

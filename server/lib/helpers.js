@@ -21,6 +21,7 @@ player_is_ready = function(side) {
   }
 };
 
+
 getOppSide = function(side) {
   if (side === "corp") {
     return "runner";
