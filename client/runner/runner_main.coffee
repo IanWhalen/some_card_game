@@ -3,14 +3,14 @@
 #-----------------------------------------------------------------------------
 
 Template.main_canvas.rendered = ->
-  main_canvas = new fabric.NetrunnerCanvas('main_canvas')
-  main_canvas.hoverCursor = "pointer"
-  add_hover_helper main_canvas
+  cvs = new fabric.NetrunnerCanvas('main_canvas', {hoverCursor: "pointer"})
 
-  main_canvas.showGameStartImages myself(), game()
-  main_canvas.showGameStartText myself()
+  add_hover_helper cvs
 
-  main_canvas.on "object:over", (e) ->
+  cvs.showGameStartImages myself(), game()
+  cvs.showGameStartText myself()
+
+  cvs.on "object:over", (e) ->
     if not e.target.metadata
       return false
 
@@ -19,48 +19,48 @@ Template.main_canvas.rendered = ->
     $("img#magnifier").attr "src", imgSrc
 
 
-  main_canvas.on "object:out", (e) ->
+  cvs.on "object:out", (e) ->
     blankPixel = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
     $("img#magnifier").attr "src", blankPixel
 
 
-  main_canvas.on "object:selected", (e) ->
-    if !main_canvas._activeGroup && main_canvas._activeObject
+  cvs.on "object:selected", (e) ->
+    if !cvs._activeGroup && cvs._activeObject
       Session.set "selectedObj", e.target.metadata
 
 
-  main_canvas.on "selection:cleared", (e) ->
+  cvs.on "selection:cleared", (e) ->
     Session.set "selectedObj", undefined
 
 
   # Refresh display every time either player's hand is changed
   Meteor.call "getPlayersHands", myself(), (err, result) ->
     console.log err if err
-    main_canvas.displayPlayerHands result
+    cvs.displayPlayerHands result
 
 
   # Refresh display every time either player's discard pile is changed
   Meteor.call "getTopOfDiscardPiles", myself(), (err, result) ->
     console.log err if err
-    main_canvas.displayDiscardPiles result
+    cvs.displayDiscardPiles result
 
 
   # Refresh display every time the Runner's in-play resources change
   Meteor.call "getRunnerResources", myself(), (err, result) ->
     console.log err if err
-    main_canvas.displayRunnerResources result
+    cvs.displayRunnerResources result
 
 
   # Refresh display every time the Runner's in-play hardware change
   Meteor.call "getRunnerHardware", myself(), (err, result) ->
     console.log err if err
-    main_canvas.displayRunnerHardware result
+    cvs.displayRunnerHardware result
 
 
   # Refresh display every time the Corp's remote servers change
   Meteor.call "getRemoteServers", myself(), (err, result) ->
     console.log err if err
-    main_canvas.displayRemoteServers result
+    cvs.displayRemoteServers result
 
 
 Template.main_canvas.canvasHeight = () ->
