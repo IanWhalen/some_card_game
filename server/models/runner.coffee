@@ -4,8 +4,10 @@ class @Runner extends @Player
   constructor: (obj, gameId) ->
     for key, value of obj
       @[key] = value
-    @['gameId'] = gameId
 
+    @gameId = gameId
+    @deck = new Deck( @deck, 'runner', @gameId )
+    @hand = new Hand( @hand, 'runner', @gameId )
 
   #-----------------------------------------------------------------------------
   # GAME PROCESS FUNCTIONS
@@ -13,7 +15,7 @@ class @Runner extends @Player
   #-----------------------------------------------------------------------------
 
   startGame: () ->
-    # @draw5Cards()
+    @draw5Cards()
 
 
   startTurn: () ->

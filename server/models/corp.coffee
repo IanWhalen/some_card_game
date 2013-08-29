@@ -4,8 +4,10 @@ class @Corp extends @Player
   constructor: (obj, gameId) ->
     for key, value of obj
       @[key] = value
-    @['gameId'] = gameId
 
+    @gameId = gameId
+    @deck = new Deck( @deck, 'corp', @gameId )
+    @hand = new Hand( @hand, 'corp', @gameId )
 
   #-----------------------------------------------------------------------------
   # GAME PROCESS FUNCTIONS
@@ -13,7 +15,7 @@ class @Corp extends @Player
   #-----------------------------------------------------------------------------
 
   startGame: () ->
-    # @draw5Cards()
+    @draw5Cards()
     @startTurn()
 
 

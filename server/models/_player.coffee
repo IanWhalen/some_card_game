@@ -2,7 +2,7 @@ class @Player
   constructor: (obj, gameId) ->
     for key, value of obj
       @[key] = value
-    @['gameId'] = gameId
+    @gameId = gameId
 
 
   #-----------------------------------------------------------------------------
@@ -56,9 +56,6 @@ class @Player
   #
   #-----------------------------------------------------------------------------
 
-  # TODO: handle empty deck
-  getNthCardFromDeck: (n) -> @deck.slice(-1*n)[0]
-
   setIntegerField: (targetField, amount) -> @_setField targetField, amount
 
   logForBothSides: (line) ->
@@ -79,13 +76,9 @@ class @Player
 
   drawCards: (amount) ->
     i = 0
-
     while i < amount
-      cardObj = @getNthCardFromDeck i+1
-      if cardObj
-        @moveTopCardFromDeckToHand cardObj
-      else
-        console.log "Can not draw. Deck is empty."
+      card = @deck.popCard()
+      @hand.pushCard( card ) if card
       i++
 
 

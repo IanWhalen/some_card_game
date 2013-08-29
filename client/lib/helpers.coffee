@@ -274,13 +274,28 @@ Meteor.startup ->
     i = 0
     while i < hand.length
       card = hand[i]
-
-      y = @height - CARD_PARAMS['height'] - 20                        # Bottom row 
-      x = CARD_PARAMS['width']*3*1.05 + i*CARD_PARAMS['width']*0.3    # Start in 3rd column and overlap
-        
-      @addCardToCanvas playerObj, card, x, y
-      
+      @addOwnHandCardToCanvas playerObj, card
       i++
+
+
+  fabric.Canvas::addOwnHandCardToCanvas = (playerObj, card) ->
+    fabric.Image.fromURL card["src"], (oImg) =>
+      count = _.filter(@_objects, (obj) ->
+        obj.metadata.owner is playerObj.side and obj.metadata.loc is 'hand'
+      ).length
+
+      oImg.set CARD_PARAMS
+      oImg.set "isCard", true
+      oImg.set "metadata", card
+
+      if playerObj.side != card.owner
+        oImg.set "flipY", true
+
+      x = (CARD_PARAMS['width']*3*1.05 + count*CARD_PARAMS['width']*0.3) + (CARD_PARAMS['width'] / 2)
+      y = (@height - CARD_PARAMS['height'] - 20) + CARD_PARAMS['height'] / 2
+      p = new fabric.Point(x, y)
+      oImg.setPositionByOrigin (p)
+      @add oImg
 
 
   fabric.Canvas::displayOpponentHand = (playerObj, handSize) ->

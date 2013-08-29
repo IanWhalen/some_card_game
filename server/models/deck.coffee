@@ -1,12 +1,17 @@
 class @Deck
-  constructor: (obj) ->
-    for key, value of obj
-      @[key] = value
+  constructor: (obj, owner, gameId) ->
+    @cards = obj
+    @owner = owner
+    @gameId = gameId
 
 
-  getTopCard: () ->
-    @slice(-1)[0]
+  popCard: () ->
+    game = Games.findOne @gameId
+    card = game[@owner]['deck'].pop()
 
+    updateDeck = {}
+    updateDeck[@owner + '.deck'] = 1
+    Games.update @gameId,
+        $pop: updateDeck
 
-  getNthCard: (n) ->
-    @slice(-1*n)[0]
+    return card
