@@ -3,7 +3,7 @@
 #-----------------------------------------------------------------------------
 
 Template.main_canvas.rendered = ->
-  main_canvas = new fabric.Canvas("main_canvas")
+  main_canvas = new fabric.NetrunnerCanvas('main_canvas')
   main_canvas.hoverCursor = "pointer"
   add_hover_helper main_canvas
 
