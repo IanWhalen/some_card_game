@@ -82,8 +82,8 @@ class @Corp extends @Player
   #-----------------------------------------------------------------------------
 
   installICE: (cardId, server) ->
-    card = new Card( _.find @hand, (obj) -> obj._id is cardId )
-    game = new Game (Games.findOne(@gameId))
+    game = new Game(Games.findOne @gameId)
+    card = new Card( _.find game.corp.hand.cards, (obj) -> obj._id is cardId )
     actionData = card.getActionDataFromCard 'installICE' if card?
 
     [clickCost, creditCost, logs] = @applyCostMods actionData, false
@@ -138,8 +138,8 @@ class @Corp extends @Player
 
 
   installAsset: (cardId, server) ->
-    card = new Card( _.find @hand, (obj) -> obj._id is cardId )
-    game = new Game (Games.findOne(@gameId))
+    game = new Game (Games.findOne @gameId)
+    card = new Card( _.find game.corp.hand.cards, (obj) -> obj._id is cardId )
     actionData = card.getActionDataFromCard 'installAsset' if card?
 
     [clickCost, creditCost, logs] = @applyCostMods actionData, false

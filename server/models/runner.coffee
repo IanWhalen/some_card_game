@@ -47,7 +47,8 @@ class @Runner extends @Player
 
 
   installResource: (cardId, costMod) ->
-    card = new Card( _.find @hand, (obj) -> obj._id is cardId )
+    game = new Game(Games.findOne @gameId)
+    card = new Card( _.find game.runner.hand.cards, (obj) -> obj._id is cardId )
     actionData = card.getActionDataFromCard 'installResource' if card?
 
     [clickCost, creditCost, logs] = @applyCostMods actionData, card.cardType, costMod
@@ -69,7 +70,8 @@ class @Runner extends @Player
 
 
   installHardware: (cardId, costMod) ->
-    card = new Card( _.find @hand, (obj) -> obj._id is cardId )
+    game = new Game(Games.findOne @gameId)
+    card = new Card( _.find game.runner.hand.cards, (obj) -> obj._id is cardId )
     actionData = card.getActionDataFromCard 'installHardware' if card?
 
     [clickCost, creditCost, logs] = @applyCostMods actionData, card.cardType, costMod
