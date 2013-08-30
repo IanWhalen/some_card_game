@@ -188,6 +188,31 @@ class @Corp extends @Player
     @updateAssetOnRemoteServer "corp.remoteServers.#{server.name}.assetsAndAgendas", card
 
 
+  doCardAction: (cardId, action) ->
+    card = @searchAllLocsForCard cardId
+    actionData = card.getActionDataFromCard action
+
+    [clickCost, creditCost, logs] = @applyCostMods actionData, card.cardType, ''
+    if not @hasEnoughClicks clickCost
+      @logForSelf "You can not use #{card.name} because you do not have enough clicks left."
+      return false
+
+    if not @hasEnoughCredits creditCost
+      @logForSelf "You can not use #{card.name} because you do not have enough credits left."
+      return false
+
+    @payAllCosts clickCost, creditCost
+    result = @[action](card)
+
+    if card.counters <= 0 and card.trashIfNoCounters?
+      @_discardCard card
+
+    if card.cardType in ['Operation']
+      @_discardCard card
+
+    return result
+
+
   #-----------------------------------------------------------------------------
   # CORP ONGOING BENEFITS
   #
@@ -195,6 +220,18 @@ class @Corp extends @Player
 
   gain1CreditEachTurn: () ->
     @setBooleanField 'corp.identity.gain1CreditEachTurn', true
+
+
+  #-----------------------------------------------------------------------------
+  # HELPERS
+  #
+  #-----------------------------------------------------------------------------
+
+  searchAllLocsForCard: (cardId) ->
+    game = new Game (Games.findOne @gameId)
+    allCards = _.union(game.corp.hand.cards)
+    card = new Card _.find(allCards, (obj) -> obj._id is cardId)
+    return card if card
 
 
   #-----------------------------------------------------------------------------
