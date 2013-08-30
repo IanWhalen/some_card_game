@@ -116,10 +116,10 @@ class @Corp extends @Player
 
     [clickCost, creditCost, logs] = @applyCostMods actionData, false
     if not @hasEnoughClicks clickCost
-      @logForSelf "You can not install #{card.name} because you do not have enough clicks left."
+      @logForSelf "You can not rez #{card.name} because you do not have enough clicks left."
       return false
     if not @hasEnoughCredits creditCost
-      @logForSelf "You can not install #{card.name} because you do not have enough credits left."
+      @logForSelf "You can not rez #{card.name} because you do not have enough credits left."
       return false
 
     @payAllCosts clickCost, creditCost
@@ -173,10 +173,10 @@ class @Corp extends @Player
 
     [clickCost, creditCost, logs] = @applyCostMods actionData, false
     if not @hasEnoughClicks clickCost
-      @logForSelf "You can not install #{card.name} because you do not have enough clicks left."
+      @logForSelf "You can not rez #{card.name} because you do not have enough clicks left."
       return false
     if not @hasEnoughCredits creditCost
-      @logForSelf "You can not install #{card.name} because you do not have enough credits left."
+      @logForSelf "You can not rez #{card.name} because you do not have enough credits left."
       return false
 
     @payAllCosts clickCost, creditCost
