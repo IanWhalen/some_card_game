@@ -1,6 +1,6 @@
 class @Hand
-  constructor: (obj, owner, gameId) ->
-    @cards = obj
+  constructor: (arr, owner, gameId) ->
+    @cards = arr
     @owner = owner
     @gameId = gameId
 
