@@ -124,7 +124,8 @@ class @Runner extends @Player
   #-----------------------------------------------------------------------------
 
   searchAllLocsForCard: (cardId) ->
-    allCards = _.union(@resources, @hardware, @hand)
+    game = new Game(Games.findOne @gameId)
+    allCards = _.union(@resources, @hardware, game.runner.hand.cards)
     card = new Card _.find(allCards, (obj) -> obj._id is cardId)
     return card if card
 
