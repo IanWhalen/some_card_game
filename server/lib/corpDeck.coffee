@@ -91,7 +91,7 @@
   cardType: "Asset"
   addBenefit: 'gain1CreditEachTurn'
   unrezzedActions: [
-    click_cost: 1
+    click_cost: 0
     credit_cost: 2
     actionText: 'Rez PAD Campaign'
     action: 'rezAsset'
@@ -112,7 +112,7 @@
   cardType: "Asset"
   addBenefit: 'gain1CreditEachTurn'
   unrezzedActions: [
-    click_cost: 1
+    click_cost: 0
     credit_cost: 2
     actionText: 'Rez PAD Campaign'
     action: 'rezAsset'
@@ -133,7 +133,7 @@
   cardType: "Asset"
   addBenefit: 'gain1CreditEachTurn'
   unrezzedActions: [
-    click_cost: 1
+    click_cost: 0
     credit_cost: 2
     actionText: 'Rez PAD Campaign'
     action: 'rezAsset'
@@ -153,7 +153,7 @@
   src: "enigma.png"
   cardType: "ICE"
   unrezzedActions: [
-    click_cost: 1
+    click_cost: 0
     credit_cost: 3
     actionText: 'Rez Enigma'
     action: 'rezICE'
@@ -173,7 +173,7 @@
   src: "enigma.png"
   cardType: "ICE"
   unrezzedActions: [
-    click_cost: 1
+    click_cost: 0
     credit_cost: 3
     actionText: 'Rez Enigma'
     action: 'rezICE'
