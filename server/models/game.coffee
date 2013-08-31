@@ -15,7 +15,6 @@ class @Game
   newGameSetup: () ->
     [corp, runner] = [new Corp(@corp, @_id), new Runner(@runner, @_id)]
 
-    @incTurnCounter()
     @logForBothSides 'Starting a new game.'
     corp.startGame()
     runner.startGame()

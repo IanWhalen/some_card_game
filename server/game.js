@@ -112,7 +112,6 @@ Meteor.methods({
         game.logForBothSides('Current player has ended their turn.');
         player.setClicksToZero();
         opponent.startTurn();
-        game.incTurnCounter();
         switchCurrentPlayer(game, currentPlayerObj);
       } else {
         player.logForSelf("You must discard before ending your turn.");

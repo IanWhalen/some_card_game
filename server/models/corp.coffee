@@ -33,6 +33,9 @@ class @Corp extends @Player
     # Execute various conditional benefits
     @add1Credit() if @identity.gain1CreditEachTurn
 
+    game = new Game(Games.findOne @gameId)
+    game.incTurnCounter()
+
 
   #-----------------------------------------------------------------------------
   # CARD ACTIONS (CORE SET)
