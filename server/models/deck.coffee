@@ -1,6 +1,5 @@
 class @Deck
-  constructor: (obj, owner, gameId) ->
-    @cards = obj
+  constructor: (owner, gameId) ->
     @owner = owner
     @gameId = gameId
 
