@@ -4,6 +4,11 @@ class @Hand
     @gameId = gameId
 
 
+  getCards: () ->
+    game = Games.findOne @gameId
+    return game[@owner]['hand']
+
+
   pushCard: (card) ->
     card.loc = 'hand'
     card.owner = @owner

@@ -4,6 +4,11 @@ class @Deck
     @gameId = gameId
 
 
+  getCards: () ->
+    game = Games.findOne @gameId
+    return game.corp.deck
+
+
   popCard: () ->
     game = Games.findOne @gameId
     card = game[@owner]['deck'].pop()
