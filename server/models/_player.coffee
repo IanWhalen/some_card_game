@@ -75,10 +75,13 @@ class @Player
 
 
   drawCards: (amount) ->
+    deck = new Deck(@side, @gameId)
+    hand = new Hand(@side, @gameId)
+
     i = 0
     while i < amount
-      card = @deck.popCard()
-      @hand.pushCard( card ) if card
+      card = deck.popCard()
+      hand.pushCard( card ) if card
       i++
 
 
