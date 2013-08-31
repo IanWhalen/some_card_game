@@ -8,6 +8,7 @@ class @Runner extends @Player
     @gameId = gameId
     @deck = new Deck( @deck, 'runner', @gameId )
     @hand = new Hand( @hand, 'runner', @gameId )
+    @side = 'runner'
 
   #-----------------------------------------------------------------------------
   # GAME PROCESS FUNCTIONS
