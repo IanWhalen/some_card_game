@@ -6,8 +6,6 @@ class @Runner extends @Player
       @[key] = value
 
     @gameId = gameId
-    @deck = new Deck( @deck, 'runner', @gameId )
-    @hand = new Hand( @hand, 'runner', @gameId )
     @side = 'runner'
 
   #-----------------------------------------------------------------------------
@@ -49,7 +47,7 @@ class @Runner extends @Player
 
   installResource: (cardId, costMod) ->
     game = new Game(Games.findOne @gameId)
-    card = new Card( _.find game.runner.hand.cards, (obj) -> obj._id is cardId )
+    card = new Card( _.find @getHand(), (obj) -> obj._id is cardId )
     actionData = card.getActionDataFromCard 'installResource' if card?
 
     [clickCost, creditCost, logs] = @applyCostMods actionData, card.cardType, costMod
@@ -72,7 +70,7 @@ class @Runner extends @Player
 
   installHardware: (cardId, costMod) ->
     game = new Game(Games.findOne @gameId)
-    card = new Card( _.find game.runner.hand.cards, (obj) -> obj._id is cardId )
+    card = new Card( _.find @getHand(), (obj) -> obj._id is cardId )
     actionData = card.getActionDataFromCard 'installHardware' if card?
 
     [clickCost, creditCost, logs] = @applyCostMods actionData, card.cardType, costMod
@@ -126,7 +124,7 @@ class @Runner extends @Player
 
   searchAllLocsForCard: (cardId) ->
     game = new Game(Games.findOne @gameId)
-    allCards = _.union(@resources, @hardware, game.runner.hand.cards)
+    allCards = _.union(@resources, @hardware, @getHand())
     card = new Card _.find(allCards, (obj) -> obj._id is cardId)
     return card if card
 

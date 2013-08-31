@@ -294,14 +294,17 @@ Meteor.methods({
 
   getPlayersHands: function (playerObj) {
     var game = getGameObj(playerObj);
+    var corp = new Corp( game.corp, game._id );
+    var runner = new Runner( game.runner, game._id );
     var playerHands = {};
 
+
     if (playerObj.side === 'corp') {
-      playerHands['ownHand'] = game.corp.hand.cards;
-      playerHands['opponentHandSize'] = game.runner.hand.cards.length;
+      playerHands['ownHand'] = corp.getHand();
+      playerHands['opponentHandSize'] = runner.getHand().length;
     } else if (playerObj.side === 'runner') {
-      playerHands['ownHand'] = game.runner.hand.cards;
-      playerHands['opponentHandSize'] = game.corp.hand.cards.length;
+      playerHands['ownHand'] = runner.getHand();
+      playerHands['opponentHandSize'] = corp.getHand().length;
     }
     
     return playerHands;

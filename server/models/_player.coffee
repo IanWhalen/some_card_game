@@ -92,6 +92,12 @@ class @Player
     @logForBothSides "The player discards 1 card."
 
 
+  getHand: () ->
+    hand = new Hand(@side, @gameId)
+    console.log hand
+    return hand.getCards()
+
+
   #-----------------------------------------------------------------------------
   # DATABASE FUNCTIONS
   #

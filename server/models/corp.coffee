@@ -6,8 +6,6 @@ class @Corp extends @Player
       @[key] = value
 
     @gameId = gameId
-    @deck = new Deck( @deck, 'corp', @gameId )
-    @hand = new Hand( @hand, 'corp', @gameId )
     @side = 'corp'
 
   #-----------------------------------------------------------------------------
@@ -87,7 +85,7 @@ class @Corp extends @Player
 
   installICE: (cardId, server) ->
     game = new Game(Games.findOne @gameId)
-    card = new Card( _.find game.corp.hand.cards, (obj) -> obj._id is cardId )
+    card = new Card( _.find @getHand(), (obj) -> obj._id is cardId )
     actionData = card.getActionDataFromCard 'installICE' if card?
 
     [clickCost, creditCost, logs] = @applyCostMods actionData, false
@@ -143,7 +141,7 @@ class @Corp extends @Player
 
   installAsset: (cardId, server) ->
     game = new Game (Games.findOne @gameId)
-    card = new Card( _.find game.corp.hand.cards, (obj) -> obj._id is cardId )
+    card = new Card( _.find @getHand(), (obj) -> obj._id is cardId )
     actionData = card.getActionDataFromCard 'installAsset' if card?
 
     [clickCost, creditCost, logs] = @applyCostMods actionData, false
@@ -233,7 +231,7 @@ class @Corp extends @Player
 
   searchAllLocsForCard: (cardId) ->
     game = new Game (Games.findOne @gameId)
-    allCards = _.union(game.corp.hand.cards)
+    allCards = _.union(@getHand)
     card = new Card _.find(allCards, (obj) -> obj._id is cardId)
     return card if card
 
