@@ -43,7 +43,7 @@ class @Runner extends @Player
 
     @payAllCosts clickCost, creditCost
     @logForBothSides "The Runner spends #{clickCost} click and €#{creditCost} to begin a run on #{target.name}."
-
+    return true
 
   installResource: (cardId, costMod) ->
     game = new Game(Games.findOne @gameId)

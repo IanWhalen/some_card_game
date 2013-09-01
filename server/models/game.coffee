@@ -38,13 +38,18 @@ class @Game
 
     switch targetId
       when 'corpDeck'
-        target = new Server( @corp.deck, @_id )
+        target =
+          name: 'R&D'
       when 'corpHand'
-        target = new Server( @corp.hand, @_id )
+        target =
+          name: 'HQ'
       when 'corpDiscard'
-        target = new Server( @corp.discard, @_id )
+        target =
+          name: 'Archives'
       else
-        target = new Server( _.find(@corp.remoteServers, (obj) -> return obj._id is targetId), @_id )
+        server = _.find(@corp.remoteServers, (obj) -> return obj._id is targetId)
+        target =
+          name: server.name
 
     if runner.canStartRun( target )
       @_setField 'running', true
