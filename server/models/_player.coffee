@@ -94,7 +94,6 @@ class @Player
 
   getHand: () ->
     hand = new Hand(@side, @gameId)
-    console.log hand
     return hand.getCards()
 
 

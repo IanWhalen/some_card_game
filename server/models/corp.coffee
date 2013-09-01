@@ -231,7 +231,7 @@ class @Corp extends @Player
 
   searchAllLocsForCard: (cardId) ->
     game = new Game (Games.findOne @gameId)
-    allCards = _.union(@getHand)
+    allCards = _.union(@getHand())
     card = new Card _.find(allCards, (obj) -> obj._id is cardId)
     return card if card
 
