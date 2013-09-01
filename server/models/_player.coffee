@@ -87,6 +87,7 @@ class @Player
 
   discardFromHand: (cardId) ->
     card = new Card( _.find @hand, (obj) -> obj._id is cardId )
+    card.faceDown = true if @side is 'corp'
     @_discardCard card
 
     @logForBothSides "The player discards 1 card."
@@ -143,10 +144,8 @@ class @Player
     Games.update @gameId,                             # Remove card from starting location
       $pull: updateStart
 
-
     updateDiscard = {}
     card.loc = 'discard'
-    card.faceDown = true                              # Mark as faceDown so display logic keeps hidden
     updateDiscard[target] = card                      # { 'runner.discard': card }
 
     Games.update @gameId,                             # Add card to top of Discard

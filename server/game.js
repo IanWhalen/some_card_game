@@ -322,16 +322,21 @@ Meteor.methods({
     var corpDiscard = game.corp.discard;
     var topCorpCard = corpDiscard[corpDiscard.length-1];
 
-    if (topCorpCard && topCorpCard.faceDown === true) {
-      if (playerObj.side === 'corp') {
-        topCorpCard.trueSrc = topCorpCard.src;                // Show the Corp the real card when hovering
-        topCorpCard.src = 'corp-back.jpg';                // But only show the card back when on the table
-        cards.corp = topCorpCard || false;
-      } else if (playerObj.side === 'runner') {
-        cards.corp = blankCorp;                 // And wipe everything for the Runner
+    if (topCorpCard) {
+      if (topCorpCard.faceDown === true) {        // If the top card is face down
+        if (playerObj.side === 'corp') {
+          topCorpCard.trueSrc = topCorpCard.src;  // Show the Corp the real card when hovering
+          topCorpCard.src = 'corp-back.jpg';      // But only show the card back when on the table
+          cards.corp = topCorpCard;
+        } else {
+          cards.corp = blankCorp;                 // And show nothing to the Runner
+        }
+      } else {                                    // If the top card is face up
+        cards.corp = topCorpCard;                 // Show the card to both players
       }
+    } else {                                      // If there is no top card
+      cards.corp = false;                         // Show nothing
     }
-
     return cards;
   },
 
