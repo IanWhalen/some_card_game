@@ -1,0 +1,52 @@
+<template name="sidebar">
+  <div id="sidebar">
+    <div id="magnifier-container">
+      <img id="magnifier">
+    </div>
+    {{> actionChoices}}
+  </div>
+  <div id="playerStats">
+    {{> sidebarStats}}
+  </div>
+</template>
+
+<template name="sidebarStats">
+  <div class="sidebarStats enabled" id="gameStats">
+    <p><strong>Turn: </strong> {{currentTurn}}</p>
+  </div>
+  <div class="sidebarStats {{runnerIsActivePlayer}}" id="runnerStats">
+    <p><strong><u>Runner Stats</u></strong></p>
+    <p>
+      <strong>Score: </strong>{{runnerScore}}
+      <strong> Credits: </strong>{{runnerCredits}}
+      <strong> Clicks: </strong>{{runnerClicks}}
+    </p>
+  </div>
+  <div class="sidebarStats {{corpIsActivePlayer}}" id="corpStats">
+    <p><strong><u>Corp Stats</u></strong></p>
+    <p>
+      <strong>Score: </strong>{{corpScore}}
+      <strong> Credits: </strong>{{corpCredits}}
+      <strong> Clicks: </strong>{{corpClicks}}
+    </p>
+  </div>
+</template>
+
+<template name="actionChoices">
+  <div class="actionContainer">
+    {{#if onlyOneObject}}
+    <p><strong>{{ cardName }}</strong></p>
+    <p>{{ cardDescription }}</p>
+    {{#each actions}}
+    <div>
+      <button class="btn btn-block action-button" data-action="{{ getActionName this }}" data-target="{{ getTarget this }}">{{ getActionText this }}</button>
+    </div>
+    {{/each}}
+    {{else}}
+    <p><strong>Default {{playerSide}} Choices</strong></p>
+    <button id="drawCard" class="btn btn-block">Draw a card</button>
+    <button id="gainCredit" class="btn btn-block">Gain 1 credit</button>
+    <button id="endTurn" class="btn btn-block">End Your Turn</button>
+    {{/if}}
+  </div>
+</template>
