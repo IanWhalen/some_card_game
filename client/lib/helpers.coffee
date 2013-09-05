@@ -96,3 +96,4 @@ Meteor.startup ->
   Session.set 'showDialog', false
   Session.set 'runnerIsModded', false
   Session.set 'programsAndHardwareInHand', false
+  Session.set 'run', undefined
