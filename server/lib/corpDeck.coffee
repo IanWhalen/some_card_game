@@ -14,6 +14,9 @@
     clicks: 0
     handLimit: 5
   remoteServers: []
+  deck:
+    cards: []
+    ICE: []
   hand: []
   discard: []
 

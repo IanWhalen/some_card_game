@@ -6,15 +6,15 @@ class @Deck
 
   getCards: () ->
     game = Games.findOne @gameId
-    return game.corp.deck
+    return game.corp.deck.cards
 
 
   popCard: () ->
     game = Games.findOne @gameId
-    card = game[@owner]['deck'].pop()
+    card = game[@owner]['deck']['cards'].pop()
 
     updateDeck = {}
-    updateDeck[@owner + '.deck'] = 1
+    updateDeck[@owner + '.deck.cards'] = 1
     Games.update @gameId,
         $pop: updateDeck
 

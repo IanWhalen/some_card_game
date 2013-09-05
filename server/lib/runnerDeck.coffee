@@ -14,6 +14,8 @@
     credits: 5
     clicks: 0
     handLimit: 5
+  deck:
+    cards: []
   hand: []
   resources: []
   hardware: []

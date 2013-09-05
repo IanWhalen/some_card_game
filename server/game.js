@@ -15,9 +15,9 @@ Meteor.methods({
 
     // if so, setup new game board
     if (corpId && runnerId) {
-      RUNNER["deck"] = _.shuffle(RUNNER_DECK);
+      RUNNER['deck']['cards'] = _.shuffle(RUNNER_DECK);
       RUNNER['playerId'] = runnerId;
-      CORP["deck"] = _.shuffle(CORP_DECK);
+      CORP['deck']['cards'] = _.shuffle(CORP_DECK);
       CORP['playerId'] = corpId;
 
       var gameId = Games.insert({ corp:           CORP,
