@@ -119,11 +119,6 @@ class @Game
   #
   #-----------------------------------------------------------------------------
 
-  getNthCardFromDeck: (playerObj, n) ->
-    # TODO: handle empty deck
-    @[playerObj.side]['deck'].slice(-1*n)[0];
-
-
   incTurnCounter: () ->
     @_incIntegerField 'turn', 1
 
