@@ -254,24 +254,6 @@ class @Runner extends @Player
 
 
   #-----------------------------------------------------------------------------
-  # CARD MOVEMENT FUNCTIONS
-  #
-  #-----------------------------------------------------------------------------
-
-  moveTopCardFromDeckToHand: (cardObj) ->
-    cardObj.loc = 'hand'
-
-    updateDeck = {}
-    updateHand = {}
-
-    updateDeck["runner.deck"] = 1
-    updateHand["runner.hand"] = cardObj
-
-    Games.update( @gameId, { $pop:  updateDeck } )
-    Games.update( @gameId, { $push: updateHand } )
-
-
-  #-----------------------------------------------------------------------------
   # LOGGING FUNCTIONS
   #
   #-----------------------------------------------------------------------------

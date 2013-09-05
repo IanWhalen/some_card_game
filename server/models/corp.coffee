@@ -241,19 +241,6 @@ class @Corp extends @Player
   #
   #-----------------------------------------------------------------------------
 
-  moveTopCardFromDeckToHand: (cardObj) ->
-    cardObj.loc = 'hand'
-
-    updateDeck = {}
-    updateHand = {}
-
-    updateDeck["corp.deck"] = 1
-    updateHand["corp.hand"] = cardObj
-
-    Games.update( @gameId, { $pop:  updateDeck } )
-    Games.update( @gameId, { $push: updateHand } )
-
-
   moveCardToServer: (cardObj, server) ->
     cardObj.remoteServer = server._id
     updateHand = {}

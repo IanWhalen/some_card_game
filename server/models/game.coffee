@@ -79,19 +79,6 @@ class @Game
       $push: updateResources
 
 
-  moveTopCardFromDeckToHand: (playerObj, cardObj) ->
-    cardObj.loc = 'hand'
-
-    updateDeck = {}
-    updateHand = {}
-
-    updateDeck[playerObj.side + ".deck"] = 1
-    updateHand[playerObj.side + ".hand"] = cardObj
-
-    Games.update( @._id, { $pop:  updateDeck } )
-    Games.update( @._id, { $push: updateHand } )
-
-
   #-----------------------------------------------------------------------------
   # ECONOMY FUNCTIONS
   #
