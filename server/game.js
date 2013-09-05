@@ -362,7 +362,23 @@ Meteor.methods({
     Players.update({_id: player_id},
                   {$set: {last_keepalive: (new Date()).getTime(),
                           idle: false}});
+  },
+
+  //-----------------------------------------------------------------------------
+  // GAME STATUS FUNCTIONS
+  //
+  //
+  //-----------------------------------------------------------------------------
+
+  getRunStatus: function (playerObj) {
+    var game = getGameObj(playerObj);
+    if (game.running !== undefined && game.running !== false) {
+      return true;
+    } else {
+      return false;
+    }
   }
+
 });
 
 

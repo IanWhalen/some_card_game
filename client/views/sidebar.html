@@ -3,10 +3,19 @@
     <div id="magnifier-container">
       <img id="magnifier">
     </div>
+    {{> runStatus}}
     {{> actionChoices}}
   </div>
   <div id="playerStats">
     {{> sidebarStats}}
+  </div>
+</template>
+
+<template name="runStatus">
+  <div class="runStatusContainer">
+    {{#if runInProgress}}
+    <p>Run In Progress</p>
+    {{/if}}
   </div>
 </template>
 
