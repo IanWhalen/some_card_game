@@ -5,3 +5,7 @@ Template.runStatus.rendered = ->
 
 Template.runStatus.runInProgress = ->
   return Session.get 'runInProgress'
+
+Template.runStatus.targetName = ->
+  run = Session.get 'runInProgress'
+  return run.targetName

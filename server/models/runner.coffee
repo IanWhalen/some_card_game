@@ -27,7 +27,7 @@ class @Runner extends @Player
   #
   #-----------------------------------------------------------------------------
 
-  canStartRun: (target) ->
+  canStartRun: ( run ) ->
     actionData =
       click_cost: 1
       credit_cost: 0
@@ -42,7 +42,7 @@ class @Runner extends @Player
       return false
 
     @payAllCosts clickCost, creditCost
-    @logForBothSides "The Runner spends #{clickCost} click and €#{creditCost} to begin a run on #{target.name}."
+    @logForBothSides "The Runner spends #{clickCost} click and €#{creditCost} to begin a run on #{run.targetName}."
     return true
 
   installResource: (cardId, costMod) ->
