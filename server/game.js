@@ -158,7 +158,7 @@ Meteor.methods({
     var game = getGameObj(playerObj);
     var corp = new Corp(game.corp, game._id);
     if (server !== 'newServer' && typeof server === 'string') {
-      server = new Server( _.find(corp.remoteServers, function(obj) {
+      server = new RemoteServer( _.find(corp.remoteServers, function(obj) {
         return obj._id === server;
       }), game._id );
     }
@@ -171,7 +171,7 @@ Meteor.methods({
     var game = getGameObj(playerObj);
     var corp = new Corp(game.corp, game._id);
     if (server !== 'newServer' && typeof server === 'string') {
-      server = new Server( _.find(corp.remoteServers, function(obj) {
+      server = new RemoteServer( _.find(corp.remoteServers, function(obj) {
         return obj._id === server;
       }), game._id );
     }

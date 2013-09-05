@@ -112,7 +112,7 @@ class @Corp extends @Player
 
   rezICE: (cardId, serverName) ->
     serverObj = _.find( @remoteServers, (i) -> i._id is serverName )
-    server = new Server( serverObj, @gameId )
+    server = new RemoteServer( serverObj, @gameId )
     card = new Card( server.findICE(cardId) )
     actionData = card.getActionDataFromCard 'rezICE'
 

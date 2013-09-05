@@ -1,4 +1,4 @@
-class @Server
+class @RemoteServer
   constructor: (obj, gameId) ->
     for key, value of obj
       @[key] = value
