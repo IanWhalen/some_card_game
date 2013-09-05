@@ -372,8 +372,8 @@ Meteor.methods({
 
   getRunStatus: function (playerObj) {
     var game = getGameObj(playerObj);
-    if (game.running !== undefined && game.running !== false) {
-      return true;
+    if (game.run !== undefined && game.run !== false) {
+      return game.run;
     } else {
       return false;
     }
