@@ -4,12 +4,14 @@ endGame()
 
 Runner and Corp can discard cards from board
 
-Runner can trash assets after run
-
 Implement V1 of Runs
+    Corp can rez ICE during runs
+    Runner can trash assets after run
 
 Corp: ApplyMods on every Install (probably break 'install' into own function)
 
 remove game() function from client-side
 
-fix drawCards to not draw 1 card until the previous one has been drawn
+Corp can add ICE to deck
+Corp can add ICE to hand
+Corp can add ICE to discard
