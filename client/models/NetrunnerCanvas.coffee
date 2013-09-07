@@ -107,7 +107,7 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
 
 
   #-----------------------------------------------------------------------------
-  # DECLARE OBJECTS TO BE ADDED TO CANVAS
+  # DECLARE PERMANENT OBJECTS TO BE ADDED TO CANVAS
   #-----------------------------------------------------------------------------
   showGameStartText: (playerObj) ->
     ########
@@ -165,6 +165,35 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
       {},
       (true if playerObj.side is 'corp')
 
+
+  showGameStartImages: (playerObj, game) ->
+    @addCardToCanvas playerObj,                     # Runner deck
+      {src: 'runner-back.jpg', owner: 'runner'},
+      CARD_PARAMS['width']*1.05,
+      @height - CARD_PARAMS['height'] - 20,
+      (true if playerObj.side is 'corp')
+
+    @addCardToCanvas playerObj,                     # Runner identity
+      game["runner"]["identity"],
+      CARD_PARAMS['width'] * 2 * 1.05,
+      @height - CARD_PARAMS['height'] - 20,
+      (true if playerObj.side is 'corp')
+
+    @addCardToCanvas playerObj,                     # Corp deck
+      {src: 'corp-back.jpg', owner: 'runner'},
+      @width - (CARD_PARAMS['width'] + CARD_PARAMS['width']*1.05),
+      20,
+      (true if playerObj.side is 'corp')
+
+    @addCardToCanvas playerObj,                     # Corp identity
+      game['corp']['identity'],
+      @width - (CARD_PARAMS['width'] + CARD_PARAMS['width']*2*1.05),
+      20,
+      (true if playerObj.side is 'corp')
+
+  #-----------------------------------------------------------------------------
+  # DECLARE VARIABLE OBJECTS TO BE ADDED TO CANVAS
+  #-----------------------------------------------------------------------------
 
   displayDiscardPiles: (result) ->
     playerObj = myself()
@@ -276,32 +305,6 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
 
       @addCardToCanvas playerObj, card, x, y
       i++
-
-
-  showGameStartImages: (playerObj, game) ->
-    @addCardToCanvas playerObj,                     # Runner deck
-      {src: 'runner-back.jpg', owner: 'runner'},
-      CARD_PARAMS['width']*1.05,
-      @height - CARD_PARAMS['height'] - 20,
-      (true if playerObj.side is 'corp')
-
-    @addCardToCanvas playerObj,                     # Runner identity
-      game["runner"]["identity"],
-      CARD_PARAMS['width'] * 2 * 1.05,
-      @height - CARD_PARAMS['height'] - 20,
-      (true if playerObj.side is 'corp')
-
-    @addCardToCanvas playerObj,                     # Corp deck
-      {src: 'corp-back.jpg', owner: 'runner'},
-      @width - (CARD_PARAMS['width'] + CARD_PARAMS['width']*1.05),
-      20,
-      (true if playerObj.side is 'corp')
-
-    @addCardToCanvas playerObj,                     # Corp identity
-      game['corp']['identity'],
-      @width - (CARD_PARAMS['width'] + CARD_PARAMS['width']*2*1.05),
-      20,
-      (true if playerObj.side is 'corp')
 
 
   displayPlayerHands: (result) ->
