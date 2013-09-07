@@ -1,4 +1,4 @@
-class @Deck
+class @Deck extends @Server
   constructor: (owner, gameId) ->
     @owner = owner
     @gameId = gameId
