@@ -170,10 +170,11 @@ Meteor.methods({
   doInstallICEAction: function (playerObj, cardId, server) {
     var game = getGameObj(playerObj);
     var corp = new Corp(game.corp, game._id);
-    if (server !== 'newServer' && typeof server === 'string') {
-      server = new RemoteServer( _.find(corp.remoteServers, function(obj) {
-        return obj._id === server;
-      }), game._id );
+
+    if (server === 'deck') {
+      server = new Deck('corp', game._id);
+    } else if (server !== 'newServer' && typeof server === 'string') {
+      server = new RemoteServer( server, game._id );
     }
 
     if (corp.playerId === game.current_player) {

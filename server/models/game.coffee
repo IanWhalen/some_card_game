@@ -30,7 +30,7 @@ class @Game
       actionText: "Install to Remote Server #{count}."
 
     @_pushToArray 'corp.remoteServers', newServer
-    return newServer
+    return new RemoteServer(newServer._id, @_id)
 
 
   startRun: (targetId) ->
