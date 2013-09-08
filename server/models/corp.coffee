@@ -140,14 +140,18 @@ class @Corp extends @Player
 
 
   installAsset: (cardId, serverId) ->
+    # Instantiate necessary models
     game = new Game (Games.findOne @gameId)
     hand = new Hand('corp', @gameId)
     card = new Card( _.find @getHand(), (obj) -> obj._id is cardId )
     
+    # Get the actionData relevant to installing this asset
     actionData = card.getActionDataFromCard 'installAsset'
 
+    # Change the click and credit costs based on active modifiers
     [clickCost, creditCost, logs] = @applyCostMods actionData, false
     
+    # Stop installation if player does not have enough clicks/credits
     if not @hasEnoughClicks clickCost
       @logForSelf "You can not install #{card.name} because you do not have enough clicks left."
       return false
@@ -155,15 +159,18 @@ class @Corp extends @Player
       @logForSelf "You can not install #{card.name} because you do not have enough credits left."
       return false
     
+    # Instantiate RemoteServer models
     if serverId is 'newServer'
       server = game.createNewRemoteServer()
     else
       server = new RemoteServer serverId, @gameId
     
+    # Stop installation if player has already installed an asset or agenda here
     if server.hasAssetOrAgenda()
       @logForSelf "You can't install #{card.name} because a card is already installed on that server."
       return false
 
+    # Pay credit and click costs for this installation
     @payAllCosts clickCost, creditCost
     line = "The Corp spends #{clickCost} click to install a card to #{server.name}."
     @logForBothSides line
