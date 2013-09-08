@@ -24,3 +24,15 @@ class @RemoteServer extends @Server
     ,
       $push:
         "corp.remoteServers.$.ICE": card
+
+
+  addAsset: (card) ->
+    card.loc = 'remoteServer'
+    card.rezzed = false
+
+    Games.update
+      _id: @gameId
+      "corp.remoteServers._id": @id
+    ,
+      $push:
+        "corp.remoteServers.$.assetsAndAgendas": card
