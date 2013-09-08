@@ -263,17 +263,6 @@ class @Corp extends @Player
     @removeCardFromHand updateHand
 
 
-  moveICEToServer: (card, server) ->
-    card.remoteServer = server._id
-    updateHand = {}
-    idObj = {}
-    idObj._id = card._id
-    updateHand["corp.hand"] = idObj
-
-    @addICEToRemoteServer card, server._id
-    @removeCardFromHand updateHand
-
-
   #-----------------------------------------------------------------------------
   # LOGGING FUNCTIONS
   #
