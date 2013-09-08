@@ -6,7 +6,7 @@ class @RemoteServer extends @Server
 
   getICE: () ->
     game = Games.findOne @gameId
-    self = _.find( game.corp.remoteServers, (obj) -> return obj._id is @id )
+    self = _.find( game.corp.remoteServers, (obj) => obj._id is @id )
     return self.ICE
 
 
