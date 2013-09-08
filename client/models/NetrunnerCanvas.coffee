@@ -5,6 +5,8 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
     opt = options or (options = {})
     @callSuper "initialize", el, opt
 
+    @cardHeight = 127
+    @cardWidth = 90
 
   #-----------------------------------------------------------------------------
   # ADD OBJECTS TO CANVAS
@@ -169,25 +171,25 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
   showGameStartImages: (playerObj, game) ->
     @addCardToCanvas playerObj,                     # Runner deck
       {src: 'runner-back.jpg', owner: 'runner'},
-      CARD_PARAMS['width']*1.05,
-      @height - CARD_PARAMS['height'] - 20,
+      @cardWidth*1.05,
+      @height - @cardHeight - 20,
       (true if playerObj.side is 'corp')
 
     @addCardToCanvas playerObj,                     # Runner identity
       game["runner"]["identity"],
-      CARD_PARAMS['width'] * 2 * 1.05,
-      @height - CARD_PARAMS['height'] - 20,
+      @cardWidth * 2 * 1.05,
+      @height - @cardHeight - 20,
       (true if playerObj.side is 'corp')
 
     @addCardToCanvas playerObj,                     # Corp deck
       {src: 'corp-back.jpg', owner: 'runner'},
-      @width - (CARD_PARAMS['width'] + CARD_PARAMS['width']*1.05),
+      @width - (@cardWidth + @cardWidth*1.05),
       20,
       (true if playerObj.side is 'corp')
 
     @addCardToCanvas playerObj,                     # Corp identity
       game['corp']['identity'],
-      @width - (CARD_PARAMS['width'] + CARD_PARAMS['width']*2*1.05),
+      @width - (@cardWidth + @cardWidth*2*1.05),
       20,
       (true if playerObj.side is 'corp')
 
@@ -219,10 +221,10 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
 
     for server, i in result
       do (server, i) =>
-        card = server['assetsAndAgendas'][0]                      # Get the installed asset or agenda
+        card = server['assetsAndAgendas'][0]                        # Get the installed asset or agenda
         if card
-          y = @height - CARD_PARAMS['height'] - 20                  # Bottom row with room for server name, counters
-          x = CARD_PARAMS['width']*7 + i*CARD_PARAMS['width']*1.4   # Just to the right of Corp's hand
+          y = @height - @cardHeight - 20                            # Bottom row with room for server name, counters
+          x = @cardWidth*7 + i*@cardWidth*1.4                       # Just to the right of Corp's hand
 
           xyFlip = true if playerObj.side is 'runner'               # Flip on x/y axis if player is the runner
           @addCardToCanvas playerObj, card, x, y, xyFlip
@@ -230,8 +232,8 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
 
         for ice, j in server['ICE']
           do (ice, j) =>
-            y = @height - CARD_PARAMS['height']*2 - CARD_PARAMS['width']*(j)
-            x = CARD_PARAMS['width']*7 + i*CARD_PARAMS['width']*1.4
+            y = @height - @cardHeight*2 - @cardWidth*(j)
+            x = @cardWidth*7 + i*@cardWidth*1.4
 
             xyFlip = true if playerObj.side is 'runner'
             @addICEToCanvas playerObj, ice, x, y, xyFlip
@@ -251,8 +253,8 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
 
     i = 0
     while i < result.length
-      y = @height - CARD_PARAMS['height']*2 - 40   # 2nd row from bottom with room for counters
-      x = i*CARD_PARAMS['width']*1.01
+      y = @height - @cardHeight*2 - 40                    # 2nd row from bottom with room for counters
+      x = i*@cardWidth*1.01
       resource = result[i]
 
       xyFlip = true if playerObj.side is 'corp'
@@ -269,8 +271,8 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
     i = 0
     while i < result.length                                    # Iterate through installed hardware
       hardware = result[i]
-      y = @height - CARD_PARAMS['height'] - 20
-      x = CARD_PARAMS['width']*7 + i*CARD_PARAMS['width']*1.01
+      y = @height - @cardHeight - 20
+      x = @cardWidth*7 + i*@cardWidth*1.01
 
       xyFlip = true if playerObj.side is 'corp'                # Flip on x/y axis if player is the runner
       @addCardToCanvas playerObj, hardware, x, y, xyFlip
@@ -301,7 +303,7 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
     i = 0
     while i < handSize
       y = 0 + 20
-      x = (@width - CARD_PARAMS['width']*4*1.05) - i*CARD_PARAMS['width']*0.3
+      x = (@width - @cardWidth*4*1.05) - i*@cardWidth*0.3
 
       @addCardToCanvas playerObj, card, x, y
       i++
