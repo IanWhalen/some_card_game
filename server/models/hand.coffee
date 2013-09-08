@@ -17,3 +17,13 @@ class @Hand
     updateHand[@owner + '.hand'] = card
     Games.update @gameId,
         $push: updateHand
+
+
+  popCard: (card) ->
+    updateHand = {}
+    idObj = {}
+    idObj['_id'] = card['_id']
+    updateHand[@owner + '.hand'] = idObj
+    
+    Games.update @gameId,
+      $pull: updateHand
