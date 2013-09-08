@@ -139,12 +139,15 @@ class @Corp extends @Player
     @updateICEOnRemoteServer server._id, ICE
 
 
-  installAsset: (cardId, server) ->
+  installAsset: (cardId, serverId) ->
     game = new Game (Games.findOne @gameId)
+    hand = new Hand('corp', @gameId)
     card = new Card( _.find @getHand(), (obj) -> obj._id is cardId )
-    actionData = card.getActionDataFromCard 'installAsset' if card?
+    
+    actionData = card.getActionDataFromCard 'installAsset'
 
     [clickCost, creditCost, logs] = @applyCostMods actionData, false
+    
     if not @hasEnoughClicks clickCost
       @logForSelf "You can not install #{card.name} because you do not have enough clicks left."
       return false
@@ -152,10 +155,12 @@ class @Corp extends @Player
       @logForSelf "You can not install #{card.name} because you do not have enough credits left."
       return false
     
-    if server is 'newServer'
+    if serverId is 'newServer'
       server = game.createNewRemoteServer()
+    else
+      server = new RemoteServer serverId, @gameId
     
-    if server.assetsAndAgendas.length > 0
+    if server.hasAssetOrAgenda()
       @logForSelf "You can't install #{card.name} because a card is already installed on that server."
       return false
 
@@ -163,9 +168,8 @@ class @Corp extends @Player
     line = "The Corp spends #{clickCost} click to install a card to #{server.name}."
     @logForBothSides line
 
-    card.rezzed = false
-    card.loc = 'remoteServer'
-    @moveCardToServer card, server
+    hand.popCard card
+    server.addAsset card
 
 
   rezAsset: (cardId, serverName) ->
