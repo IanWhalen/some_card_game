@@ -36,3 +36,10 @@ class @RemoteServer extends @Server
     ,
       $push:
         "corp.remoteServers.$.assetsAndAgendas": card
+
+
+  hasAssetOrAgenda: () ->
+    game = Games.findOne @gameId
+    self = _.find( game.corp.remoteServers, (obj) => obj._id is @id )
+
+    return self?.assetsAndAgendas.length || false
