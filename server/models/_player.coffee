@@ -107,8 +107,8 @@ class @Player
     modObj = {}
     modObj[targetField] = amount
 
-    Games.update @gameId,
-      $inc: modObj
+    Games.update {_id: @gameId}, $inc: modObj, (err) ->
+      console.log err if err
 
 
   _setField: (targetField, value) ->
