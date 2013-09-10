@@ -154,34 +154,19 @@ Meteor.methods({
   },
 
 
-  doInstallAssetAction: function (playerObj, cardId, server) {
+  doInstallAssetAction: function (playerObj, cardId, serverId) {
     var game = getGameObj(playerObj);
     var corp = new Corp(game.corp, game._id);
-    if (server !== 'newServer' && typeof server === 'string') {
-      server = new RemoteServer( _.find(corp.remoteServers, function(obj) {
-        return obj._id === server;
-      }), game._id );
-    }
 
-    return corp.installAsset(cardId, server);
+    return corp.installAsset(cardId, serverId);
   },
 
 
-  doInstallICEAction: function (playerObj, cardId, server) {
+  doInstallICEAction: function (playerObj, cardId, serverId) {
     var game = getGameObj(playerObj);
     var corp = new Corp(game.corp, game._id);
 
-    if (server === 'deck') {
-      server = new Deck('corp', game._id);
-    } else if (server !== 'newServer' && typeof server === 'string') {
-      server = new RemoteServer( server, game._id );
-    }
-
-    if (corp.playerId === game.current_player) {
-      return corp.installICE(cardId, server);
-    } else {
-      return false;
-    }
+    return corp.installICE(cardId, serverId);
   },
 
 
