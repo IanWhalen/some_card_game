@@ -73,6 +73,10 @@ Template.actionChoices.actions = () ->
           actionText: "Install to new remote server"
           _id: "newServer"
         opts.push
+          action: "installICE"
+          actionText: "Install to Deck"
+          _id: "deck"
+        opts.push
           action: 'discardFromHand'
           actionText: 'Discard this card'
         return opts
