@@ -315,4 +315,16 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
 
     @displayOwnHand playerObj, result['ownHand']
     @displayOpponentHand playerObj, result['opponentHandSize']
+
+
+  displayDeckICE: (installedICE) ->
+    playerObj = myself()
+
+    for ice, i in installedICE
+      do (ice, i) =>
+        y = @height - @cardHeight*2 - @cardWidth*i
+        x = @cardWidth*2 + 5
+
+        xyFlip = true if playerObj.side is 'runner'
+        @addICEToCanvas playerObj, ice, x, y, xyFlip
 )

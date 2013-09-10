@@ -63,6 +63,12 @@ Template.main_canvas.rendered = ->
     cvs.displayRemoteServers result
 
 
+  # Refresh display every time the Corp's Deck ICE change
+  Meteor.call "getDeckICE", myself(), (err, result) ->
+    console.log err if err
+    cvs.displayDeckICE result
+
+
 Template.main_canvas.canvasHeight = () ->
   CANVAS['height']
 

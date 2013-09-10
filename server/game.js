@@ -263,6 +263,27 @@ Meteor.methods({
   },
 
 
+  getDeckICE: function(playerObj) {
+    var game = getGameObj(playerObj);
+    var installedICE = game['corp']['deck']['ICE'] || [];
+    var blankICE = {src: 'corp-back.jpg', owner: 'corp'};
+
+    for (var k = 0; k < installedICE.length; k++) {             // Loop through each server's ICE
+      var ICE = installedICE[k];
+      if (ICE.rezzed === false) {                               // If a card hasn't been rezzed
+        if (playerObj.side === 'corp') {
+          ICE['trueSrc'] = ICE['src'];                          // Show Corp the real card when hovering
+          ICE['src'] = 'corp-back.jpg';                         // But show the card back when on the table
+        } else {
+          blankICE.cardType = 'ICE';
+          installedICE[k] = blankICE;                           // And wipe everything for the Runner
+        }
+      }
+    }
+    return installedICE;
+  },
+
+
   getRunnerResources: function(playerObj) {
     return getGameObj(playerObj)['runner']['resources'] || [];
   },
