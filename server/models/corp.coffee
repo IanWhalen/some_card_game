@@ -264,22 +264,6 @@ class @Corp extends @Player
 
 
   #-----------------------------------------------------------------------------
-  # CARD MOVEMENT FUNCTIONS
-  #
-  #-----------------------------------------------------------------------------
-
-  moveCardToServer: (cardObj, server) ->
-    cardObj.remoteServer = server._id
-    updateHand = {}
-    idObj = {}
-    idObj['_id'] = cardObj['_id']
-    updateHand["corp.hand"] = idObj
-
-    @addAssetToRemoteServer cardObj, server._id
-    @removeCardFromHand updateHand
-
-
-  #-----------------------------------------------------------------------------
   # LOGGING FUNCTIONS
   #
   #-----------------------------------------------------------------------------
@@ -292,24 +276,6 @@ class @Corp extends @Player
   # DATABASE FUNCTIONS
   #
   #-----------------------------------------------------------------------------
-
-  addAssetToRemoteServer: (cardObj, serverId) ->
-    Games.update
-      _id: @gameId
-      "corp.remoteServers._id": serverId
-    ,
-      $push:
-        "corp.remoteServers.$.assetsAndAgendas": cardObj
-
-
-  addICEToRemoteServer: (card, serverId) ->
-    Games.update
-      _id: @gameId
-      "corp.remoteServers._id": serverId
-    ,
-      $push:
-        "corp.remoteServers.$.ICE": card
-
 
   updateAssetOnRemoteServer: (target, card) ->
     updateLocation = {}
