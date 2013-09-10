@@ -83,14 +83,27 @@ class @Corp extends @Player
   #
   #-----------------------------------------------------------------------------
 
-  installICE: (cardId, server) ->
+  installICE: (cardId, serverId) ->
+    # Instantiate necessary models
     game = new Game(Games.findOne @gameId)
+    hand = new Hand('corp', @gameId)
     card = new Card( _.find @getHand(), (obj) -> obj._id is cardId )
+
+    # Get the actionData relevant to installing this ICE
     actionData = card.getActionDataFromCard 'installICE' if card?
 
+    # Change the click and credit costs based on active modifiers
     [clickCost, creditCost, logs] = @applyCostMods actionData, false
-    creditCost += server?.ICE?.length ? 0
 
+    # Increase credit cost for each ICE already installed
+    if serverId isnt 'newServer'
+      if serverId is 'deck'
+        server = new Deck 'corp', @gameId
+      else
+        server = new RemoteServer serverId, @gameId
+      creditCost += server.getICE().length
+
+    # Stop installation if player does not have enough clicks/credits
     if not @hasEnoughClicks clickCost
       @logForSelf "You can't install #{card.name} because you do not have enough clicks left."
       return false
@@ -98,16 +111,18 @@ class @Corp extends @Player
       @logForSelf "You can't install #{card.name} because you do not have enough credits left."
       return false
 
+    # Create new Remote Server if necessary
     if server is 'newServer'
       server = game.createNewRemoteServer()
     
+    # Pay credit and click costs for this installation
     @payAllCosts clickCost, creditCost
     line = "The Corp spends #{clickCost} click to install ICE on #{server.name}."
     @logForBothSides line
 
-    card.rezzed = false
-    card.loc = 'remoteServer'
-    @moveICEToServer card, server
+    # Move card from hand to target server in database
+    hand.popCard card
+    server.pushICE card
 
 
   rezICE: (cardId, serverName) ->
@@ -159,7 +174,7 @@ class @Corp extends @Player
       @logForSelf "You can not install #{card.name} because you do not have enough credits left."
       return false
     
-    # Instantiate RemoteServer models
+    # Instantiate RemoteServer model
     if serverId is 'newServer'
       server = game.createNewRemoteServer()
     else
@@ -175,6 +190,7 @@ class @Corp extends @Player
     line = "The Corp spends #{clickCost} click to install a card to #{server.name}."
     @logForBothSides line
 
+    # Move card from hand to Remote Server in database
     hand.popCard card
     server.addAsset card
 
