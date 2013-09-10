@@ -1,6 +1,3 @@
-chai = require 'chai'
-chai.should()
-
 {Player} = require '../server/models/_player'
 
 describe 'Player', ->

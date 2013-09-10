@@ -1,8 +1,3 @@
-chai = require 'chai'
-chai.should()
-mongoose = require 'mongoose'
-wipeDbAfterTests = true
-
 {Corp} = require '../server/models/corp'
 
 describe 'Corp', ->
