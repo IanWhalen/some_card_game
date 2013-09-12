@@ -4,6 +4,7 @@ class @RemoteServer extends @Server
   constructor: (serverId, gameId) ->
     @id = serverId
     @gameId = gameId
+    @name = 'Remote Server ' + serverId.substring(12)
 
 
   getICE: () ->

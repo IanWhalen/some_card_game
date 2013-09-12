@@ -3,6 +3,9 @@ class @Deck extends @Server
     @owner = owner
     @gameId = gameId
 
+    @name = 'R&D' if owner is 'corp'
+    @name = 'Stack' if owner is 'runner'
+
 
   getCards: () ->
     game = Games.findOne @gameId
