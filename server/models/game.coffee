@@ -3,9 +3,6 @@ class @Game
     for key, value of obj
       @[key] = value
 
-    @corp = new Corp( @corp, @_id )
-    @runner = new Runner( @runner, @_id )
-
 
   #-----------------------------------------------------------------------------
   # BOARD FUNCTIONS
