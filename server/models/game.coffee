@@ -18,7 +18,7 @@ class @Game
 
 
   createNewRemoteServer: () ->
-    count = @['corp']['remoteServers'].length + 1
+    count = @corp.remoteServers.length + 1
     newServer =
       name: "Remote Server #{count}"
       ICE: []
@@ -166,5 +166,5 @@ class @Game
     modObj = {}
     modObj[targetField] = value
 
-    Games.update @._id,
-      $push: modObj
+    Games.update {_id: @_id}, $push: modObj, (err) ->
+      console.log err if err
