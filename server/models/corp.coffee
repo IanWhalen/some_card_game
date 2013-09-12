@@ -112,7 +112,8 @@ class @Corp extends @Player
       return false
 
     # Create new Remote Server if necessary
-    if server is 'newServer'
+    # and after checking player has enough resources
+    if serverId is 'newServer'
       server = game.createNewRemoteServer()
     
     # Pay credit and click costs for this installation
