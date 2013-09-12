@@ -12,8 +12,6 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
   # ADD OBJECTS TO CANVAS
   #-----------------------------------------------------------------------------
   addCardToCanvas: (playerObj, card, x, y, xyFlip) ->
-    x = x + CARD_PARAMS['width'] / 2
-    y = y + CARD_PARAMS['height'] / 2
     p = new fabric.Point(x, y)
 
     fabric.Image.fromURL card["src"], (oImg) =>
@@ -42,7 +40,7 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
     textObj = new fabric.Text text, textAttributes
 
     [x, y] = [@width - x, @height - y] if xyFlip
-    p = new fabric.Point(x, y)
+    p = new fabric.Point x, y
 
     textObj.set 'metadata', metadata
     textObj.setPositionByOrigin p, 'center', 'center'
@@ -50,11 +48,11 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
 
 
   addCountersToCard: (playerObj, card, cardX, cardY) ->
-    x = cardX + CARD_PARAMS['width'] / 2
-    y = cardY + CARD_PARAMS['height'] + 6
+    x = cardX
+    y = cardY + @cardHeight * .5 + 8
     
-    if playerObj.side == "corp"
-      p = new fabric.Point CANVAS['width'] - x, CANVAS['height'] - y
+    if playerObj.side is 'corp'
+      p = new fabric.Point @width - x, @height - y
     else
       p = new fabric.Point x, y
 
@@ -70,25 +68,39 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
 
 
   addOwnHandCardToCanvas: (playerObj, card) ->
-    fabric.Image.fromURL card["src"], (oImg) =>
-      count = _.filter(@_objects, (obj) ->
-        obj.metadata.owner is playerObj.side and obj.metadata.loc is 'hand'
-      ).length
-      oImg.set CARD_PARAMS
-      oImg.set "isCard", true
-      oImg.set "metadata", card
-      if playerObj.side != card.owner
-        oImg.set "flipY", true
-      x = (CARD_PARAMS['width']*3*1.05 + count*CARD_PARAMS['width']*0.3) + (CARD_PARAMS['width'] / 2)
-      y = (@height - CARD_PARAMS['height'] - 20) + CARD_PARAMS['height'] / 2
-      p = new fabric.Point(x, y)
-      oImg.setPositionByOrigin (p)
-      @add oImg
+    if playerObj.side is 'runner'
+      fabric.Image.fromURL card["src"], (oImg) =>
+        count = _.filter(@_objects, (obj) ->
+          obj.metadata.owner is playerObj.side and obj.metadata.loc is 'hand'
+        ).length
+        oImg.set CARD_PARAMS
+        oImg.set "isCard", true
+        oImg.set "metadata", card
+        if playerObj.side != card.owner
+          oImg.set "flipY", true
+        x = 20 + @cardWidth * 3 + @cardWidth * .5 + count * @cardWidth * 0.25
+        y = @height - 20 - @cardHeight * .5
+        p = new fabric.Point(x, y)
+        oImg.setPositionByOrigin (p)
+        @add oImg
 
+    if playerObj.side is 'corp'
+      fabric.Image.fromURL card["src"], (oImg) =>
+        count = _.filter(@_objects, (obj) ->
+          obj.metadata.owner is playerObj.side and obj.metadata.loc is 'hand'
+        ).length
+        oImg.set CARD_PARAMS
+        oImg.set "isCard", true
+        oImg.set "metadata", card
+        if playerObj.side != card.owner
+          oImg.set "flipY", true
+        x = 20 + @cardHeight * 2 + @cardWidth * 1.5 + count * @cardWidth * 0.25
+        y = @height - 20 - @cardHeight * .5
+        p = new fabric.Point(x, y)
+        oImg.setPositionByOrigin (p)
+        @add oImg
 
   addICEToCanvas: (playerObj, card, x, y, xyFlip) ->
-    x = x + CARD_PARAMS['width'] / 2
-    y = y + CARD_PARAMS['height'] / 2
     p = new fabric.Point(x, y)
 
     fabric.Image.fromURL card["src"], (oImg) =>
@@ -116,22 +128,22 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
     # CORP #
     ########
     @addLocationText playerObj,
-      "|-------                Hand                -------|",
-      @width - CARD_PARAMS['width']*3*1.05 - 160,
-      8,
+      "|-------             Hand             -------|",
+      @width - 20 - @cardHeight * 2 - @cardWidth * 2.5,
+      10,
       {_id: 'corpHand', owner: 'corp', type: 'server'},
       (true if playerObj.side is 'corp')
 
     @addLocationText playerObj,           
       "|-  Deck  -|",
-      @width - CARD_PARAMS['width']*1.5*1.031,
+      @width - (10 + @cardHeight * 1.5),
       8,
       {_id: 'corpDeck', owner: 'corp', type: 'server'},
       (true if playerObj.side is 'corp')
 
     @addLocationText playerObj,
       "|- Discard -|",
-      @width - CARD_PARAMS['width']*.5,
+      @width - (5 + @cardHeight * .5),
       8,
       {_id: 'corpDiscard', owner: 'corp', type: 'server'},
       (true if playerObj.side is 'corp')
@@ -140,30 +152,23 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
     # RUNNER #
     ##########
     @addLocationText playerObj,
-      "|-------                Hand                -------|",
-      CARD_PARAMS['width']*3*1.05 + 160,
-      @height - 8,
+      "|-------             Hand             -------|",
+      20 + @cardWidth * 4.5,
+      @height - 10,
       {},
       (true if playerObj.side is 'corp')
 
     @addLocationText playerObj,
       "|-  Deck  -|",
-      CARD_PARAMS['width']*1.5*1.031,
-      @height - 8,
+      10 + @cardWidth * 1.5,
+      @height - 10,
       {},
       (true if playerObj.side is 'corp')
 
     @addLocationText playerObj,
       "|- Discard -|",
-      CARD_PARAMS['width']*.5,
-      @height - 8,
-      {},
-      (true if playerObj.side is 'corp')
-
-    @addLocationText playerObj,
-      "|---------                  Hardware                  ---------|",
-      CARD_PARAMS['width']*9,
-      @height - 8,
+      5 + @cardWidth * .5,
+      @height - 10,
       {},
       (true if playerObj.side is 'corp')
 
@@ -171,26 +176,26 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
   showGameStartImages: (playerObj, game) ->
     @addCardToCanvas playerObj,                     # Runner deck
       {src: 'runner-back.jpg', owner: 'runner'},
-      @cardWidth*1.05,
-      @height - @cardHeight - 20,
+      10 + @cardWidth * 1.5,
+      @height - 20 - @cardHeight / 2,
       (true if playerObj.side is 'corp')
 
     @addCardToCanvas playerObj,                     # Runner identity
       game["runner"]["identity"],
-      @cardWidth * 2 * 1.05,
-      @height - @cardHeight - 20,
+      15 + @cardWidth * 2.5,
+      @height - 20 - @cardHeight / 2,
       (true if playerObj.side is 'corp')
 
     @addCardToCanvas playerObj,                     # Corp deck
       {src: 'corp-back.jpg', owner: 'runner'},
-      @width - (@cardWidth + @cardWidth*1.05),
-      20,
+      @width - (10 + @cardHeight * 1.5),
+      20 + @cardHeight / 2,
       (true if playerObj.side is 'corp')
 
     @addCardToCanvas playerObj,                     # Corp identity
       game['corp']['identity'],
-      @width - (@cardWidth + @cardWidth*2*1.05),
-      20,
+      @width - (15 + @cardHeight * 2 + @cardWidth * .5),
+      20 + @cardHeight / 2,
       (true if playerObj.side is 'corp')
 
   #-----------------------------------------------------------------------------
@@ -201,17 +206,17 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
     playerObj = myself()
 
     if result.runner
-      @addCardToCanvas playerObj,                     # Runner deck
+      @addCardToCanvas playerObj,
         result.runner,
-        0,
-        @height - CARD_PARAMS['height'] - 20,
+        5 + @cardWidth * .5,
+        @height - 20 - @cardHeight * .5,
         (true if playerObj.side is 'corp')
 
     if result.corp
-      @addCardToCanvas playerObj,                     # Corp deck
+      @addCardToCanvas playerObj,
         result.corp,
-        @width - CARD_PARAMS['width'],
-        20,
+        @width - (5 + @cardHeight * .5),
+        20 + @cardHeight * .5,
         (true if playerObj.side is 'corp')
 
 
@@ -223,8 +228,8 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
       do (server, i) =>
         card = server['assetsAndAgendas'][0]                        # Get the installed asset or agenda
         if card
-          y = @height - @cardHeight - 20                            # Bottom row with room for server name, counters
-          x = @cardWidth*7 + i*@cardWidth*1.4                       # Just to the right of Corp's hand
+          y = @height - 20 - @cardHeight * .5                       # Bottom row with room for server name, counters
+          x = @cardWidth*7.5 + @cardHeight * .5 + @cardHeight * i   # Just to the right of Corp's hand
 
           xyFlip = true if playerObj.side is 'runner'               # Flip on x/y axis if player is the runner
           @addCardToCanvas playerObj, card, x, y, xyFlip
@@ -232,8 +237,7 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
 
         for ice, j in server['ICE']
           do (ice, j) =>
-            y = @height - @cardHeight*2 - @cardWidth*(j)
-            x = @cardWidth*7 + i*@cardWidth*1.4
+            y = @height - 20 - @cardHeight - @cardWidth * .5 - @cardWidth * j
 
             xyFlip = true if playerObj.side is 'runner'
             @addICEToCanvas playerObj, ice, x, y, xyFlip
@@ -245,7 +249,7 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
             type: 'server'
             name: server.name
 
-          @addLocationText playerObj, "|-  #{server.name}  -|", x+45, @height-8, metadata, xyFlip
+          @addLocationText playerObj, "|-  #{server.name}  -|", x, @height - 10, metadata, xyFlip
 
 
   displayRunnerResources: (result) ->
@@ -253,8 +257,8 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
 
     i = 0
     while i < result.length
-      y = @height - @cardHeight*2 - 40                    # 2nd row from bottom with room for counters
-      x = i*@cardWidth*1.01
+      y = @height - 40 - @cardHeight * 1.5
+      x = 5 + @cardWidth * .5 + i * (@cardWidth + 5)
       resource = result[i]
 
       xyFlip = true if playerObj.side is 'corp'
@@ -295,18 +299,23 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
       card =
         src: 'corp-back.jpg'
         owner: 'corp'
-    else if playerObj.side is 'corp'
+      i = 0
+      while i < handSize
+        y = 20 + @cardHeight * .5
+        x = @width - (20 + @cardHeight * 2 + @cardWidth*1.5 + i * @cardWidth * .3)
+        @addCardToCanvas playerObj, card, x, y
+        i++
+    
+    if playerObj.side is 'corp'
       card =
         src: 'runner-back.jpg'
         owner: 'runner'
-
-    i = 0
-    while i < handSize
-      y = 0 + 20
-      x = (@width - @cardWidth*4*1.05) - i*@cardWidth*0.3
-
-      @addCardToCanvas playerObj, card, x, y
-      i++
+      i = 0
+      while i < handSize
+        y = 20 + @cardHeight * .5
+        x = @width - (20 + @cardWidth * 3.5 + i * @cardWidth * .3)
+        @addCardToCanvas playerObj, card, x, y
+        i++
 
 
   displayPlayerHands: (result) ->
@@ -322,9 +331,10 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
 
     for ice, i in installedICE
       do (ice, i) =>
-        y = @height - @cardHeight*2 - @cardWidth*i
-        x = @cardWidth*2 + 5
+        y = 20 + @cardHeight + 5 + @cardWidth * .5 + @cardWidth * i
+        x = @width - (10 + @cardHeight * 1.5)
 
-        xyFlip = true if playerObj.side is 'runner'
+
+        xyFlip = true if playerObj.side is 'corp'
         @addICEToCanvas playerObj, ice, x, y, xyFlip
 )
