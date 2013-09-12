@@ -1,3 +1,5 @@
+{@Server} = require './_server' unless Meteor?
+
 class @RemoteServer extends @Server
   constructor: (serverId, gameId) ->
     @id = serverId
