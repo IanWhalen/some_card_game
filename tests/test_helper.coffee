@@ -12,6 +12,7 @@ gameSchema = mongoose.Schema
       credits: Number
       clicks: Number
       handLimit: Number
+    remoteServers: Array
   runner:
     stats:
       score: Number
@@ -21,7 +22,13 @@ gameSchema = mongoose.Schema
 Games = mongoose.model('Games', gameSchema, 'games')
 
 
-# Export everything necessary to the global namespace
+# Export models since they will be otherwise unavailable outside of Meteor
+{@Game} = require '../server/models/game' unless Meteor?
+global.Game = @Game
+{@RemoteServer} = require '../server/models/remoteServer' unless Meteor?
+global.RemoteServer = @RemoteServer
+
+
 global.mongoose = mongoose
 global.Games = Games
 global.wipeDbAfterTests = wipeDbAfterTests
