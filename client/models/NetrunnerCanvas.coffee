@@ -227,9 +227,10 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
     for server, i in result
       do (server, i) =>
         card = server['assetsAndAgendas'][0]                        # Get the installed asset or agenda
+        x = @cardWidth*7.5 + @cardHeight * .5 + @cardHeight * i     # Just to the right of Corp's hand
+
         if card
           y = @height - 20 - @cardHeight * .5                       # Bottom row with room for server name, counters
-          x = @cardWidth*7.5 + @cardHeight * .5 + @cardHeight * i   # Just to the right of Corp's hand
 
           xyFlip = true if playerObj.side is 'runner'               # Flip on x/y axis if player is the runner
           @addCardToCanvas playerObj, card, x, y, xyFlip
