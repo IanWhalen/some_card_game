@@ -99,6 +99,8 @@ class @Corp extends @Player
     if serverId isnt 'newServer'
       if serverId is 'deck'
         server = new Deck 'corp', @gameId
+      if serverId is 'discard'
+        server = new Discard 'corp', @gameId
       else
         server = new RemoteServer serverId, @gameId
       creditCost += server.getICE().length

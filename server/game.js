@@ -284,6 +284,27 @@ Meteor.methods({
   },
 
 
+  getDiscardICE: function(playerObj) {
+    var game = getGameObj(playerObj);
+    var installedICE = game['corp']['discard']['ICE'] || [];
+    var blankICE = {src: 'corp-back.jpg', owner: 'corp'};
+
+    for (var k = 0; k < installedICE.length; k++) {             // Loop through each server's ICE
+      var ICE = installedICE[k];
+      if (ICE.rezzed === false) {                               // If a card hasn't been rezzed
+        if (playerObj.side === 'corp') {
+          ICE['trueSrc'] = ICE['src'];                          // Show Corp the real card when hovering
+          ICE['src'] = 'corp-back.jpg';                         // But show the card back when on the table
+        } else {
+          blankICE.cardType = 'ICE';
+          installedICE[k] = blankICE;                           // And wipe everything for the Runner
+        }
+      }
+    }
+    return installedICE;
+  },
+
+
   getRunnerResources: function(playerObj) {
     return getGameObj(playerObj)['runner']['resources'] || [];
   },
@@ -324,9 +345,9 @@ Meteor.methods({
     
     var blankCorp = {src: 'corp-back.jpg', loc: 'discard'};
 
-    var runnerDiscard = game.runner.discard;
+    var runnerDiscard = game.runner.discard.cards;
     cards.runner = runnerDiscard[runnerDiscard.length-1] || false;
-    var corpDiscard = game.corp.discard;
+    var corpDiscard = game.corp.discard.cards;
     var topCorpCard = corpDiscard[corpDiscard.length-1];
 
     if (topCorpCard) {

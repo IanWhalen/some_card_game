@@ -18,7 +18,9 @@
     cards: []
     ICE: []
   hand: []
-  discard: []
+  discard:
+    cards: []
+    ICE: []
 
 @CORP_DECK = [
   _id: "hedge-fund-1"

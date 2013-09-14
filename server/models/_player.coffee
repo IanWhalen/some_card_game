@@ -134,7 +134,7 @@ class @Player
 
 
   _discardCard: (card) ->
-    target = card.owner + '.discard'                  # 'corp.discard' or 'runner.discard'
+    target = card.owner + '.discard.cards'            # 'corp.discard.cards' or 'runner.discard.cards'
 
     updateStart = {}
     idObj = {}
@@ -146,7 +146,7 @@ class @Player
 
     updateDiscard = {}
     card.loc = 'discard'
-    updateDiscard[target] = card                      # { 'runner.discard': card }
+    updateDiscard[target] = card                      # { 'runner.discard.cards': card }
 
     Games.update @gameId,                             # Add card to top of Discard
       $push: updateDiscard

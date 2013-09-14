@@ -69,6 +69,12 @@ Template.main_canvas.rendered = ->
     cvs.displayDeckICE result
 
 
+  # Refresh display every time the Corp's Discard ICE change
+  Meteor.call "getDiscardICE", myself(), (err, result) ->
+    console.log err if err
+    cvs.displayDiscardICE result
+
+
 Template.main_canvas.canvasHeight = () ->
   CANVAS['height']
 

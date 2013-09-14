@@ -77,6 +77,10 @@ Template.actionChoices.actions = () ->
           actionText: "Install to Deck"
           _id: "deck"
         opts.push
+          action: "installICE"
+          actionText: "Install to Discard"
+          _id: "discard"
+        opts.push
           action: 'discardFromHand'
           actionText: 'Discard this card'
         return opts

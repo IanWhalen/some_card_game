@@ -1,3 +1,5 @@
+{@Server} = require './_server' unless Meteor?
+
 class @Deck extends @Server
   constructor: (owner, gameId) ->
     @owner = owner
