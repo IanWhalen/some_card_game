@@ -5,6 +5,9 @@ class @Discard extends @Server
     @owner = owner
     @gameId = gameId
 
+    @name = 'Archives' if owner is 'corp'
+    @name = 'Heap' if owner is 'runner'
+
 
   getCards: () ->
     game = Games.findOne @gameId

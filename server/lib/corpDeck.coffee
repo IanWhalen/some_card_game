@@ -17,7 +17,9 @@
   deck:
     cards: []
     ICE: []
-  hand: []
+  hand: 
+    cards: []
+    ICE: []
   discard:
     cards: []
     ICE: []

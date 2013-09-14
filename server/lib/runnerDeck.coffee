@@ -16,7 +16,8 @@
     handLimit: 5
   deck:
     cards: []
-  hand: []
+  hand:
+    cards: []
   resources: []
   hardware: []
   discard:

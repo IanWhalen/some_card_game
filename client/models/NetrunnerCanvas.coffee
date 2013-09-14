@@ -232,6 +232,18 @@ fabric.NetrunnerCanvas = fabric.util.createClass(fabric.Canvas,
         @addICEToCanvas playerObj, ice, x, y, xyFlip
 
 
+  displayHandICE: (installedICE) ->
+    playerObj = myself()
+
+    for ice, i in installedICE
+      do (ice, i) =>
+        y = 20 + @cardHeight + 5 + @cardWidth * .5 + @cardWidth * i
+        x = @width - (20 + @cardHeight * 3.75)
+
+        xyFlip = true if playerObj.side is 'corp'
+        @addICEToCanvas playerObj, ice, x, y, xyFlip
+
+
   # TODO: Handle server without asset/agenda
   displayRemoteServers: (result) ->
     playerObj = myself()

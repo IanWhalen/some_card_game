@@ -55,7 +55,7 @@ Template.actionChoices.actions = () ->
     if obj.cardType is 'ICE'
 
       # Installed but unrezzed ICE
-      if obj.loc is 'remoteServer' and obj.rezzed is false
+      if obj.loc in ['remoteServer', 'discard', 'deck', 'hand'] and obj.rezzed is false
         return obj.unrezzedActions
 
       # Uninstalled ICE
@@ -80,6 +80,10 @@ Template.actionChoices.actions = () ->
           action: "installICE"
           actionText: "Install to Discard"
           _id: "discard"
+        opts.push
+          action: "installICE"
+          actionText: "Install to Hand"
+          _id: "hand"
         opts.push
           action: 'discardFromHand'
           actionText: 'Discard this card'

@@ -75,6 +75,12 @@ Template.main_canvas.rendered = ->
     cvs.displayDiscardICE result
 
 
+  # Refresh display every time the Corp's Hand ICE change
+  Meteor.call "getHandICE", myself(), (err, result) ->
+    console.log err if err
+    cvs.displayHandICE result
+
+
 Template.main_canvas.canvasHeight = () ->
   CANVAS['height']
 

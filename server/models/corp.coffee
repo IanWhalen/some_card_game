@@ -97,12 +97,11 @@ class @Corp extends @Player
 
     # Increase credit cost for each ICE already installed
     if serverId isnt 'newServer'
-      if serverId is 'deck'
-        server = new Deck 'corp', @gameId
-      if serverId is 'discard'
-        server = new Discard 'corp', @gameId
-      else
-        server = new RemoteServer serverId, @gameId
+      switch serverId
+        when 'deck' then server = new Deck 'corp', @gameId
+        when 'discard' then server = new Discard 'corp', @gameId
+        when 'hand' then server = new Hand 'corp', @gameId
+        else server = new RemoteServer serverId, @gameId
       creditCost += server.getICE().length
 
     # Stop installation if player does not have enough clicks/credits
